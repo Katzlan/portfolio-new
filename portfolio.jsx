@@ -163,6 +163,39 @@ const DATA = {
 // ============================================================
 
 
+// ---------- responsive layout (tablet + mobile) ----------
+const DESKTOP_PAD = 24;
+const COMPACT_PAD = 12;
+const COMPACT_MAX = 1023;
+const MOBILE_MAX = 767;
+
+const useLayout = () => {
+  const [width, setWidth] = React.useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth : 1200
+  );
+  React.useEffect(() => {
+    const onResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', onResize);
+    onResize();
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  const isCompact = width <= COMPACT_MAX;
+  const isMobile = width <= MOBILE_MAX;
+  const pad = isCompact ? COMPACT_PAD : DESKTOP_PAD;
+  const ratio = 16 / 15;
+  const scaleFont = (px) => (isCompact ? Math.max(16, Math.round(px * ratio)) : px);
+  const scaleSize = (px) => (isCompact ? Math.round(px * ratio) : px);
+  return {
+    isCompact,
+    isMobile,
+    pad,
+    contentWidth: `min(560px, calc(100vw - ${pad * 2}px))`,
+    casesWidth: isCompact ? '100%' : `min(900px, calc(100vw - ${pad * 2}px))`,
+    scale: scaleFont,
+    scaleSize,
+  };
+};
+
 // ---------- localStorage helpers ----------
 const lsGet = (k, fb) => {
   try {const v = localStorage.getItem(k);return v == null ? fb : v;}
@@ -219,14 +252,16 @@ const I = (name, props) => {
 };
 
 // ---------- Tile (mini brand monogram or logo) ----------
-const Tile = ({ tile }) => {
+const Tile = ({ tile, scaleSize }) => {
+  const tileSize = scaleSize ? scaleSize(18) : 18;
+  const tileFont = scaleSize ? scaleSize(10) : 10;
   if (tile.src) {
     return (
       <img
         src={tile.src}
         alt=""
         style={{
-          width: 18, height: 18, borderRadius: 3,
+          width: tileSize, height: tileSize, borderRadius: 3,
           display: 'inline-block', flex: '0 0 auto', verticalAlign: 'middle',
           objectFit: 'cover',
         }}
@@ -235,10 +270,10 @@ const Tile = ({ tile }) => {
   }
   return (
     <span style={{
-      display: 'inline-flex', width: 18, height: 18, borderRadius: 2,
+      display: 'inline-flex', width: tileSize, height: tileSize, borderRadius: 2,
       background: tile.bg, color: tile.fg || '#fff',
       alignItems: 'center', justifyContent: 'center',
-      fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: 10, lineHeight: 1,
+      fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: tileFont, lineHeight: 1,
       flex: '0 0 auto', verticalAlign: 'middle'
     }}>{tile.char}</span>
   );
@@ -288,7 +323,7 @@ const Heatmap = ({ rows = 7, cols = 36, gap = 3, density = 0.45, seed = 7, dark 
 };
 
 // ---------- Dock ----------
-const Dock = ({ items, active, onChange, dark, lang }) =>
+const Dock = ({ items, active, onChange, dark, lang, scale }) =>
 <div style={{
   position: 'fixed', left: '50%', bottom: 24, transform: 'translateX(-50%)',
   display: 'flex', alignItems: 'center', gap: 6,
@@ -314,7 +349,7 @@ const Dock = ({ items, active, onChange, dark, lang }) =>
         padding: '6px 12px', borderRadius: 999, border: 'none',
         background: isActive ? dark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.06)' : 'transparent',
         color: dark ? '#e8e6e0' : '#1d1d1f',
-        fontFamily: 'var(--font-sans)', fontSize: 15, fontWeight: 500, cursor: 'pointer',
+        fontFamily: 'var(--font-sans)', fontSize: scale(15), fontWeight: 500, cursor: 'pointer',
         letterSpacing: '-0.005em'
       }}>
           <span style={{ display: 'inline-flex', opacity: 0.85 }}>{I(it.iconName)}</span>
@@ -345,11 +380,11 @@ onMouseLeave={(e) => {
 
 
 // ---------- LangToggle ----------
-const LangToggle = ({ lang, setLang, dark }) =>
+const LangToggle = ({ lang, setLang, dark, scale }) =>
 <div style={{
   display: 'inline-flex', alignItems: 'center', padding: 2, borderRadius: 6,
   background: dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
-  fontSize: 15, fontFamily: 'var(--font-mono)'
+  fontSize: scale(15), fontFamily: 'var(--font-mono)'
 }}>
     {['ru', 'en'].map((l) =>
   <button key={l} onClick={() => setLang(l)} style={{
@@ -455,17 +490,17 @@ const CaseSub = ({ text, dark }) => {
 };
 
 // ---------- Section label ----------
-const SectionLabel = ({ children, dark }) =>
+const SectionLabel = ({ children, dark, scale, isMobile }) =>
 <div style={{
-  fontFamily: 'var(--font-mono)', fontSize: 15, textTransform: 'uppercase',
+  fontFamily: 'var(--font-mono)', fontSize: scale(15), textTransform: 'uppercase',
   letterSpacing: '0.06em',
   color: dark ? 'rgba(232,230,224,0.45)' : 'rgba(29,29,31,0.45)',
-  marginBottom: 14
+  marginBottom: isMobile ? 10 : 14
 }}>{children}</div>;
 
 
 // ---------- Experience row (title + dotted underline, description, date) ----------
-const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, lang }) => {
+const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, lang, scale, scaleSize, isMobile }) => {
   const [hover, setHover] = React.useState(false);
   const Wrap = href ? 'a' : 'div';
   const titleColor = dark ? '#e8e6e0' : '#1d1d1f';
@@ -477,8 +512,10 @@ const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, l
       onMouseLeave={() => setHover(false)}
       style={{
         display: 'grid',
-        gridTemplateColumns: '1fr auto',
-        columnGap: 24, alignItems: 'start',
+        gridTemplateColumns: isMobile ? '1fr' : '1fr auto',
+        columnGap: isMobile ? 0 : 24,
+        rowGap: isMobile ? 6 : 0,
+        alignItems: 'start',
         padding: isFirst ? '0px 0px 8px' : '8px 0px',
         borderTop: isFirst ? 'none' : dark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.06)',
         textDecoration: 'none', color: 'inherit',
@@ -486,7 +523,7 @@ const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, l
       <div style={{ minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{
-            fontSize: 15, fontWeight: 500, letterSpacing: '-0.005em',
+            fontSize: scale(15), fontWeight: 500, letterSpacing: '-0.005em',
             color: titleColor,
             textDecoration: href ? 'underline' : 'none',
             textDecorationStyle: 'dotted',
@@ -497,14 +534,14 @@ const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, l
           }}>{value}</span>
           {badge ? (
             <span style={{
-              fontSize: 15, fontWeight: 500, letterSpacing: '-0.005em',
+              fontSize: scale(15), fontWeight: 500, letterSpacing: '-0.005em',
               color: '#ff3b30', lineHeight: 1,
             }}>{badge[lang]}</span>
           ) : null}
         </div>
         {description ? (
           <div style={{
-            fontSize: 15, color: dimColor, marginTop: 4,
+            fontSize: scale(15), color: dimColor, marginTop: 4,
             lineHeight: 1.45, letterSpacing: '-0.005em',
             paddingLeft: 0,
           }}>{description[lang]}</div>
@@ -513,11 +550,12 @@ const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, l
       {(label || tile) ? (
         <span style={{
           display: 'inline-flex', alignItems: 'center', gap: 8,
-          fontFamily: 'var(--font-mono)', fontSize: 15,
-          color: dimColor, whiteSpace: 'nowrap', paddingTop: 2,
+          fontFamily: 'var(--font-mono)', fontSize: scale(15),
+          color: dimColor, whiteSpace: isMobile ? 'normal' : 'nowrap',
+          paddingTop: isMobile ? 0 : 2,
         }}>
           {label ? <span>{label}</span> : null}
-          {tile ? <Tile tile={tile} /> : null}
+          {tile ? <Tile tile={tile} scaleSize={scaleSize} /> : null}
         </span>
       ) : null}
     </Wrap>
@@ -525,21 +563,31 @@ const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, l
 };
 
 // ---------- Featured case (cover zooms inside frame on hover) ----------
-const FeatureCase = ({ dark, item, lang }) => {
+const FeatureCase = ({ dark, item, lang, isCompact, scale, contentWidth }) => {
   const dim = dark ? 'rgba(232,230,224,0.55)' : 'rgba(29,29,31,0.5)';
   const [hover, setHover] = React.useState(false);
+  const zoomHover = !isCompact && hover;
   return (
     <div
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}>
+      {...(!isCompact ? {
+        onMouseEnter: () => setHover(true),
+        onMouseLeave: () => setHover(false),
+      } : {})}>
       <div
         role="img"
           aria-label={typeof item.title === 'string' ? item.title : item.title[lang]}
           style={{
-            borderRadius: 22,
+            ...(isCompact ? {
+              width: '100vw',
+              marginLeft: 'calc(50% - 50vw)',
+              marginRight: 'calc(50% - 50vw)',
+              borderRadius: 0,
+            } : {
+              borderRadius: 22,
+            }),
             overflow: 'hidden',
             position: 'relative',
-            marginBottom: 24,
+            marginBottom: isCompact ? 16 : 24,
             aspectRatio: '900 / 633',
             isolation: 'isolate',
           }}>
@@ -552,24 +600,23 @@ const FeatureCase = ({ dark, item, lang }) => {
               backgroundSize: 'cover',
               backgroundPosition: 'center bottom',
               backgroundRepeat: 'no-repeat',
-              transform: `scale(${hover ? 1.04 : 1})`,
+              transform: `scale(${zoomHover ? 1.04 : 1})`,
               transformOrigin: 'center bottom',
-              transition: 'transform 600ms cubic-bezier(.2,.7,.2,1)',
+              transition: isCompact ? 'none' : 'transform 600ms cubic-bezier(.2,.7,.2,1)',
             }} />
           {item.indexLabel ?
-          <div style={{ position: 'absolute', top: 14, left: 16, fontSize: 15, fontFamily: 'var(--font-mono)', color: dim, zIndex: 2 }}>{item.indexLabel}</div> :
+          <div style={{ position: 'absolute', top: 14, left: 16, fontSize: scale(15), fontFamily: 'var(--font-mono)', color: dim, zIndex: 2 }}>{item.indexLabel}</div> :
           null}
           {item.metaLabel ?
-          <div style={{ position: 'absolute', top: 14, right: 16, fontSize: 15, fontFamily: 'var(--font-mono)', color: dim, zIndex: 2 }}>{item.metaLabel}</div> :
+          <div style={{ position: 'absolute', top: 14, right: 16, fontSize: scale(15), fontFamily: 'var(--font-mono)', color: dim, zIndex: 2 }}>{item.metaLabel}</div> :
           null}
         </div>
         <div style={{
-          marginBottom: 18,
-          width: 'min(560px, calc(100vw - 48px))',
+          width: contentWidth,
           margin: '0 auto 18px',
         }}>
-          <div style={{ fontSize: 17, fontWeight: 500, marginBottom: 4, letterSpacing: '-0.01em' }}>{typeof item.title === 'string' ? item.title : item.title[lang]}</div>
-          <div style={{ fontSize: 15, lineHeight: 1.5 }}>
+          <div style={{ fontSize: scale(17), fontWeight: 500, marginBottom: 4, letterSpacing: '-0.01em' }}>{typeof item.title === 'string' ? item.title : item.title[lang]}</div>
+          <div style={{ fontSize: scale(15), lineHeight: 1.5 }}>
             <CaseSub text={item.sub[lang]} dark={dark} />
           </div>
         </div>
@@ -578,7 +625,7 @@ const FeatureCase = ({ dark, item, lang }) => {
 };
 
 // ---------- Live clock ----------
-const ClockChip = ({ dark, clock, lang }) => {
+const ClockChip = ({ dark, clock, lang, scale }) => {
   const city = typeof clock.city === 'string' ? clock.city : clock.city[lang];
   const [t, setT] = React.useState('');
   React.useEffect(() => {
@@ -603,7 +650,7 @@ const ClockChip = ({ dark, clock, lang }) => {
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 6,
-      fontFamily: 'var(--font-mono)', fontSize: 15,
+      fontFamily: 'var(--font-mono)', fontSize: scale(15),
       color: dark ? 'rgba(232,230,224,0.55)' : 'rgba(29,29,31,0.55)'
     }}>
       {city} · {t} {clock.tz}
@@ -618,7 +665,10 @@ const Portfolio = () => {
   const [theme, setTheme] = React.useState(() => lsGet('theme', 'dark'));
   const [lang, setLang] = React.useState(() => lsGet('lang', 'ru'));
   const [activeDock, setActiveDock] = React.useState('comp');
+  const { isCompact, isMobile, contentWidth, casesWidth, scale, scaleSize } = useLayout();
   const dark = theme === 'dark';
+  const sectionGap = isCompact ? 32 : 44;
+  const sectionGrid = isMobile ? '1fr' : 'min(140px, 30%) 1fr';
 
   React.useEffect(() => {lsSet('theme', theme);document.body.dataset.theme = theme;document.documentElement.lang = lang;}, [theme, lang]);
   React.useEffect(() => {lsSet('lang', lang);}, [lang]);
@@ -656,11 +706,11 @@ const Portfolio = () => {
         backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)'
       }}>
         <div style={{
-          width: 'min(560px, calc(100vw - 48px))',
+          width: contentWidth,
           margin: '0 auto',
-          padding: '20px 0',
+          padding: isCompact ? '16px 0' : '20px 0',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          fontFamily: 'var(--font-mono)', fontSize: 15,
+          fontFamily: 'var(--font-mono)', fontSize: scale(15),
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <img
@@ -681,7 +731,7 @@ const Portfolio = () => {
             null}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <LangToggle lang={lang} setLang={setLang} dark={dark} />
+            <LangToggle lang={lang} setLang={setLang} dark={dark} scale={scale} />
             <IconBtn dark={dark} onClick={() => setTheme(dark ? 'light' : 'dark')} title="theme">
               {dark ? <ICONS.sun /> : <ICONS.moon />}
             </IconBtn>
@@ -691,31 +741,31 @@ const Portfolio = () => {
 
       {/* main column */}
       <main style={{
-        width: 'min(560px, calc(100vw - 48px))',
+        width: contentWidth,
         margin: '0 auto',
         position: 'relative', zIndex: 1,
-        padding: '24px 0px 48px',
+        padding: isCompact ? '20px 0px 40px' : '24px 0px 48px',
       }}>
 
         {/* header: bio */}
-        <header style={{ marginBottom: 44 }}>
-          <p style={{ margin: 0, fontSize: 16, lineHeight: "1.65" }}>
+        <header style={{ marginBottom: sectionGap }}>
+          <p style={{ margin: 0, fontSize: scale(16), lineHeight: "1.65" }}>
             <RichLine text={DATA.bio[lang]} badges={DATA.badges} dark={dark} />
           </p>
           {DATA.bioSocial ?
-          <p style={{ margin: '12px 0 0', fontSize: 16, lineHeight: "1.65" }}>
+          <p style={{ margin: '12px 0 0', fontSize: scale(16), lineHeight: "1.65" }}>
             <RichLine text={DATA.bioSocial[lang]} badges={DATA.badges} dark={dark} />
           </p> :
           null}
         </header>
 
         {/* experience */}
-        <section style={{ marginBottom: 44 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'min(140px, 30%) 1fr', columnGap: 24, alignItems: 'start' }}>
-            <SectionLabel dark={dark}>{DATA.expLabel[lang]}</SectionLabel>
+        <section style={{ marginBottom: sectionGap }}>
+          <div style={{ display: 'grid', gridTemplateColumns: sectionGrid, columnGap: isMobile ? 0 : 24, rowGap: isMobile ? 10 : 0, alignItems: 'start' }}>
+            <SectionLabel dark={dark} scale={scale} isMobile={isMobile}>{DATA.expLabel[lang]}</SectionLabel>
             <div>
               {DATA.experience.map((e, i) =>
-              <ExpRow key={i} label={e.label[lang]} value={e.value} description={e.description} href={e.href} tile={e.tile} badge={e.badge} dark={dark} isFirst={i === 0} lang={lang} />
+              <ExpRow key={i} label={e.label[lang]} value={e.value} description={e.description} href={e.href} tile={e.tile} badge={e.badge} dark={dark} isFirst={i === 0} lang={lang} scale={scale} scaleSize={scaleSize} isMobile={isMobile} />
               )}
               <div style={{ borderBottom: `1px solid ${rule}` }} />
             </div>
@@ -723,12 +773,12 @@ const Portfolio = () => {
         </section>
 
         {/* vibe-coded */}
-        <section style={{ marginBottom: 44 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'min(140px, 30%) 1fr', columnGap: 24, alignItems: 'start' }}>
-            <SectionLabel dark={dark}>{DATA.vibesLabel[lang]}</SectionLabel>
+        <section style={{ marginBottom: sectionGap }}>
+          <div style={{ display: 'grid', gridTemplateColumns: sectionGrid, columnGap: isMobile ? 0 : 24, rowGap: isMobile ? 10 : 0, alignItems: 'start' }}>
+            <SectionLabel dark={dark} scale={scale} isMobile={isMobile}>{DATA.vibesLabel[lang]}</SectionLabel>
             <div>
               {DATA.vibes.map((e, i) =>
-              <ExpRow key={i} value={e.value} description={e.description} href={e.href} badge={e.badge} dark={dark} isFirst={i === 0} lang={lang} />
+              <ExpRow key={i} value={e.value} description={e.description} href={e.href} badge={e.badge} dark={dark} isFirst={i === 0} lang={lang} scale={scale} scaleSize={scaleSize} isMobile={isMobile} />
               )}
               <div style={{ borderBottom: `1px solid ${rule}` }} />
             </div>
@@ -737,23 +787,24 @@ const Portfolio = () => {
 
         {/* featured cases — wider than main column */}
         <section style={{
-          width: 'min(900px, calc(100vw - 48px))',
+          width: casesWidth,
           position: 'relative',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          marginTop: 64, marginBottom: 24,
+          left: isCompact ? 0 : '50%',
+          transform: isCompact ? 'none' : 'translateX(-50%)',
+          marginTop: isCompact ? 40 : 64,
+          marginBottom: 24,
         }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 56 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: isCompact ? 40 : 56 }}>
             {DATA.featuredCases.map((c, i) =>
-              <FeatureCase key={i} dark={dark} item={c} lang={lang} />
+              <FeatureCase key={i} dark={dark} item={c} lang={lang} isCompact={isCompact} scale={scale} contentWidth={contentWidth} />
             )}
           </div>
         </section>
 
         {/* footer */}
-        <footer style={{ marginTop: 50, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+        <footer style={{ marginTop: isCompact ? 40 : 50, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
           <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: 15, textTransform: 'uppercase',
+            fontFamily: 'var(--font-mono)', fontSize: scale(15), textTransform: 'uppercase',
             letterSpacing: '0.06em',
             color: dark ? 'rgba(232,230,224,0.45)' : 'rgba(29,29,31,0.45)',
             display: 'inline-flex', alignItems: 'center', gap: 8
@@ -761,7 +812,7 @@ const Portfolio = () => {
             <span>{DATA.footer[lang]}</span>
             {DATA.footerIcon ? <span style={{ display: 'inline-flex', color: '#3b82f6' }}>{I(DATA.footerIcon)}</span> : null}
           </div>
-          <ClockChip dark={dark} clock={DATA.clock} lang={lang} />
+          <ClockChip dark={dark} clock={DATA.clock} lang={lang} scale={scale} />
         </footer>
       </main>
     </div>);

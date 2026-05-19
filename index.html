@@ -52,6 +52,10 @@
   body[data-theme="dark"] { background: #0b0b0c; }
   * { box-sizing: border-box; }
   ::selection { background: rgba(63,185,80,0.25); }
+
+  @media (max-width: 1023px) {
+    html, body { overflow-x: clip; }
+  }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
