@@ -152,7 +152,11 @@ const DATA = {
   // footer line
   footer: { ru: 'Сделано мной', en: 'Made by me' },
   footerIcon: 'heart',
-  clock: { city: 'Москва', tz: 'UTC+3', timeZone: 'Europe/Moscow' }
+  clock: { city: { ru: 'Москва', en: 'Moscow' }, tz: 'UTC+3', timeZone: 'Europe/Moscow' },
+  pageTitle: {
+    ru: 'Андрей Игнатов — Senior product designer',
+    en: 'Andrei Ignatov — Senior product designer'
+  }
 };
 // ============================================================
 //  ░░  END EDIT  ░░  (everything below is layout)
@@ -578,7 +582,8 @@ const FeatureCase = ({ dark, item, lang }) => {
 };
 
 // ---------- Live clock ----------
-const ClockChip = ({ dark, clock }) => {
+const ClockChip = ({ dark, clock, lang }) => {
+  const city = typeof clock.city === 'string' ? clock.city : clock.city[lang];
   const [t, setT] = React.useState('');
   React.useEffect(() => {
     const fmt = () => {
@@ -605,7 +610,7 @@ const ClockChip = ({ dark, clock }) => {
       fontFamily: 'var(--font-mono)', fontSize: 15,
       color: dark ? 'rgba(232,230,224,0.55)' : 'rgba(29,29,31,0.55)'
     }}>
-      {clock.city} · {t} {clock.tz}
+      {city} · {t} {clock.tz}
     </span>);
 
 };
@@ -621,6 +626,9 @@ const Portfolio = () => {
 
   React.useEffect(() => {lsSet('theme', theme);document.body.dataset.theme = theme;document.documentElement.lang = lang;}, [theme, lang]);
   React.useEffect(() => {lsSet('lang', lang);}, [lang]);
+  React.useEffect(() => {
+    document.title = DATA.pageTitle?.[lang] ?? (typeof DATA.name === 'string' ? DATA.name : DATA.name[lang]);
+  }, [lang]);
 
   const fg = dark ? '#e6e4dd' : '#181816';
   const bg = dark ? '#0b0b0c' : '#ffffff';
@@ -752,7 +760,7 @@ const Portfolio = () => {
             <span>{DATA.footer[lang]}</span>
             {DATA.footerIcon ? <span style={{ display: 'inline-flex', color: '#3b82f6' }}>{I(DATA.footerIcon)}</span> : null}
           </div>
-          <ClockChip dark={dark} clock={DATA.clock} />
+          <ClockChip dark={dark} clock={DATA.clock} lang={lang} />
         </footer>
       </main>
     </div>);
