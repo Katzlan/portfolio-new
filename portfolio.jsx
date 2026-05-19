@@ -18,11 +18,18 @@ const DATA = {
     ru: 'Продуктовый дизайнер с 5-летним опытом в финтехе и корпоративных системах. Проектировал ключевые банковские процессы для NBU Milliy, SSO-архитектуру для Газпром Медиа и внутренние платформы. Я нахожусь на стыке дизайна и разработки — пишу на Swift, создаю прототипы в Xcode и Cursor, участвую во всех этапах: от исследований до пост-релизного анализа. Меня интересуют системы, а не просто экраны.',
     en: 'Product designer with 5 years of experience in fintech and enterprise systems. Designed core banking flows for NBU Milliy, SSO architecture for Gazprom Media, and internal platforms. I sit at the intersection of design and engineering — I write Swift, prototype in Xcode and Cursor, and stay involved at every stage, from research through post-release analysis. I care about systems, not just screens.'
   },
+  bioSocial: {
+    ru: 'Пишу посты на [linkedin], ищу вдохновение на [x], а отвечаю в [telegram].',
+    en: 'I write posts on [linkedin], find inspiration on [x], and reply on [telegram].'
+  },
   // each entry is either a plain string (becomes a text pill) or an
   // object { icon, label } (icon shown to the left of label).
   badges: {
     email: { label: 'andrej.filly@gmail.com', href: 'mailto:andrej.filly@gmail.com' },
-    site: { label: 'andyhoudini.ru', href: 'https://andyhoudini.ru' }
+    site: { label: 'andyhoudini.ru', href: 'https://andyhoudini.ru' },
+    linkedin: { label: 'LinkedIn', href: 'https://www.linkedin.com/in/andy-ignatov-662a38252/?skipRedirect=true' },
+    x: { label: 'X', href: 'https://x.com/AndreiLancarra' },
+    telegram: { label: 'Telegram', href: 'https://t.me/katzlan' }
   },
 
   // commit/activity heatmap
@@ -695,6 +702,11 @@ const Portfolio = () => {
           <p style={{ margin: 0, fontSize: 16, lineHeight: "1.65" }}>
             <RichLine text={DATA.bio[lang]} badges={DATA.badges} dark={dark} />
           </p>
+          {DATA.bioSocial ?
+          <p style={{ margin: '12px 0 0', fontSize: 16, lineHeight: "1.65" }}>
+            <RichLine text={DATA.bioSocial[lang]} badges={DATA.badges} dark={dark} />
+          </p> :
+          null}
         </header>
 
         {/* experience */}
