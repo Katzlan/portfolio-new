@@ -85,7 +85,6 @@ const DATA = {
       en: 'Gazprom ecosystem digital marketplace — **designed the core flow from scratch: [[90]]% supplier growth, +[[53]]% publish conversion**, catalog and product pages.'
     },
     cover: 'assets/case-hub.png',
-    href: '#'
   },
   {
     title: { ru: 'ГИД Ключ', en: 'GID Key' },
@@ -94,7 +93,6 @@ const DATA = {
       en: 'Push authenticator for unified login — **replaced SMS: +[[68]]% sign-ins via key, −[[40]]% auth time**, keys for RUTUBE, Premier and internal services.'
     },
     cover: 'assets/case-gid-key.png',
-    href: '#'
   },
   {
     title: { ru: 'Газпром ID', en: 'Gazprom ID' },
@@ -103,7 +101,6 @@ const DATA = {
       en: 'Single account across the ecosystem — **relaunched sign-in and signup: +[[24]]% account conversion, −[[31]]% OTP drop-off**, biometric quick login for RUTUBE and Premier.'
     },
     cover: 'assets/case-gazprom-id.png',
-    href: '#'
   },
   {
     title: { ru: 'Зенит', en: 'Zenit' },
@@ -112,7 +109,6 @@ const DATA = {
       en: 'Club mobile app — **Media section redesign: +[[18]]% engagement, +[[22]]% session depth**, new navigation and news feed.'
     },
     cover: 'assets/case-zenit.png',
-    href: '#'
   },
   {
     title: { ru: 'NBU Банк', en: 'NBU Bank' },
@@ -121,7 +117,6 @@ const DATA = {
       en: 'Milliy app and bank design system — **[[120]]+ components, −[[35]]% prototype time, −[[32]]% task time in product flows**, deposits, cards and payments.'
     },
     cover: 'assets/case-nbu.png',
-    href: '#'
   },
   {
     title: { ru: 'ВТБ Family', en: 'VTB Family' },
@@ -130,7 +125,6 @@ const DATA = {
       en: 'VTB Private Banking privileges — **rebuilt partner storefront: +[[27]]% offer CTR, −[[19]]% time to booking**, map and personalized picks.'
     },
     cover: 'assets/case-vtb-family.png',
-    href: '#'
   },
   {
     title: { ru: 'ГИД Корпоративная платформа', en: 'GID Corporation Platform' },
@@ -139,7 +133,6 @@ const DATA = {
       en: 'Corporate messenger for Gazprom teams — **new compose flow: −[[28]]% message steps, −[[34]]% meeting scheduling time**, chats by department.'
     },
     cover: 'assets/case-gid-corp.png',
-    href: '#'
   }],
 
   // bottom dock
@@ -529,14 +522,11 @@ const FeatureCase = ({ dark, item, lang }) => {
   const dim = dark ? 'rgba(232,230,224,0.55)' : 'rgba(29,29,31,0.5)';
   const [hover, setHover] = React.useState(false);
   return (
-    <div>
-      <a
-        href={item.href || '#'}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
-        <div
-          role="img"
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}>
+      <div
+        role="img"
           aria-label={typeof item.title === 'string' ? item.title : item.title[lang]}
           style={{
             borderRadius: 22,
@@ -576,7 +566,6 @@ const FeatureCase = ({ dark, item, lang }) => {
             <CaseSub text={item.sub[lang]} dark={dark} />
           </div>
         </div>
-      </a>
     </div>);
 
 };
