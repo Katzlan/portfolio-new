@@ -713,11 +713,12 @@ const Portfolio = () => {
           fontFamily: 'var(--font-mono)', fontSize: scale(15),
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <img
-              src="assets/avatar.jpg"
-              alt={typeof DATA.name === 'string' ? DATA.name : DATA.name[lang]}
+              src="assets/header-accent.gif"
+              alt=""
               style={{
-                width: 24, height: 24, borderRadius: '50%',
+                width: 30, height: 30, borderRadius: '50%',
                 objectFit: 'cover', display: 'inline-block',
                 flex: '0 0 auto',
                 boxShadow: dark
@@ -725,6 +726,19 @@ const Portfolio = () => {
                   : 'inset 0 0 0 1px rgba(0,0,0,0.06)',
               }}
             />
+            <img
+              src="assets/avatar.jpg"
+              alt={typeof DATA.name === 'string' ? DATA.name : DATA.name[lang]}
+              style={{
+                width: 30, height: 30, borderRadius: '50%',
+                objectFit: 'cover', display: 'inline-block',
+                flex: '0 0 auto',
+                boxShadow: dark
+                  ? 'inset 0 0 0 1px rgba(255,255,255,0.08)'
+                  : 'inset 0 0 0 1px rgba(0,0,0,0.06)',
+              }}
+            />
+            </div>
             <span style={{ fontWeight: 500 }}>{typeof DATA.name === 'string' ? DATA.name : DATA.name[lang]}</span>
             {DATA.version || DATA.crumb[lang] ?
             <span style={{ color: dim }}>— {[DATA.version, DATA.crumb[lang]].filter(Boolean).join(' · ')}</span> :
