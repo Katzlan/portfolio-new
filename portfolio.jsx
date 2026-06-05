@@ -57,7 +57,7 @@ const DATA = {
     tile: { src: 'assets/logo-nbu.svg' }
   },
   {
-    label: { ru: '2021 — 2023', en: '2021 — 2023' },
+    label: { ru: '2020 — 2023', en: '2020 — 2023' },
     value: 'AIC',
     description: { ru: 'UX/UI Designer', en: 'UX/UI Designer' },
     href: 'https://aic.ru/',
@@ -70,14 +70,13 @@ const DATA = {
   {
     label: { ru: '2026', en: '2026' },
     value: 'SVG to WebP Exporter',
-    description: { ru: 'Плагин для конвертации в Figma', en: 'Design portfolio gallery, CIS' },
-    href: 'https://www.figma.com/community/plugin/1638175144710570925/svg-to-webp-exporter',
-    badge: { ru: 'Новый', en: 'New' }
+    description: { ru: 'Плагин для конвертации в Figma', en: 'Figma conversion plugin' },
+    href: 'https://www.figma.com/community/plugin/1638175144710570925/svg-to-webp-exporter'
   },
   {
     label: { ru: '2025', en: '2025' },
-    value: 'Dominan Gradient Color',
-    description: { ru: 'Генерация обложек по фото в стиле Spotify', en: 'ASO toolkit & templates' },
+    value: 'Dominant Gradient Color',
+    description: { ru: 'Генерация обложек по фото в стиле Spotify', en: 'Spotify-style covers from photos' },
     href: 'https://codepen.io/katzlan/pen/YzaojLJ'
   }],
 
