@@ -726,7 +726,7 @@ const Portfolio = () => {
               }}
             />
             <img
-              src="assets/avatar.jpg"
+              src="assets/avatar.png"
               alt={typeof DATA.name === 'string' ? DATA.name : DATA.name[lang]}
               style={{
                 width: 30, height: 30, borderRadius: '50%',
