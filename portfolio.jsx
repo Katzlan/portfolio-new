@@ -15,8 +15,8 @@ const DATA = {
   // short bio. wrap any word/phrase in [brackets] and define it in `badges`
   // below to render it as an inline pill.
   bio: {
-    ru: 'Продуктовый дизайнер с 5-летним опытом в финтехе и корпоративных системах. Проектировал ключевые банковские процессы для NBU Milliy, SSO-архитектуру для Газпром Медиа и внутренние платформы. Я нахожусь на стыке дизайна и разработки — пишу на Swift, создаю прототипы в Xcode и Cursor, участвую во всех этапах: от исследований до пост-релизного анализа. Меня интересуют системы, а не просто экраны.',
-    en: 'Product designer with 5 years of experience in fintech and enterprise systems. Designed core banking flows for NBU Milliy, SSO architecture for Gazprom Media, and internal platforms. I sit at the intersection of design and engineering — I write Swift, prototype in Xcode and Cursor, and stay involved at every stage, from research through post-release analysis. I care about systems, not just screens.'
+    ru: 'Продуктовый дизайнер с 6-летним опытом в финтехе и корпоративных системах. Проектировал ключевые банковские процессы для NBU Milliy, SSO-архитектуру для Газпром Медиа и внутренние платформы. Я нахожусь на стыке дизайна и разработки — пишу на Swift, создаю прототипы в Xcode и Cursor, участвую во всех этапах: от исследований до пост-релизного анализа. Меня интересуют системы, а не просто экраны.',
+    en: 'Product designer with 6 years of experience in fintech and enterprise systems. Designed core banking flows for NBU Milliy, SSO architecture for Gazprom Media, and internal platforms. I sit at the intersection of design and engineering — I write Swift, prototype in Xcode and Cursor, and stay involved at every stage, from research through post-release analysis. I care about systems, not just screens.'
   },
   bioSocial: {
     ru: 'Пишу посты на [linkedin], ищу вдохновение на [x], а отвечаю в [telegram].',
