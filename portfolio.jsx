@@ -7,24 +7,24 @@
 // ============================================================
 const DATA = {
   // header
-  name: { ru: 'Андрей Игнатов', en: 'Andrei Ignatov' },
+  name: 'Andrei Ignatov',
   version: '',
-  crumb: { ru: '', en: '' },
-  role: { ru: '', en: '' },
+  crumb: '',
+  role: '',
 
   // short bio. wrap any word/phrase in [brackets] and define it in `badges`
   // below to render it as an inline pill.
-  bio: {
-    ru: 'Продуктовый дизайнер с 6-летним опытом в финтехе и корпоративных системах. Проектировал ключевые банковские процессы для NBU Milliy, SSO-архитектуру для Газпром Медиа и внутренние платформы. Я нахожусь на стыке дизайна и разработки — пишу на Swift, создаю прототипы в Xcode и Cursor, участвую во всех этапах: от исследований до пост-релизного анализа. Меня интересуют системы, а не просто экраны.',
-    en: 'Product designer with 6 years of experience in fintech and enterprise systems. Designed core banking flows for NBU Milliy, SSO architecture for Gazprom Media, and internal platforms. I sit at the intersection of design and engineering — I write Swift, prototype in Xcode and Cursor, and stay involved at every stage, from research through post-release analysis. I care about systems, not just screens.'
-  },
-  bioSocial: {
-    ru: 'Пишу посты на [linkedin], ищу вдохновение на [x], а отвечаю в [telegram].',
-    en: 'I write posts on [linkedin], find inspiration on [x], and reply on [telegram].'
-  },
+  bio: 'Certified [ixdf] UX and Product Design Expert with 6+ years of experience. I\'ve worked with leading tech companies across industries, from fintech to SaaS — including [salmon], [gazprom-id], [nbu], [vtb], [lanit] and others',
+  bioSocial: 'I write posts on [linkedin], find inspiration on [x], and reply on [telegram].',
   // each entry is either a plain string (becomes a text pill) or an
   // object { icon, label } (icon shown to the left of label).
   badges: {
+    ixdf: { label: 'IxDF', href: 'https://ixdf.org/courses' },
+    salmon: { label: 'Salmon', href: 'https://salmon.ph/' },
+    'gazprom-id': { label: 'Gazprom ID', href: 'https://id.gid.ru/' },
+    nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru' },
+    vtb: { label: 'VTB', href: 'https://www.vtb.ru/' },
+    lanit: { label: 'Lanit', href: 'https://lanit.ru/' },
     email: { label: 'andrej.filly@gmail.com', href: 'mailto:andrej.filly@gmail.com' },
     site: { label: 'andyhoudini.ru', href: 'https://andyhoudini.ru' },
     linkedin: { label: 'LinkedIn', href: 'https://www.linkedin.com/in/andy-ignatov-662a38252/?skipRedirect=true' },
@@ -34,128 +34,118 @@ const DATA = {
 
   // commit/activity heatmap
   activity: {
-    label: { ru: 'Активность · 6 мес', en: 'Activity · 6 mo' },
+    label: 'Activity · 6 mo',
     metric: '342 commits',
     density: 0.45
   },
 
   // experience block
-  expLabel: { ru: 'Опыт', en: 'Experience' },
+  expLabel: 'Experience',
   experience: [
   {
-    label: { ru: '2025 — 2026', en: '2025 — 2026' },
+    label: '2026 — Current',
+    value: 'FitnessSDK',
+    description: 'Co-Founder',
+    href: 'https://apps.apple.com/us/app/fitnesssdk/id6759220379',
+    tile: { src: 'assets/logo-fitnesssdk.svg' }
+  },
+  {
+    label: '2026 — 2026',
+    value: 'Salmon Group',
+    description: 'Senior Product Designer',
+    href: 'https://salmon.ph/',
+    tile: { src: 'assets/logo-salmon.svg' }
+  },
+  {
+    label: '2025 — 2026',
     value: 'Gazprom ID',
-    description: { ru: 'Sr. Product Designer', en: 'Sr. Product Designer' },
+    description: 'Senior Product Designer',
     href: 'https://id.gid.ru/',
     tile: { src: 'assets/logo-gazprom.svg' }
   },
   {
-    label: { ru: '2023 — 2025', en: '2023 — 2025' },
-    value: 'NBU Банк',
-    description: { ru: 'Md→Sr. Product Designer', en: 'Md→Sr. Product Designer' },
+    label: '2023 — 2025',
+    value: 'NBU Bank',
+    description: 'Senior Product Designer',
     href: 'https://nbu.uz/ru',
     tile: { src: 'assets/logo-nbu.svg' }
   },
   {
-    label: { ru: '2020 — 2023', en: '2020 — 2023' },
-    value: 'AIC',
-    description: { ru: 'UX/UI Designer', en: 'UX/UI Designer' },
-    href: 'https://aic.ru/',
-    tile: { bg: '#181816', fg: '#fff', char: 'A' }
+    label: '2020 — 2023',
+    value: 'VTB Family',
+    description: 'Middle Product Designer',
+    href: 'https://vtbfamily.ru/auth',
+    tile: { src: 'assets/logo-vtb.svg' }
   }],
 
   // Side projects / experiments without company logos
-  vibesLabel: { ru: 'Навайбкодил', en: 'Vibe-coded' },
+  vibesLabel: 'Vibe-coded',
   vibes: [
   {
-    label: { ru: '2026', en: '2026' },
+    label: '2026',
     value: 'SVG to WebP Exporter',
-    description: { ru: 'Плагин для конвертации в Figma', en: 'Figma conversion plugin' },
+    description: 'Figma conversion plugin',
     href: 'https://www.figma.com/community/plugin/1638175144710570925/svg-to-webp-exporter'
   },
   {
-    label: { ru: '2025', en: '2025' },
+    label: '2025',
     value: 'Dominant Gradient Color',
-    description: { ru: 'Генерация обложек по фото в стиле Spotify', en: 'Spotify-style covers from photos' },
+    description: 'Spotify-style covers from photos',
     href: 'https://codepen.io/katzlan/pen/YzaojLJ'
   }],
 
 
   // featured case shown above the project list
-  caseLabel: { ru: 'Кейсы', en: 'Cases' },
+  caseLabel: 'Cases',
   featuredCases: [
   {
-    title: { ru: 'ГИД Хаб', en: 'GID Hub' },
-    sub: {
-      ru: 'Маркетплейс цифровых решений экосистемы Газпрома — **спроектировали core-flow с нуля: рост поставщиков на [[90]]%, конверсия публикации +[[53]]%**, каталог и карточки продукта.',
-      en: 'Gazprom ecosystem digital marketplace — **designed the core flow from scratch: [[90]]% supplier growth, +[[53]]% publish conversion**, catalog and product pages.'
-    },
+    title: 'GID Hub',
+    sub: 'Gazprom ecosystem digital marketplace — **designed the core flow from scratch: [[90]]% supplier growth, +[[53]]% publish conversion**, catalog and product pages.',
     cover: 'assets/case-hub.png',
   },
   {
-    title: { ru: 'ГИД Ключ', en: 'GID Key' },
-    sub: {
-      ru: 'Push-аутентификатор для единого входа — **заменили SMS: доля входов через ключ +[[68]]%, время авторизации −[[40]]%**, ключи для RUTUBE, Premier и внутренних сервисов.',
-      en: 'Push authenticator for unified login — **replaced SMS: +[[68]]% sign-ins via key, −[[40]]% auth time**, keys for RUTUBE, Premier and internal services.'
-    },
+    title: 'GID Key',
+    sub: 'Push authenticator for unified login — **replaced SMS: +[[68]]% sign-ins via key, −[[40]]% auth time**, keys for RUTUBE, Premier and internal services.',
     cover: 'assets/case-gid-key.png',
   },
   {
-    title: { ru: 'Газпром ID', en: 'Gazprom ID' },
-    sub: {
-      ru: 'Единый аккаунт для сервисов экосистемы — **перезапустили вход и регистрацию: конверсия в аккаунт +[[24]]%, отказ на OTP −[[31]]%**, быстрый вход по биометрии для RUTUBE и Premier.',
-      en: 'Single account across the ecosystem — **relaunched sign-in and signup: +[[24]]% account conversion, −[[31]]% OTP drop-off**, biometric quick login for RUTUBE and Premier.'
-    },
+    title: 'Gazprom ID',
+    sub: 'Single account across the ecosystem — **relaunched sign-in and signup: +[[24]]% account conversion, −[[31]]% OTP drop-off**, biometric quick login for RUTUBE and Premier.',
     cover: 'assets/case-gazprom-id.png',
   },
   {
-    title: { ru: 'Зенит', en: 'Zenit' },
-    sub: {
-      ru: 'Мобильное приложение клуба — **редизайн раздела «Медиа»: вовлечённость +[[18]]%, глубина сессии +[[22]]%**, новая навигация и лента новостей.',
-      en: 'Club mobile app — **Media section redesign: +[[18]]% engagement, +[[22]]% session depth**, new navigation and news feed.'
-    },
+    title: 'Zenit',
+    sub: 'Club mobile app — **Media section redesign: +[[18]]% engagement, +[[22]]% session depth**, new navigation and news feed.',
     cover: 'assets/case-zenit.png',
   },
   {
-    title: { ru: 'NBU Банк', en: 'NBU Bank' },
-    sub: {
-      ru: 'Приложение Milliy и дизайн-система банка — **[[120]]+ компонентов, время прототипа −[[35]]%, завершение задач в продуктах −[[32]]%**, вклады, карты и платежи.',
-      en: 'Milliy app and bank design system — **[[120]]+ components, −[[35]]% prototype time, −[[32]]% task time in product flows**, deposits, cards and payments.'
-    },
+    title: 'NBU Bank',
+    sub: 'Milliy app and bank design system — **[[120]]+ components, −[[35]]% prototype time, −[[32]]% task time in product flows**, deposits, cards and payments.',
     cover: 'assets/case-nbu.png',
   },
   {
-    title: { ru: 'ВТБ Family', en: 'VTB Family' },
-    sub: {
-      ru: 'Привилегии VTB Private Banking — **пересобрали витрину партнёров: CTR офферов +[[27]]%, время до бронирования −[[19]]%**, карта и персональная подборка.',
-      en: 'VTB Private Banking privileges — **rebuilt partner storefront: +[[27]]% offer CTR, −[[19]]% time to booking**, map and personalized picks.'
-    },
+    title: 'VTB Family',
+    sub: 'VTB Private Banking privileges — **rebuilt partner storefront: +[[27]]% offer CTR, −[[19]]% time to booking**, map and personalized picks.',
     cover: 'assets/case-vtb-family.png',
   },
   {
-    title: { ru: 'ГИД Корпоративная платформа', en: 'GID Corporation Platform' },
-    sub: {
-      ru: 'Корпоративный мессенджер для команд Газпрома — **новый compose-flow: отправка сообщений −[[28]]% шагов, время назначения встречи −[[34]]%**, чаты по подразделениям.',
-      en: 'Corporate messenger for Gazprom teams — **new compose flow: −[[28]]% message steps, −[[34]]% meeting scheduling time**, chats by department.'
-    },
+    title: 'GID Corporation Platform',
+    sub: 'Corporate messenger for Gazprom teams — **new compose flow: −[[28]]% message steps, −[[34]]% meeting scheduling time**, chats by department.',
     cover: 'assets/case-gid-corp.png',
   }],
 
   // bottom dock
   dock: [
-  { id: 'proj', iconName: 'spark', label: { ru: 'Проекты', en: 'Projects' } },
-  { id: 'comp', iconName: 'grid', label: { ru: 'Компоненты', en: 'Components' } },
-  { id: 'notes', iconName: 'note', label: { ru: 'Заметки', en: 'Notes' } }],
+  { id: 'proj', iconName: 'spark', label: 'Projects' },
+  { id: 'comp', iconName: 'grid', label: 'Components' },
+  { id: 'notes', iconName: 'note', label: 'Notes' }],
 
 
   // footer line
-  footer: { ru: 'Сделано мной', en: 'Made by me' },
+  footer: 'Made by me',
   footerIcon: 'heart',
-  clock: { city: { ru: 'Москва', en: 'Moscow' }, tz: 'UTC+3', timeZone: 'Europe/Moscow' },
-  pageTitle: {
-    ru: 'Андрей Игнатов — Senior product designer',
-    en: 'Andrei Ignatov — Senior product designer'
-  }
+  clock: { city: 'Batumi', tz: 'UTC+4', timeZone: 'Asia/Tbilisi' },
+  pageTitle: 'Andrei Ignatov — Senior product designer'
 };
 // ============================================================
 //  ░░  END EDIT  ░░  (everything below is layout)
@@ -322,7 +312,7 @@ const Heatmap = ({ rows = 7, cols = 36, gap = 3, density = 0.45, seed = 7, dark 
 };
 
 // ---------- Dock ----------
-const Dock = ({ items, active, onChange, dark, lang, scale }) =>
+const Dock = ({ items, active, onChange, dark, scale }) =>
 <div style={{
   position: 'fixed', left: '50%', bottom: 24, transform: 'translateX(-50%)',
   display: 'flex', alignItems: 'center', gap: 6,
@@ -352,7 +342,7 @@ const Dock = ({ items, active, onChange, dark, lang, scale }) =>
         letterSpacing: '-0.005em'
       }}>
           <span style={{ display: 'inline-flex', opacity: 0.85 }}>{I(it.iconName)}</span>
-          <span>{it.label[lang]}</span>
+          <span>{it.label}</span>
         </button>);
 
   })}
@@ -376,25 +366,6 @@ onMouseLeave={(e) => {
   e.currentTarget.style.color = dark ? 'rgba(232,230,224,0.7)' : 'rgba(29,29,31,0.6)';
 }}>
   {children}</button>;
-
-
-// ---------- LangToggle ----------
-const LangToggle = ({ lang, setLang, dark, scale }) =>
-<div style={{
-  display: 'inline-flex', alignItems: 'center', padding: 2, borderRadius: 6,
-  background: dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
-  fontSize: scale(15), fontFamily: 'var(--font-mono)'
-}}>
-    {['ru', 'en'].map((l) =>
-  <button key={l} onClick={() => setLang(l)} style={{
-    padding: '3px 7px', borderRadius: 4, border: 'none', cursor: 'pointer',
-    background: lang === l ? dark ? 'rgba(255,255,255,0.10)' : '#fff' : 'transparent',
-    color: lang === l ? dark ? '#fff' : '#1d1d1f' : dark ? 'rgba(232,230,224,0.6)' : 'rgba(29,29,31,0.55)',
-    fontFamily: 'inherit', fontSize: 'inherit', textTransform: 'lowercase',
-    boxShadow: lang === l && !dark ? '0 1px 2px rgba(0,0,0,0.06)' : 'none'
-  }}>{l}</button>
-  )}
-  </div>;
 
 
 // ---------- Inline-link text helper ----------
@@ -499,7 +470,7 @@ const SectionLabel = ({ children, dark, scale, isMobile }) =>
 
 
 // ---------- Experience row (title + dotted underline, description, date) ----------
-const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, lang, scale, scaleSize, isMobile }) => {
+const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, scale, scaleSize, isMobile }) => {
   const [hover, setHover] = React.useState(false);
   const Wrap = href ? 'a' : 'div';
   const titleColor = dark ? '#e8e6e0' : '#1d1d1f';
@@ -535,7 +506,7 @@ const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, l
             <span style={{
               fontSize: scale(15), fontWeight: 500, letterSpacing: '-0.005em',
               color: '#ff3b30', lineHeight: 1,
-            }}>{badge[lang]}</span>
+            }}>{badge}</span>
           ) : null}
         </div>
         {description ? (
@@ -543,7 +514,7 @@ const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, l
             fontSize: scale(15), color: dimColor, marginTop: 4,
             lineHeight: 1.45, letterSpacing: '-0.005em',
             paddingLeft: 0,
-          }}>{description[lang]}</div>
+          }}>{description}</div>
         ) : null}
       </div>
       {(label || tile) ? (
@@ -562,7 +533,7 @@ const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, l
 };
 
 // ---------- Featured case (cover zooms inside frame on hover) ----------
-const FeatureCase = ({ dark, item, lang, isCompact, scale, contentWidth }) => {
+const FeatureCase = ({ dark, item, isCompact, scale, contentWidth }) => {
   const dim = dark ? 'rgba(232,230,224,0.55)' : 'rgba(29,29,31,0.5)';
   const [hover, setHover] = React.useState(false);
   const zoomHover = !isCompact && hover;
@@ -574,7 +545,7 @@ const FeatureCase = ({ dark, item, lang, isCompact, scale, contentWidth }) => {
       } : {})}>
       <div
         role="img"
-          aria-label={typeof item.title === 'string' ? item.title : item.title[lang]}
+          aria-label={item.title}
           style={{
             ...(isCompact ? {
               width: '100vw',
@@ -614,9 +585,9 @@ const FeatureCase = ({ dark, item, lang, isCompact, scale, contentWidth }) => {
           width: contentWidth,
           margin: '0 auto 18px',
         }}>
-          <div style={{ fontSize: scale(17), fontWeight: 500, marginBottom: 4, letterSpacing: '-0.01em' }}>{typeof item.title === 'string' ? item.title : item.title[lang]}</div>
+          <div style={{ fontSize: scale(17), fontWeight: 500, marginBottom: 4, letterSpacing: '-0.01em' }}>{item.title}</div>
           <div style={{ fontSize: scale(15), lineHeight: 1.5 }}>
-            <CaseSub text={item.sub[lang]} dark={dark} />
+            <CaseSub text={item.sub} dark={dark} />
           </div>
         </div>
     </div>);
@@ -624,8 +595,8 @@ const FeatureCase = ({ dark, item, lang, isCompact, scale, contentWidth }) => {
 };
 
 // ---------- Live clock ----------
-const ClockChip = ({ dark, clock, lang, scale }) => {
-  const city = typeof clock.city === 'string' ? clock.city : clock.city[lang];
+const ClockChip = ({ dark, clock, scale }) => {
+  const city = clock.city;
   const [t, setT] = React.useState('');
   React.useEffect(() => {
     const fmt = () => {
@@ -662,18 +633,20 @@ const ClockChip = ({ dark, clock, lang, scale }) => {
 // ============================================================
 const Portfolio = () => {
   const [theme, setTheme] = React.useState(() => lsGet('theme', 'dark'));
-  const [lang, setLang] = React.useState(() => lsGet('lang', 'ru'));
   const [activeDock, setActiveDock] = React.useState('comp');
   const { isCompact, isMobile, contentWidth, casesWidth, scale, scaleSize } = useLayout();
   const dark = theme === 'dark';
   const sectionGap = isCompact ? 32 : 44;
   const sectionGrid = isMobile ? '1fr' : 'min(140px, 30%) 1fr';
 
-  React.useEffect(() => {lsSet('theme', theme);document.body.dataset.theme = theme;document.documentElement.lang = lang;}, [theme, lang]);
-  React.useEffect(() => {lsSet('lang', lang);}, [lang]);
   React.useEffect(() => {
-    document.title = DATA.pageTitle?.[lang] ?? (typeof DATA.name === 'string' ? DATA.name : DATA.name[lang]);
-  }, [lang]);
+    lsSet('theme', theme);
+    document.body.dataset.theme = theme;
+    document.documentElement.lang = 'en';
+  }, [theme]);
+  React.useEffect(() => {
+    document.title = DATA.pageTitle ?? DATA.name;
+  }, []);
 
   const fg = dark ? '#e6e4dd' : '#181816';
   const bg = dark ? '#0b0b0c' : '#ffffff';
@@ -727,7 +700,7 @@ const Portfolio = () => {
             />
             <img
               src="assets/avatar.png"
-              alt={typeof DATA.name === 'string' ? DATA.name : DATA.name[lang]}
+              alt={DATA.name}
               style={{
                 width: 30, height: 30, borderRadius: '50%',
                 objectFit: 'cover', display: 'inline-block',
@@ -738,13 +711,12 @@ const Portfolio = () => {
               }}
             />
             </div>
-            <span style={{ fontWeight: 500 }}>{typeof DATA.name === 'string' ? DATA.name : DATA.name[lang]}</span>
-            {DATA.version || DATA.crumb[lang] ?
-            <span style={{ color: dim }}>— {[DATA.version, DATA.crumb[lang]].filter(Boolean).join(' · ')}</span> :
+            <span style={{ fontWeight: 500 }}>{DATA.name}</span>
+            {DATA.version || DATA.crumb ?
+            <span style={{ color: dim }}>— {[DATA.version, DATA.crumb].filter(Boolean).join(' · ')}</span> :
             null}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <LangToggle lang={lang} setLang={setLang} dark={dark} scale={scale} />
             <IconBtn dark={dark} onClick={() => setTheme(dark ? 'light' : 'dark')} title="theme">
               {dark ? <ICONS.sun /> : <ICONS.moon />}
             </IconBtn>
@@ -763,11 +735,11 @@ const Portfolio = () => {
         {/* header: bio */}
         <header style={{ marginBottom: sectionGap }}>
           <p style={{ margin: 0, fontSize: scale(16), lineHeight: "1.65" }}>
-            <RichLine text={DATA.bio[lang]} badges={DATA.badges} dark={dark} />
+            <RichLine text={DATA.bio} badges={DATA.badges} dark={dark} />
           </p>
           {DATA.bioSocial ?
           <p style={{ margin: '12px 0 0', fontSize: scale(16), lineHeight: "1.65" }}>
-            <RichLine text={DATA.bioSocial[lang]} badges={DATA.badges} dark={dark} />
+            <RichLine text={DATA.bioSocial} badges={DATA.badges} dark={dark} />
           </p> :
           null}
         </header>
@@ -775,10 +747,10 @@ const Portfolio = () => {
         {/* experience */}
         <section style={{ marginBottom: sectionGap }}>
           <div style={{ display: 'grid', gridTemplateColumns: sectionGrid, columnGap: isMobile ? 0 : 24, rowGap: isMobile ? 10 : 0, alignItems: 'start' }}>
-            <SectionLabel dark={dark} scale={scale} isMobile={isMobile}>{DATA.expLabel[lang]}</SectionLabel>
+            <SectionLabel dark={dark} scale={scale} isMobile={isMobile}>{DATA.expLabel}</SectionLabel>
             <div>
               {DATA.experience.map((e, i) =>
-              <ExpRow key={i} label={e.label[lang]} value={e.value} description={e.description} href={e.href} tile={e.tile} badge={e.badge} dark={dark} isFirst={i === 0} lang={lang} scale={scale} scaleSize={scaleSize} isMobile={isMobile} />
+              <ExpRow key={i} label={e.label} value={e.value} description={e.description} href={e.href} tile={e.tile} badge={e.badge} dark={dark} isFirst={i === 0} scale={scale} scaleSize={scaleSize} isMobile={isMobile} />
               )}
               <div style={{ borderBottom: `1px solid ${rule}` }} />
             </div>
@@ -788,10 +760,10 @@ const Portfolio = () => {
         {/* vibe-coded */}
         <section style={{ marginBottom: sectionGap }}>
           <div style={{ display: 'grid', gridTemplateColumns: sectionGrid, columnGap: isMobile ? 0 : 24, rowGap: isMobile ? 10 : 0, alignItems: 'start' }}>
-            <SectionLabel dark={dark} scale={scale} isMobile={isMobile}>{DATA.vibesLabel[lang]}</SectionLabel>
+            <SectionLabel dark={dark} scale={scale} isMobile={isMobile}>{DATA.vibesLabel}</SectionLabel>
             <div>
               {DATA.vibes.map((e, i) =>
-              <ExpRow key={i} value={e.value} description={e.description} href={e.href} badge={e.badge} dark={dark} isFirst={i === 0} lang={lang} scale={scale} scaleSize={scaleSize} isMobile={isMobile} />
+              <ExpRow key={i} value={e.value} description={e.description} href={e.href} badge={e.badge} dark={dark} isFirst={i === 0} scale={scale} scaleSize={scaleSize} isMobile={isMobile} />
               )}
               <div style={{ borderBottom: `1px solid ${rule}` }} />
             </div>
@@ -809,7 +781,7 @@ const Portfolio = () => {
         }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: isCompact ? 40 : 56 }}>
             {DATA.featuredCases.map((c, i) =>
-              <FeatureCase key={i} dark={dark} item={c} lang={lang} isCompact={isCompact} scale={scale} contentWidth={contentWidth} />
+              <FeatureCase key={i} dark={dark} item={c} isCompact={isCompact} scale={scale} contentWidth={contentWidth} />
             )}
           </div>
         </section>
@@ -822,10 +794,10 @@ const Portfolio = () => {
             color: dark ? 'rgba(232,230,224,0.45)' : 'rgba(29,29,31,0.45)',
             display: 'inline-flex', alignItems: 'center', gap: 8
           }}>
-            <span>{DATA.footer[lang]}</span>
+            <span>{DATA.footer}</span>
             {DATA.footerIcon ? <span style={{ display: 'inline-flex', color: '#3b82f6' }}>{I(DATA.footerIcon)}</span> : null}
           </div>
-          <ClockChip dark={dark} clock={DATA.clock} lang={lang} scale={scale} />
+          <ClockChip dark={dark} clock={DATA.clock} scale={scale} />
         </footer>
       </main>
     </div>);
