@@ -45,7 +45,7 @@ const DATA = {
   {
     label: '2026 — Current',
     value: 'FitnessSDK',
-    description: 'Co-Founder',
+    description: 'Co-Founder & Designer',
     href: 'https://apps.apple.com/us/app/fitnesssdk/id6759220379',
     tile: { src: 'assets/logo-fitnesssdk.svg' }
   },
