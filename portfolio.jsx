@@ -20,7 +20,7 @@ const DATA = {
   bio: [
   'As a Senior Product Designer, I enhanced Salmon\'s internal [salmon-referral] for Filipino promodizers by streamlining KYC flows and creating comic-style onboarding guides.',
   'Previously served as Lead Designer at Gazprom ID, driving products like SSO, Zenit, GID Hub, and the [gazprom-enterprise].'],
-  bioSocial: 'I advocate for a strong Design Trio model, treating managers, engineers, and designers as equal partners focused on real business outcomes and user needs. I thrive on complex projects and leverage AI to streamline my workflow and boost team impact.',
+  bioSocial: 'Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.',
   // shown instead of the bio above while the photo is unfolded (click to toggle)
   bioShort: {
     intro: 'My wife, my parents, and everyone who supports me no matter what.',
