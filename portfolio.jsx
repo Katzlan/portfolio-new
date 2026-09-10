@@ -621,6 +621,7 @@ const FoldPhoto = ({ src, alt, open, onToggle }) => {
         perspective: 1200,
         transition: foldT('width'),
         WebkitTapHighlightColor: 'transparent',
+        filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.07)) drop-shadow(0 1px 3px rgba(0,0,0,0.04))',
       }}>
       <style>{`
         @keyframes fold-sheen {
