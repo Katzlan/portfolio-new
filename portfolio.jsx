@@ -535,7 +535,7 @@ const CaseTeam = ({ heading, items, scale }) =>
 
 // ---------- NDA password gate ----------
 const NDA_PASSWORD = 'Humser1!';
-const PasswordGate = ({ title, onUnlock, scale }) => {
+const PasswordGate = ({ title, onUnlock, onClose, scale }) => {
   const [value, setValue] = React.useState('');
   const [error, setError] = React.useState(false);
   const submit = (e) => {
@@ -550,10 +550,21 @@ const PasswordGate = ({ title, onUnlock, scale }) => {
       padding: 20,
     }}>
       <div style={{
+        position: 'relative',
         width: '100%', maxWidth: 360, background: '#fff', borderRadius: 22,
         padding: '32px 28px', textAlign: 'center',
         boxShadow: '0 24px 60px rgba(0,0,0,0.25)',
       }}>
+        <button type="button" onClick={onClose} aria-label="Close" style={{
+          position: 'absolute', top: 14, right: 14,
+          width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'none', border: 'none', borderRadius: '50%', padding: 0, cursor: 'pointer',
+          color: '#75726f',
+        }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M5 5l14 14M19 5L5 19" />
+          </svg>
+        </button>
         <p style={{ margin: 0, fontSize: scale(19), fontWeight: 700, color: '#000' }}>
           {title}
         </p>
@@ -816,7 +827,7 @@ const Portfolio = () => {
         const companyBadge = page ? DATA.badges[page] : null;
         if (companyBadge) {
           if (companyBadge.case && !ndaUnlocked) {
-            return <PasswordGate title={companyBadge.case.title} onUnlock={unlockNda} scale={scale} />;
+            return <PasswordGate title={companyBadge.case.title} onUnlock={unlockNda} onClose={goBack} scale={scale} />;
           }
           return (
             <React.Fragment>
