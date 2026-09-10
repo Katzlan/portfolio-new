@@ -299,6 +299,11 @@ const CompanyPage = ({ label, scale }) =>
 const FOLD_W = 160, FOLD_H = 224, FOLD_R = 22, FOLD_MS = 900;
 const FOLD_EASE = 'cubic-bezier(.22,.8,.2,1)';
 const foldT = (...props) => props.map((p) => `${p} ${FOLD_MS}ms ${FOLD_EASE}`).join(', ');
+// text crossfade: the fade-OUT duration must exactly match the swap timeout
+// below, otherwise the old copy is still mid-fade when the new copy starts
+// fading in and the two overlap (looked especially janky on mobile).
+const TEXT_OUT_MS = 260;
+const TEXT_IN_MS = 320;
 
 const FoldPhoto = ({ src, alt, open, onToggle }) => {
   const [runs, setRuns] = React.useState(0);
@@ -374,16 +379,19 @@ const Portfolio = () => {
   const [photoOpen, setPhotoOpen] = React.useState(false);
   const [shortShown, setShortShown] = React.useState(false);
   const [textFade, setTextFade] = React.useState(1);
+  const [textFadeMs, setTextFadeMs] = React.useState(TEXT_IN_MS);
   const swapTimer = React.useRef(null);
   const togglePhoto = () => {
     const next = !photoOpen;
     setPhotoOpen(next);
+    setTextFadeMs(TEXT_OUT_MS);
     setTextFade(0);
     clearTimeout(swapTimer.current);
     swapTimer.current = setTimeout(() => {
       setShortShown(next);
+      setTextFadeMs(TEXT_IN_MS);
       setTextFade(1);
-    }, FOLD_MS * 0.4);
+    }, TEXT_OUT_MS);
   };
   React.useEffect(() => () => clearTimeout(swapTimer.current), []);
 
@@ -475,7 +483,7 @@ const Portfolio = () => {
                       always the taller of the two — swapping never shifts the layout */}
                   <div style={{
                     gridArea: '1 / 1', opacity: shortShown ? 0 : textFade,
-                    transition: foldT('opacity'), pointerEvents: shortShown ? 'none' : 'auto',
+                    transition: `opacity ${textFadeMs}ms ${FOLD_EASE}`, pointerEvents: shortShown ? 'none' : 'auto',
                   }} aria-hidden={shortShown}>
                     <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
                       {DATA.name}
@@ -493,7 +501,7 @@ const Portfolio = () => {
                   </div>
                   <div style={{
                     gridArea: '1 / 1', opacity: shortShown ? textFade : 0,
-                    transition: foldT('opacity'), pointerEvents: shortShown ? 'auto' : 'none',
+                    transition: `opacity ${textFadeMs}ms ${FOLD_EASE}`, pointerEvents: shortShown ? 'auto' : 'none',
                     alignSelf: 'start',
                   }} aria-hidden={!shortShown}>
                     <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
