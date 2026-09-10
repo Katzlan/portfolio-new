@@ -8,6 +8,9 @@
 const DATA = {
   // header
   name: 'Andrei Ignatov',
+  // headline shown above the bio (kept separate from `name` so the avatar's
+  // alt text and the page/browser-tab title stay unaffected)
+  greeting: 'Hello, Привет, Ahoj! Everything I Love is Here',
   version: '',
   crumb: '',
   role: '',
@@ -18,6 +21,19 @@ const DATA = {
   'As a Senior Product Designer, I enhanced [salmon]\'s internal Referral Program for Filipino promodizers by streamlining KYC flows and creating comic-style onboarding guides.',
   'Previously served as Lead Designer at [gazprom-id], driving products like SSO, Zenit, GID Hub, and the GID Enterprise Platform.'],
   bioSocial: 'I advocate for a strong Design Trio model, treating managers, engineers, and designers as equal partners focused on real business outcomes and user needs. I thrive on complex projects and leverage AI to streamline my workflow and boost team impact.',
+  // shown instead of the bio above while the photo is unfolded (click to toggle)
+  bioShort: {
+    intro: 'My wife, my parents, and everyone who supports me no matter what.',
+    list: [
+    { label: 'Book', value: 'Emotional Design by Don Norman' },
+    { label: 'Bands', value: 'Foals, Tame Impala, Djo' },
+    { label: 'Games', value: 'Baldur\'s Gate 3, Red Dead Redemption 2, Metro Exodus' },
+    { label: 'Hobbies', value: 'Guitar, Fingerstyle' },
+    { label: 'Movies & Shows', value: 'The Intouchables (1+1), The Lord of the Rings, Stranger Things' }],
+    outro: [
+    'I’m inspired by locals and their stories, spontaneous trips, and late-night talks.',
+    'Someday, I’ll record my guitar playing :)']
+  },
   // each entry is either a plain string (becomes a text pill) or an
   // object { icon, label } (icon shown to the left of label).
   badges: {
@@ -266,10 +282,9 @@ const FOLD_W = 160, FOLD_H = 224, FOLD_R = 22, FOLD_MS = 900;
 const FOLD_EASE = 'cubic-bezier(.22,.8,.2,1)';
 const foldT = (...props) => props.map((p) => `${p} ${FOLD_MS}ms ${FOLD_EASE}`).join(', ');
 
-const FoldPhoto = ({ src, alt }) => {
-  const [open, setOpen] = React.useState(false);
+const FoldPhoto = ({ src, alt, open, onToggle }) => {
   const [runs, setRuns] = React.useState(0);
-  const toggle = () => { setOpen((o) => !o); setRuns((n) => n + 1); };
+  const toggle = () => { onToggle(); setRuns((n) => n + 1); };
   const fx = (name) => runs ? `${name} ${FOLD_MS}ms ${FOLD_EASE} both` : 'none';
   const fxDir = open ? 'normal' : 'reverse';
   return (
@@ -338,6 +353,23 @@ const Portfolio = () => {
   const { isCompact, scale } = useLayout();
   const dark = theme === 'dark';
 
+  // photo unfold <-> bio text: swap the copy at the fold's midpoint, crossfading
+  const [photoOpen, setPhotoOpen] = React.useState(false);
+  const [shortShown, setShortShown] = React.useState(false);
+  const [textFade, setTextFade] = React.useState(1);
+  const swapTimer = React.useRef(null);
+  const togglePhoto = () => {
+    const next = !photoOpen;
+    setPhotoOpen(next);
+    setTextFade(0);
+    clearTimeout(swapTimer.current);
+    swapTimer.current = setTimeout(() => {
+      setShortShown(next);
+      setTextFade(1);
+    }, FOLD_MS * 0.4);
+  };
+  React.useEffect(() => () => clearTimeout(swapTimer.current), []);
+
   React.useEffect(() => {
     lsSet('theme', theme);
     document.body.dataset.theme = theme;
@@ -375,23 +407,58 @@ const Portfolio = () => {
         position: 'relative', zIndex: 1,
         padding: isCompact ? '32px 20px' : '48px 24px',
       }}>
-        <div style={{ width: '100%', maxWidth: 480, textAlign: 'center' }}>
+        <div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 64 }}>
-            <FoldPhoto src="assets/avatar.png" alt={DATA.name} />
+            <FoldPhoto src="assets/avatar.png" alt={DATA.name} open={photoOpen} onToggle={togglePhoto} />
           </div>
-          <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
-            {DATA.name}
-          </p>
-          {(Array.isArray(DATA.bio) ? DATA.bio : [DATA.bio]).map((para, i) =>
-          <p key={i} style={{ margin: i === 0 ? 0 : '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
-            <RichLine text={para} badges={DATA.badges} dark={dark} />
-          </p>
-          )}
-          {DATA.bioSocial ?
-          <p style={{ margin: '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
-            <RichLine text={DATA.bioSocial} badges={DATA.badges} dark={dark} />
-          </p> :
-          null}
+          <div style={{ display: 'grid' }}>
+            {/* both variants occupy the same grid cell so the block's height is
+                always the taller of the two — swapping never shifts the layout */}
+            <div style={{
+              gridArea: '1 / 1', opacity: shortShown ? 0 : textFade,
+              transition: foldT('opacity'), pointerEvents: shortShown ? 'none' : 'auto',
+            }} aria-hidden={shortShown}>
+              <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
+                {DATA.name}
+              </p>
+              {(Array.isArray(DATA.bio) ? DATA.bio : [DATA.bio]).map((para, i) =>
+              <p key={i} style={{ margin: i === 0 ? 0 : '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                <RichLine text={para} badges={DATA.badges} dark={dark} />
+              </p>
+              )}
+              {DATA.bioSocial ?
+              <p style={{ margin: '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                <RichLine text={DATA.bioSocial} badges={DATA.badges} dark={dark} />
+              </p> :
+              null}
+            </div>
+            <div style={{
+              gridArea: '1 / 1', opacity: shortShown ? textFade : 0,
+              transition: foldT('opacity'), pointerEvents: shortShown ? 'auto' : 'none',
+              alignSelf: 'start',
+            }} aria-hidden={!shortShown}>
+              <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
+                {DATA.greeting}
+              </p>
+              <p style={{ margin: 0, fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                {DATA.bioShort.intro}
+              </p>
+              <p style={{ margin: '8px 0 0', fontSize: scale(15), lineHeight: "1.65" }}>
+                {DATA.bioShort.list.map((item, i) =>
+                <React.Fragment key={item.label}>
+                  {i > 0 ? <br /> : null}
+                  <span style={{ color: '#000' }}>{item.label}:</span>{' '}
+                  <span style={{ color: '#75726f' }}>{item.value}</span>
+                </React.Fragment>
+                )}
+              </p>
+              {DATA.bioShort.outro.map((para, i) =>
+              <p key={i} style={{ margin: i === 0 ? '12px 0 0' : '8px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                {para}
+              </p>
+              )}
+            </div>
+          </div>
         </div>
       </main>
 
@@ -405,17 +472,14 @@ const Portfolio = () => {
         <div style={{
           fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: scale(15),
           color: dark ? 'rgba(232,230,224,0.7)' : 'rgba(29,29,31,0.7)',
-          display: 'inline-flex', alignItems: 'center', gap: 8
+          display: 'inline-flex', alignItems: 'center', gap: 16
         }}>
-          {DATA.contacts.map((c, i) =>
-          <React.Fragment key={c.label}>
-            {i > 0 ? <span style={{ opacity: 0.4 }}>·</span> : null}
-            <a href={c.href} target="_blank" rel="noreferrer" style={{
-              color: '#000', textDecoration: 'underline',
-              textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
-              textUnderlineOffset: '3px', textDecorationThickness: '1px',
-            }}>{c.label}</a>
-          </React.Fragment>
+          {DATA.contacts.map((c) =>
+          <a key={c.label} href={c.href} target="_blank" rel="noreferrer" style={{
+            color: '#000', textDecoration: 'underline',
+            textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
+            textUnderlineOffset: '3px', textDecorationThickness: '1px',
+          }}>{c.label}</a>
           )}
         </div>
       </footer>
