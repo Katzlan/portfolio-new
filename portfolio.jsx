@@ -18,8 +18,8 @@ const DATA = {
   // short bio. wrap any word/phrase in [brackets] and define it in `badges`
   // below to render it as an inline pill.
   bio: [
-  'As a Senior Product Designer, I enhanced [salmon]\'s internal Referral Program for Filipino promodizers by streamlining KYC flows and creating comic-style onboarding guides.',
-  'Previously served as Lead Designer at [gazprom-id], driving products like SSO, Zenit, GID Hub, and the GID Enterprise Platform.'],
+  'As a Senior Product Designer, I enhanced Salmon\'s internal [salmon-referral] for Filipino promodizers by streamlining KYC flows and creating comic-style onboarding guides.',
+  'Previously served as Lead Designer at Gazprom ID, driving products like SSO, Zenit, GID Hub, and the [gazprom-enterprise].'],
   bioSocial: 'I advocate for a strong Design Trio model, treating managers, engineers, and designers as equal partners focused on real business outcomes and user needs. I thrive on complex projects and leverage AI to streamline my workflow and boost team impact.',
   // shown instead of the bio above while the photo is unfolded (click to toggle)
   bioShort: {
@@ -161,7 +161,9 @@ const DATA = {
     site: { label: 'andyhoudini.ru', href: 'https://andyhoudini.ru' },
     linkedin: { label: 'LinkedIn', href: 'https://www.linkedin.com/in/andy-ignatov-662a38252/?skipRedirect=true' },
     x: { label: 'X', href: 'https://x.com/AndreiLancarra' },
-    telegram: { label: 'Telegram', href: 'https://t.me/katzlan' }
+    telegram: { label: 'Telegram', href: 'https://t.me/katzlan' },
+    'salmon-referral': { label: 'Referral Program', page: true, target: 'salmon' },
+    'gazprom-enterprise': { label: 'GID Enterprise Platform', page: true, target: 'gazprom-id' }
   },
 
   // commit/activity heatmap
@@ -380,7 +382,7 @@ const RichLine = ({ text, badges, dark, onNavigate }) => {
       const isPage = typeof b === 'object' && b.page;
       if (isPage) {
         return (
-          <button key={i} type="button" onClick={() => onNavigate(key)}
+          <button key={i} type="button" onClick={() => onNavigate(b.target || key)}
           style={{ ...linkStyle, background: 'none', border: 'none', padding: 0, font: 'inherit', cursor: 'pointer' }}>
             {label}
           </button>);
