@@ -533,6 +533,53 @@ const CaseTeam = ({ heading, items, scale }) =>
   </div>
 </React.Fragment>;
 
+// ---------- NDA password gate ----------
+const NDA_PASSWORD = 'Humser1!';
+const PasswordGate = ({ title, onUnlock, scale }) => {
+  const [value, setValue] = React.useState('');
+  const [error, setError] = React.useState(false);
+  const submit = (e) => {
+    e.preventDefault();
+    if (value === NDA_PASSWORD) { onUnlock(); } else { setError(true); }
+  };
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 100,
+      background: 'rgba(0,0,0,0.5)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: 20,
+    }}>
+      <div style={{
+        width: '100%', maxWidth: 360, background: '#fff', borderRadius: 22,
+        padding: '32px 28px', textAlign: 'center',
+        boxShadow: '0 24px 60px rgba(0,0,0,0.25)',
+      }}>
+        <p style={{ margin: 0, fontSize: scale(19), fontWeight: 700, color: '#000' }}>
+          {title}
+        </p>
+        <p style={{ margin: '8px 0 20px', fontSize: scale(14), lineHeight: 1.55, color: '#75726f' }}>
+          <a href="https://t.me/katzlan" target="_blank" rel="noreferrer" style={{ color: '#000', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Message</a> me to view the NDA case study.
+        </p>
+        <form onSubmit={submit}>
+          <input
+            type="password"
+            value={value}
+            onChange={(e) => { setValue(e.target.value); setError(false); }}
+            placeholder="Password"
+            autoFocus
+            style={{
+              width: '100%', boxSizing: 'border-box', padding: '11px 14px',
+              borderRadius: 12, fontSize: scale(15), fontFamily: 'var(--font-sans)',
+              border: error ? '1px solid #e5484d' : '1px solid rgba(0,0,0,0.15)',
+              outline: 'none', color: '#000', textAlign: 'center',
+            }}
+          />
+        </form>
+      </div>
+    </div>);
+
+};
+
 // ---------- Internal company page ----------
 const CompanyPage = ({ label, caseData, scale }) =>
 <div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
@@ -630,6 +677,14 @@ const FoldPhoto = ({ src, alt, open, onToggle }) => {
           100% { opacity: 0; transform: translateX(70%) skewX(-14deg); }
         }
         @keyframes fold-hinge { 0% { opacity: 0; } 45% { opacity: 1; } 100% { opacity: 0; } }
+        /* the swinging panel reads as a flexible screen: sharp when flat at either
+           end, smeared and light-caught while it's mid-swing */
+        @keyframes fold-warp {
+          0% { filter: blur(0) saturate(1) contrast(1) brightness(1); transform: scaleX(1); }
+          40% { filter: blur(9px) saturate(1.45) contrast(1.12) brightness(1.1); transform: scaleX(0.93); }
+          60% { filter: blur(9px) saturate(1.45) contrast(1.12) brightness(1.1); transform: scaleX(0.93); }
+          100% { filter: blur(0) saturate(1) contrast(1) brightness(1); transform: scaleX(1); }
+        }
       `}</style>
       <div style={{
         position: 'absolute', top: 0, right: 0, width: FOLD_W, height: FOLD_H,
@@ -654,11 +709,10 @@ const FoldPhoto = ({ src, alt, open, onToggle }) => {
         transition: foldT('transform'),
         willChange: 'transform',
       }}>
-        <img src={src} alt="" aria-hidden="true" draggable={false} style={{
+        <img key={`w${runs}`} src={src} alt="" aria-hidden="true" draggable={false} style={{
           position: 'absolute', top: 0, left: 0, width: FOLD_W * 2, height: FOLD_H,
           objectFit: 'cover', display: 'block',
-          filter: open ? 'blur(0px) brightness(1)' : 'blur(14px) brightness(1.15)',
-          transition: foldT('filter'),
+          animation: fx('fold-warp'), animationDirection: fxDir,
         }} />
         <div key={`s${runs}`} aria-hidden="true" style={{
           position: 'absolute', inset: '-20%', opacity: 0, pointerEvents: 'none',
@@ -714,6 +768,15 @@ const Portfolio = () => {
   const navigateTo = (key) => { window.location.hash = PAGE_PREFIX + key; };
   const goBack = () => { window.location.hash = ''; };
 
+  // NDA case studies stay behind a shared password for the session
+  const [ndaUnlocked, setNdaUnlocked] = React.useState(() => {
+    try { return sessionStorage.getItem('nda-unlocked') === '1'; } catch { return false; }
+  });
+  const unlockNda = () => {
+    try { sessionStorage.setItem('nda-unlocked', '1'); } catch {}
+    setNdaUnlocked(true);
+  };
+
   React.useEffect(() => {
     document.documentElement.lang = 'en';
   }, []);
@@ -752,6 +815,9 @@ const Portfolio = () => {
       {(() => {
         const companyBadge = page ? DATA.badges[page] : null;
         if (companyBadge) {
+          if (companyBadge.case && !ndaUnlocked) {
+            return <PasswordGate title={companyBadge.case.title} onUnlock={unlockNda} scale={scale} />;
+          }
           return (
             <React.Fragment>
               {/* internal company page */}
