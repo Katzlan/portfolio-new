@@ -372,10 +372,11 @@ const FoldPhoto = ({ src, alt, open, onToggle }) => {
 // ============================================================
 const Portfolio = () => {
   const [activeDock, setActiveDock] = React.useState('comp');
-  const { isCompact, scale } = useLayout();
+  const { isCompact, isMobile, scale } = useLayout();
   const dark = false; // site is light-only
 
-  // photo unfold <-> bio text: swap the copy at the fold's midpoint, crossfading
+  // photo unfold <-> bio text: swap the copy at the fold's midpoint, crossfading.
+  // On mobile the text just swaps instantly — no fade.
   const [photoOpen, setPhotoOpen] = React.useState(false);
   const [shortShown, setShortShown] = React.useState(false);
   const [textFade, setTextFade] = React.useState(1);
@@ -384,6 +385,10 @@ const Portfolio = () => {
   const togglePhoto = () => {
     const next = !photoOpen;
     setPhotoOpen(next);
+    if (isMobile) {
+      setShortShown(next);
+      return;
+    }
     setTextFadeMs(TEXT_OUT_MS);
     setTextFade(0);
     clearTimeout(swapTimer.current);
@@ -483,7 +488,7 @@ const Portfolio = () => {
                       always the taller of the two — swapping never shifts the layout */}
                   <div style={{
                     gridArea: '1 / 1', opacity: shortShown ? 0 : textFade,
-                    transition: `opacity ${textFadeMs}ms ${FOLD_EASE}`, pointerEvents: shortShown ? 'none' : 'auto',
+                    transition: isMobile ? 'none' : `opacity ${textFadeMs}ms ${FOLD_EASE}`, pointerEvents: shortShown ? 'none' : 'auto',
                   }} aria-hidden={shortShown}>
                     <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
                       {DATA.name}
@@ -501,7 +506,7 @@ const Portfolio = () => {
                   </div>
                   <div style={{
                     gridArea: '1 / 1', opacity: shortShown ? textFade : 0,
-                    transition: `opacity ${textFadeMs}ms ${FOLD_EASE}`, pointerEvents: shortShown ? 'auto' : 'none',
+                    transition: isMobile ? 'none' : `opacity ${textFadeMs}ms ${FOLD_EASE}`, pointerEvents: shortShown ? 'auto' : 'none',
                     alignSelf: 'start',
                   }} aria-hidden={!shortShown}>
                     <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
