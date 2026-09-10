@@ -720,6 +720,13 @@ const Portfolio = () => {
   React.useEffect(() => {
     document.title = DATA.pageTitle ?? DATA.name;
   }, []);
+  React.useEffect(() => {
+    const loader = document.getElementById('page-loader');
+    if (!loader) return;
+    loader.classList.add('is-hidden');
+    const timer = setTimeout(() => loader.remove(), 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   const fg = dark ? '#e6e4dd' : '#181816';
   const bg = dark ? '#0b0b0c' : '#ffffff';

@@ -60,6 +60,24 @@
   @media (max-width: 1023px) {
     html, body { overflow-x: clip; }
   }
+
+  #page-loader {
+    position: fixed; inset: 0; z-index: 9999;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    background: #ffffff;
+    opacity: 1; transition: opacity .25s ease;
+  }
+  #page-loader.is-hidden { opacity: 0; pointer-events: none; }
+  #page-loader img {
+    width: 24px; height: 24px;
+    animation: page-loader-bounce 1s ease-in-out infinite;
+  }
+  #page-loader img:nth-child(2) { animation-delay: .15s; }
+  #page-loader img:nth-child(3) { animation-delay: .3s; }
+  @keyframes page-loader-bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: .35; }
+    40% { transform: translateY(-8px); opacity: 1; }
+  }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
@@ -79,6 +97,11 @@
 <!-- /Yandex.Metrika counter -->
 </head>
 <body>
+<div id="page-loader" aria-hidden="true">
+  <img src="assets/loader-dot-1.png" alt="" />
+  <img src="assets/loader-dot-2.png" alt="" />
+  <img src="assets/loader-dot-3.png" alt="" />
+</div>
 <div id="root"></div>
 <script type="text/babel" src="portfolio.jsx"></script>
 </body>
