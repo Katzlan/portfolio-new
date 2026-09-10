@@ -46,7 +46,57 @@ const DATA = {
       case: {
         title: 'Salmon promodizer app',
         description: 'How to help promodizers earn extra money? The key I found was dead simple: make the app easier to use and cut down friction during verification. Easy, right?',
-        cover: 'assets/case-salmon.png'
+        cover: 'assets/case-salmon.webp',
+        blocks: [
+        { type: 'section', heading: 'The Challenge', paragraphs: [
+          'The Salmon Referral Program lets store employees like security guards, cleaners, or managers, but usually young sales associates—**earn extra money** by offering credit lines to customers right before they pay.',
+          'To join the program, employees need to complete verification. This stopped hidden scams and gave promodizers a nice perk—getting exclusive deals from Salmon on better terms. At the time, mandatory verification was already used in around 30 stores.',
+          'I was tasked with designing the **KYC flow** for promodizers. Once verified, they could sell credit lines to our customers, while customers got the products they wanted on great terms.'] },
+        { type: 'image', src: 'assets/case-salmon-asis.webp', alt: 'AS IS — existing KYC face scan and ID verification flow' },
+        { type: 'section', heading: 'Solution', paragraphs: [
+          'I found that **OCR** and **Liveness** were the biggest bottlenecks. First, users didn\'t realize they had to scan a physical ID instead of a printout. Second, bad lighting meant their selfie didn\'t match the ID photo. To fix this, I redesigned the camera to guide users and take the photo automatically instead of letting them do it manually.'] },
+        { type: 'stats', items: [
+          { value: '82.3%', label: 'KYC' },
+          { value: '95.8%', label: 'Approval Rate' },
+          { value: '+1', label: 'Useful Feature' }] },
+        { type: 'image', src: 'assets/case-salmon-2.webp', alt: 'Redesigned KYC flow' },
+        { type: 'section', heading: 'Approach', paragraphs: [
+          'To get a real feel for what promodizers do, **I put on the uniform**, visited stores, talked to the team, and even **worked a full shift** at SM Mall. Here\'s what I learned:'] },
+        { type: 'process', items: [
+          { emoji: '❤️', label: 'Empathize', text: 'Spent a day working as a promodizer and chatted with the team to see what their everyday job is really like.', photo: 'assets/case-salmon-empathize.webp' },
+          { emoji: '🎯', label: 'Define', text: 'Turned their real-world experience—no phones allowed on the sales floor, heavy foot traffic, and just one 30-minute break per shift—into one core rule: keep the solution fast and minimal.' },
+          { emoji: '💡', label: 'Ideate', text: 'Rewrote the copy and added visual tips right before OCR and Liveness, plus real-time guidance right inside the camera.' },
+          { emoji: '⚡', label: 'Prototype', text: 'Built simple Figma prototypes. Since promodizers already knew the old flow, I didn\'t need to build a complex camera simulation for testing.' },
+          { emoji: '✏️', label: 'Test', text: 'Ran interviews and usability tests with 6 promodizers. For Tagalog speakers, I teamed up with a UX researcher to help out.' }] },
+        { type: 'highlight-list', heading: 'Competitor analysis',
+          intro: ['Checked out **WeChat Pay**, **Binance**, and **Revolut**. WeChat, which is built for the Asian market, lets users pick their ID type first—like a UMID, Postal ID, PRC ID, driver\'s license, national ID, or passport. Adding that simple extra step could easily fix our problem with people choosing the wrong ID.'],
+          items: [
+          { label: 'WeChat', text: '"WeChat is a great example of designing for users across Asia. It also uses a camera that automatically captures selfies without making you tap a button."', image: 'assets/case-salmon-wechat.webp' },
+          { label: 'Binance', text: 'Binance is all about speed—it scans the ID and face as fast as possible.', image: 'assets/case-salmon-binance.webp' },
+          { label: 'Revolut', text: 'Revolut also focuses on speed, like Binance, while matching WeChat\'s ability to handle different regions and document types.', image: 'assets/case-salmon-revolut.webp' }] },
+        { type: 'section', heading: 'Designed concept', paragraphs: [
+          'Sketched out what our camera was missing. I kept in mind that people rarely read instructions and that the old camera screen was way too huge. My idea was simple: drop manual camera controls entirely and give instant feedback right on screen using quick animations.'] },
+        { type: 'image', src: 'assets/case-salmon-concept.webp', alt: 'Camera concept sketches' },
+        { type: 'section', heading: 'Usability Testing', paragraphs: [
+          'I didn\'t overcomplicate the prototype or waste time building a camera simulation. I put together a quick Figma prototype and had promodizers run through it. As they went, I asked about each element—what they thought it meant and what they expected it to do. In total, we tested this with 6 promodizers who had already used the old verification flow.'] },
+        { type: 'image', src: 'assets/case-salmon-usability.webp', alt: 'Usability testing session' },
+        { type: 'section', heading: 'Useful Insights', paragraphs: [
+          { text: 'During **field surveys**, **interviews**, and **usability tests**, promodizers were super open about how they work. They really appreciated that we were trying to make their lives a little easier—which made getting quick, honest feedback a breeze.', image: 'assets/case-salmon-insight1.webp' },
+          { text: 'Users still tried to use a screenshot from their phone instead of a physical ID. They read the tip, but misunderstood \'photocopies\'—to them, it only meant printed paper. So I tweaked the wording to make it crystal clear.', image: 'assets/case-salmon-insight2.webp' },
+          'A cool insight popped up when we asked what the \'X\' button meant—5 out of 6 users surprisingly thought it would close the entire browser! So I swapped it out for \'Skip for now\'.'] },
+        { type: 'numbered-list', heading: 'Reflection', items: [
+          { title: 'Simplicity wins', text: 'As designers, we love following trends or copying cool solutions. But we miss the big point: every single element needs a clear purpose. A designer\'s real job is to understand the user\'s problem and build something that actually helps.' },
+          { title: 'Put yourself in the user\'s shoes', text: 'Going into the field showed me the real weight of past design decisions. Promodizers have to sell, help, and explain things to customers all at once—so there\'s zero room for extra clutter.' },
+          { title: 'Get feedback often', text: 'Getting fast feedback directly from promodizers let me iterate quickly and ship the solution to production way faster.' }] },
+        { type: 'team', heading: 'Our team', items: [
+          { role: 'UX Writer', name: 'JM' },
+          { role: 'UX Researcher', name: 'Oliver Bayani' },
+          { role: 'Lead UX Researcher', name: 'Vladislav Emeilianov' },
+          { role: 'Front-End', name: 'Oleg Pitsik' },
+          { role: 'Lead Back-End', name: 'Adila Rzaeva' },
+          { role: 'Product Manager', name: 'Kristina Grekova' },
+          { role: 'Product Designer', name: 'Andrei Ignatov' }] },
+        { type: 'image', src: 'assets/case-salmon-team.webp', alt: 'Team photo' }]
       }
     },
     'gazprom-id': { label: 'Gazprom ID', href: 'https://id.gid.ru/', page: true },
@@ -292,6 +342,136 @@ const RichLine = ({ text, badges, dark, onNavigate }) => {
   });
 };
 
+// ---------- Bold-markdown text (**bold**) for case copy ----------
+const BoldText = ({ text }) => {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((p, i) =>
+  p.startsWith('**') && p.endsWith('**') ?
+  <strong key={i} style={{ color: '#000', fontWeight: 700 }}>{p.slice(2, -2)}</strong> :
+  <React.Fragment key={i}>{p}</React.Fragment>
+  );
+};
+
+// ---------- Stat tiles (bordered row of value/label pairs) ----------
+const CaseStats = ({ items, scale }) =>
+<div style={{
+  display: 'grid', gridTemplateColumns: `repeat(${items.length}, 1fr)`,
+  border: '1px solid rgba(0,0,0,0.1)', borderRadius: 14, overflow: 'hidden',
+}}>
+  {items.map((it, i) =>
+  <div key={i} style={{
+    padding: '16px 18px',
+    borderLeft: i > 0 ? '1px solid rgba(0,0,0,0.1)' : 'none',
+  }}>
+    <div style={{ fontSize: scale(22), fontWeight: 700, color: '#000' }}>{it.value}</div>
+    <div style={{ marginTop: 6, fontSize: scale(14), color: '#75726f' }}>{it.label}</div>
+  </div>
+  )}
+</div>;
+
+// ---------- Process stages (Empathize/Define/Ideate/…) — horizontal-scroll table ----------
+const CaseProcess = ({ items, scale }) =>
+<div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', margin: '0 -20px', padding: '0 20px' }}>
+  <div style={{
+    display: 'flex', width: 'max-content',
+    border: '1px solid rgba(0,0,0,0.1)', borderRadius: 14, overflow: 'hidden',
+  }}>
+    {items.map((it, i) =>
+    <div key={it.label} style={{
+      width: 220, flex: '0 0 auto',
+      borderLeft: i > 0 ? '1px solid rgba(0,0,0,0.1)' : 'none',
+    }}>
+      <div style={{
+        padding: '14px 16px', background: '#f7f7f5',
+        borderBottom: '1px solid rgba(0,0,0,0.1)',
+        fontSize: scale(16), fontWeight: 600, color: '#000', whiteSpace: 'nowrap',
+      }}>
+        {it.emoji} {it.label}
+      </div>
+      <div style={{ padding: '14px 16px' }}>
+        <p style={{ margin: 0, fontSize: scale(14), lineHeight: '1.55', color: '#75726f' }}>
+          {it.text}
+        </p>
+        {it.photo ?
+        <img src={it.photo} alt="" style={{
+          marginTop: 12, width: '100%', aspectRatio: '4 / 3', borderRadius: 12,
+          objectFit: 'cover', display: 'block',
+        }} /> :
+        null}
+      </div>
+    </div>
+    )}
+  </div>
+</div>;
+
+// ---------- Highlighted sub-items (e.g. competitor breakdown) ----------
+const CaseHighlightList = ({ heading, intro, items, scale }) =>
+<React.Fragment>
+  <p style={{ margin: 0, fontSize: scale(20), fontWeight: 700, color: '#000' }}>
+    {heading}
+  </p>
+  {intro.map((para, j) =>
+  <p key={j} style={{ margin: '16px 0 0', fontSize: scale(16), lineHeight: '1.6', color: '#75726f' }}>
+    <BoldText text={para} />
+  </p>
+  )}
+  {items.map((it, i) =>
+  <div key={it.label} style={{ marginTop: 24 }}>
+    <span style={{
+      display: 'inline-block', background: '#fdec9a', color: '#000',
+      fontWeight: 700, fontSize: scale(15), padding: '2px 7px', borderRadius: 4,
+    }}>{it.label}</span>
+    <p style={{ margin: '12px 0 0', fontSize: scale(16), lineHeight: '1.6', color: '#75726f' }}>
+      {it.text}
+    </p>
+    {it.image ?
+    <img src={it.image} alt="" style={{
+      marginTop: 16, width: '100%', aspectRatio: '16 / 10', borderRadius: 14,
+      objectFit: 'cover', display: 'block',
+    }} /> :
+    null}
+  </div>
+  )}
+</React.Fragment>;
+
+// ---------- Numbered takeaways (e.g. Reflection) ----------
+const CaseNumberedList = ({ heading, items, scale }) =>
+<React.Fragment>
+  <p style={{ margin: 0, fontSize: scale(20), fontWeight: 700, color: '#000' }}>
+    {heading}
+  </p>
+  {items.map((it, i) =>
+  <div key={it.title} style={{
+    display: 'flex', gap: 8, marginTop: i === 0 ? 16 : 20,
+  }}>
+    <span style={{ fontSize: scale(16), color: '#75726f', flex: '0 0 auto' }}>{i + 1}.</span>
+    <div>
+      <p style={{ margin: 0, fontSize: scale(16), fontWeight: 700, color: '#000' }}>
+        {it.title}
+      </p>
+      <p style={{ margin: '4px 0 0', fontSize: scale(16), lineHeight: '1.6', color: '#75726f' }}>
+        {it.text}
+      </p>
+    </div>
+  </div>
+  )}
+</React.Fragment>;
+
+// ---------- Team credits ----------
+const CaseTeam = ({ heading, items, scale }) =>
+<React.Fragment>
+  <p style={{ margin: 0, fontSize: scale(20), fontWeight: 700, color: '#000' }}>
+    {heading}
+  </p>
+  <div style={{ marginTop: 16 }}>
+    {items.map((it) =>
+    <p key={it.role} style={{ margin: 0, fontSize: scale(16), lineHeight: '1.9', color: '#75726f' }}>
+      {it.role}: <strong style={{ color: '#000', fontWeight: 700 }}>{it.name}</strong>
+    </p>
+    )}
+  </div>
+</React.Fragment>;
+
 // ---------- Internal company page ----------
 const CompanyPage = ({ label, caseData, scale }) =>
 <div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
@@ -311,6 +491,38 @@ const CompanyPage = ({ label, caseData, scale }) =>
         width: '100%', height: '100%', objectFit: 'cover', display: 'block',
       }} />
     </div>
+    {(caseData.blocks || []).map((block, i) =>
+    <div key={i} style={{ marginTop: 40 }}>
+      {block.type === 'stats' ? <CaseStats items={block.items} scale={scale} /> :
+      block.type === 'process' ? <CaseProcess items={block.items} scale={scale} /> :
+      block.type === 'image' ?
+      <img src={block.src} alt={block.alt || ''} style={{ width: '100%', borderRadius: 18, display: 'block' }} /> :
+      block.type === 'highlight-list' ? <CaseHighlightList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
+      block.type === 'numbered-list' ? <CaseNumberedList heading={block.heading} items={block.items} scale={scale} /> :
+      block.type === 'team' ? <CaseTeam heading={block.heading} items={block.items} scale={scale} /> :
+      <React.Fragment>
+        <p style={{ margin: 0, fontSize: scale(20), fontWeight: 700, color: '#000' }}>
+          {block.heading}
+        </p>
+        {block.paragraphs.map((para, j) => {
+          const text = typeof para === 'string' ? para : para.text;
+          const image = typeof para === 'string' ? null : para.image;
+          return (
+            <React.Fragment key={j}>
+              <p style={{ margin: '16px 0 0', fontSize: scale(16), lineHeight: '1.6', color: '#75726f' }}>
+                <BoldText text={text} />
+              </p>
+              {image ?
+              <img src={image} alt="" style={{
+                marginTop: 16, width: '100%', borderRadius: 18, display: 'block',
+              }} /> :
+              null}
+            </React.Fragment>);
+
+        })}
+      </React.Fragment>}
+    </div>
+    )}
   </React.Fragment> :
   null}
 </div>;
@@ -471,23 +683,29 @@ const Portfolio = () => {
                 flex: 1,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 position: 'relative', zIndex: 1,
-                padding: isCompact ? '32px 20px' : '48px 24px',
+                padding: isCompact ? '32px 20px 96px' : '48px 24px 112px',
               }}>
                 <CompanyPage label={companyBadge.label} caseData={companyBadge.case} scale={scale} />
               </main>
               <footer style={{
-                width: '100%', maxWidth: 480, margin: '0 auto',
-                padding: isCompact ? '0 20px 24px' : '0 24px 32px',
-                display: 'flex', justifyContent: 'center', alignItems: 'center',
-                position: 'relative', zIndex: 1,
+                position: 'fixed', bottom: 0, left: 0, width: '100%',
+                background: '#ffffff', borderTop: '1px solid rgba(0,0,0,0.06)',
+                paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+                zIndex: 2,
               }}>
-                <button type="button" onClick={goBack} style={{
-                  fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: scale(15),
-                  color: '#000', textDecoration: 'underline',
-                  textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
-                  textUnderlineOffset: '3px', textDecorationThickness: '1px',
-                  background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-                }}>Сделать шаг назад</button>
+                <div style={{
+                  maxWidth: 480, margin: '0 auto',
+                  padding: isCompact ? '16px 20px' : '20px 24px',
+                  display: 'flex', justifyContent: 'center', alignItems: 'center',
+                }}>
+                  <button type="button" onClick={goBack} style={{
+                    fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: scale(15),
+                    color: '#000', textDecoration: 'underline',
+                    textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
+                    textUnderlineOffset: '3px', textDecorationThickness: '1px',
+                    background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                  }}>Вернуться на главную</button>
+                </div>
               </footer>
             </React.Fragment>);
 
@@ -503,7 +721,7 @@ const Portfolio = () => {
             }}>
               <div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 64 }}>
-                  <FoldPhoto src="assets/avatar.png" alt={DATA.name} open={photoOpen} onToggle={togglePhoto} />
+                  <FoldPhoto src="assets/avatar.webp" alt={DATA.name} open={photoOpen} onToggle={togglePhoto} />
                 </div>
                 <div style={{ display: 'grid' }}>
                   {/* both variants occupy the same grid cell so the block's height is
