@@ -36,13 +36,16 @@ const DATA = {
   },
   // each entry is either a plain string (becomes a text pill) or an
   // object { icon, label } (icon shown to the left of label).
+  // `page: true` marks a company link as internal — clicking it opens a
+  // dedicated in-site page (with a "step back" link) instead of the
+  // external site directly.
   badges: {
     ixdf: { label: 'IxDF', href: 'https://ixdf.org/courses' },
-    salmon: { label: 'Salmon', href: 'https://salmon.ph/' },
-    'gazprom-id': { label: 'Gazprom ID', href: 'https://id.gid.ru/' },
-    nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru' },
-    vtb: { label: 'VTB', href: 'https://www.vtb.ru/' },
-    lanit: { label: 'Lanit', href: 'https://lanit.ru/' },
+    salmon: { label: 'Salmon', href: 'https://salmon.ph/', page: true },
+    'gazprom-id': { label: 'Gazprom ID', href: 'https://id.gid.ru/', page: true },
+    nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
+    vtb: { label: 'VTB', href: 'https://www.vtb.ru/', page: true },
+    lanit: { label: 'Lanit', href: 'https://lanit.ru/', page: true },
     email: { label: 'andrej.filly@gmail.com', href: 'mailto:andrej.filly@gmail.com' },
     site: { label: 'andyhoudini.ru', href: 'https://andyhoudini.ru' },
     linkedin: { label: 'LinkedIn', href: 'https://www.linkedin.com/in/andy-ignatov-662a38252/?skipRedirect=true' },
@@ -116,6 +119,12 @@ const lsGet = (k, fb) => {
   catch {return fb;}
 };
 const lsSet = (k, v) => {try {localStorage.setItem(k, v);} catch {}};
+
+// ---------- hash-based mini router (for internal company pages) ----------
+const PAGE_PREFIX = '#/company/';
+const hashToPage = () =>
+typeof window === 'undefined' ? null :
+window.location.hash.startsWith(PAGE_PREFIX) ? window.location.hash.slice(PAGE_PREFIX.length) : null;
 
 // ---------- icons ----------
 const ICONS = {
@@ -248,8 +257,15 @@ const Dock = ({ items, active, onChange, dark, scale }) =>
 // ---------- Inline-link text helper ----------
 // Items in `[brackets]` become underlined links if the matching badge entry has
 // an `href`; otherwise the word is rendered as plain text.
-const RichLine = ({ text, badges, dark }) => {
+const RichLine = ({ text, badges, dark, onNavigate }) => {
   const parts = text.split(/(\[[^\]]+\])/g);
+  const linkStyle = {
+    color: '#000',
+    textDecoration: 'underline',
+    textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
+    textUnderlineOffset: '3px',
+    textDecorationThickness: '1px'
+  };
   return parts.map((p, i) => {
     if (p.startsWith('[') && p.endsWith(']')) {
       const key = p.slice(1, -1);
@@ -257,16 +273,17 @@ const RichLine = ({ text, badges, dark }) => {
       if (!b) return key;
       const label = typeof b === 'string' ? b : b.label;
       const href = typeof b === 'object' ? b.href : null;
+      const isPage = typeof b === 'object' && b.page;
+      if (isPage) {
+        return (
+          <button key={i} type="button" onClick={() => onNavigate(key)}
+          style={{ ...linkStyle, background: 'none', border: 'none', padding: 0, font: 'inherit', cursor: 'pointer' }}>
+            {label}
+          </button>);
+      }
       if (href) {
         return (
-          <a key={i} href={href} target="_blank" rel="noreferrer"
-          style={{
-            color: '#000',
-            textDecoration: 'underline',
-            textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
-            textUnderlineOffset: '3px',
-            textDecorationThickness: '1px'
-          }}>{label}</a>);
+          <a key={i} href={href} target="_blank" rel="noreferrer" style={linkStyle}>{label}</a>);
 
       }
       return <React.Fragment key={i}>{label}</React.Fragment>;
@@ -274,6 +291,14 @@ const RichLine = ({ text, badges, dark }) => {
     return <React.Fragment key={i}>{p}</React.Fragment>;
   });
 };
+
+// ---------- Internal company page (placeholder) ----------
+const CompanyPage = ({ label, scale }) =>
+<div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
+  <p style={{ margin: 0, fontSize: scale(18), fontWeight: 600, color: '#000' }}>
+    {label}
+  </p>
+</div>;
 
 // ---------- Foldable photo (Duo-style unfold) ----------
 // Folded: the right half only (160x224, rounded on the right). Click swings the
@@ -370,6 +395,17 @@ const Portfolio = () => {
   };
   React.useEffect(() => () => clearTimeout(swapTimer.current), []);
 
+  // internal company pages, addressed via #/company/<key> so back/forward and
+  // refresh behave; navigating pushes history, "step back" pops it.
+  const [page, setPage] = React.useState(() => hashToPage());
+  React.useEffect(() => {
+    const onHashChange = () => setPage(hashToPage());
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+  const navigateTo = (key) => { window.location.hash = PAGE_PREFIX + key; };
+  const goBack = () => { window.location.hash = ''; };
+
   React.useEffect(() => {
     lsSet('theme', theme);
     document.body.dataset.theme = theme;
@@ -400,89 +436,125 @@ const Portfolio = () => {
         pointerEvents: 'none', zIndex: 0
       }} />
 
-      {/* centered hero: avatar + bio */}
-      <main style={{
-        flex: 1,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        position: 'relative', zIndex: 1,
-        padding: isCompact ? '32px 20px' : '48px 24px',
-      }}>
-        <div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 64 }}>
-            <FoldPhoto src="assets/avatar.png" alt={DATA.name} open={photoOpen} onToggle={togglePhoto} />
-          </div>
-          <div style={{ display: 'grid' }}>
-            {/* both variants occupy the same grid cell so the block's height is
-                always the taller of the two — swapping never shifts the layout */}
-            <div style={{
-              gridArea: '1 / 1', opacity: shortShown ? 0 : textFade,
-              transition: foldT('opacity'), pointerEvents: shortShown ? 'none' : 'auto',
-            }} aria-hidden={shortShown}>
-              <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
-                {DATA.name}
-              </p>
-              {(Array.isArray(DATA.bio) ? DATA.bio : [DATA.bio]).map((para, i) =>
-              <p key={i} style={{ margin: i === 0 ? 0 : '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
-                <RichLine text={para} badges={DATA.badges} dark={dark} />
-              </p>
-              )}
-              {DATA.bioSocial ?
-              <p style={{ margin: '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
-                <RichLine text={DATA.bioSocial} badges={DATA.badges} dark={dark} />
-              </p> :
-              null}
-            </div>
-            <div style={{
-              gridArea: '1 / 1', opacity: shortShown ? textFade : 0,
-              transition: foldT('opacity'), pointerEvents: shortShown ? 'auto' : 'none',
-              alignSelf: 'start',
-            }} aria-hidden={!shortShown}>
-              <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
-                {DATA.greeting}
-              </p>
-              <p style={{ margin: 0, fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
-                {DATA.bioShort.intro}
-              </p>
-              <p style={{ margin: '8px 0 0', fontSize: scale(15), lineHeight: "1.65" }}>
-                {DATA.bioShort.list.map((item, i) =>
-                <React.Fragment key={item.label}>
-                  {i > 0 ? <br /> : null}
-                  <span style={{ color: '#000' }}>{item.label}:</span>{' '}
-                  <span style={{ color: '#75726f' }}>{item.value}</span>
-                </React.Fragment>
-                )}
-              </p>
-              {DATA.bioShort.outro.map((para, i) =>
-              <p key={i} style={{ margin: i === 0 ? '12px 0 0' : '8px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
-                {para}
-              </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </main>
+      {(() => {
+        const companyBadge = page ? DATA.badges[page] : null;
+        if (companyBadge) {
+          return (
+            <React.Fragment>
+              {/* internal company page */}
+              <main style={{
+                flex: 1,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                position: 'relative', zIndex: 1,
+                padding: isCompact ? '32px 20px' : '48px 24px',
+              }}>
+                <CompanyPage label={companyBadge.label} scale={scale} />
+              </main>
+              <footer style={{
+                width: '100%', maxWidth: 480, margin: '0 auto',
+                padding: isCompact ? '0 20px 24px' : '0 24px 32px',
+                display: 'flex', justifyContent: 'center', alignItems: 'center',
+                position: 'relative', zIndex: 1,
+              }}>
+                <button type="button" onClick={goBack} style={{
+                  fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: scale(15),
+                  color: '#000', textDecoration: 'underline',
+                  textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
+                  textUnderlineOffset: '3px', textDecorationThickness: '1px',
+                  background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                }}>Сделать шаг назад</button>
+              </footer>
+            </React.Fragment>);
 
-      {/* footer */}
-      <footer style={{
-        width: '100%', maxWidth: 480, margin: '0 auto',
-        padding: isCompact ? '0 20px 24px' : '0 24px 32px',
-        display: 'flex', justifyContent: 'center', alignItems: 'center',
-        position: 'relative', zIndex: 1,
-      }}>
-        <div style={{
-          fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: scale(15),
-          color: dark ? 'rgba(232,230,224,0.7)' : 'rgba(29,29,31,0.7)',
-          display: 'inline-flex', alignItems: 'center', gap: 16
-        }}>
-          {DATA.contacts.map((c) =>
-          <a key={c.label} href={c.href} target="_blank" rel="noreferrer" style={{
-            color: '#000', textDecoration: 'underline',
-            textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
-            textUnderlineOffset: '3px', textDecorationThickness: '1px',
-          }}>{c.label}</a>
-          )}
-        </div>
-      </footer>
+        }
+        return (
+          <React.Fragment>
+            {/* centered hero: avatar + bio */}
+            <main style={{
+              flex: 1,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              position: 'relative', zIndex: 1,
+              padding: isCompact ? '32px 20px' : '48px 24px',
+            }}>
+              <div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 64 }}>
+                  <FoldPhoto src="assets/avatar.png" alt={DATA.name} open={photoOpen} onToggle={togglePhoto} />
+                </div>
+                <div style={{ display: 'grid' }}>
+                  {/* both variants occupy the same grid cell so the block's height is
+                      always the taller of the two — swapping never shifts the layout */}
+                  <div style={{
+                    gridArea: '1 / 1', opacity: shortShown ? 0 : textFade,
+                    transition: foldT('opacity'), pointerEvents: shortShown ? 'none' : 'auto',
+                  }} aria-hidden={shortShown}>
+                    <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
+                      {DATA.name}
+                    </p>
+                    {(Array.isArray(DATA.bio) ? DATA.bio : [DATA.bio]).map((para, i) =>
+                    <p key={i} style={{ margin: i === 0 ? 0 : '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                      <RichLine text={para} badges={DATA.badges} dark={dark} onNavigate={navigateTo} />
+                    </p>
+                    )}
+                    {DATA.bioSocial ?
+                    <p style={{ margin: '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                      <RichLine text={DATA.bioSocial} badges={DATA.badges} dark={dark} onNavigate={navigateTo} />
+                    </p> :
+                    null}
+                  </div>
+                  <div style={{
+                    gridArea: '1 / 1', opacity: shortShown ? textFade : 0,
+                    transition: foldT('opacity'), pointerEvents: shortShown ? 'auto' : 'none',
+                    alignSelf: 'start',
+                  }} aria-hidden={!shortShown}>
+                    <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
+                      {DATA.greeting}
+                    </p>
+                    <p style={{ margin: 0, fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                      {DATA.bioShort.intro}
+                    </p>
+                    <p style={{ margin: '8px 0 0', fontSize: scale(15), lineHeight: "1.65" }}>
+                      {DATA.bioShort.list.map((item, i) =>
+                      <React.Fragment key={item.label}>
+                        {i > 0 ? <br /> : null}
+                        <span style={{ color: '#000' }}>{item.label}:</span>{' '}
+                        <span style={{ color: '#75726f' }}>{item.value}</span>
+                      </React.Fragment>
+                      )}
+                    </p>
+                    {DATA.bioShort.outro.map((para, i) =>
+                    <p key={i} style={{ margin: i === 0 ? '12px 0 0' : '8px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                      {para}
+                    </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </main>
+
+            {/* footer */}
+            <footer style={{
+              width: '100%', maxWidth: 480, margin: '0 auto',
+              padding: isCompact ? '0 20px 24px' : '0 24px 32px',
+              display: 'flex', justifyContent: 'center', alignItems: 'center',
+              position: 'relative', zIndex: 1,
+            }}>
+              <div style={{
+                fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: scale(15),
+                color: dark ? 'rgba(232,230,224,0.7)' : 'rgba(29,29,31,0.7)',
+                display: 'inline-flex', alignItems: 'center', gap: 16
+              }}>
+                {DATA.contacts.map((c) =>
+                <a key={c.label} href={c.href} target="_blank" rel="noreferrer" style={{
+                  color: '#000', textDecoration: 'underline',
+                  textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
+                  textUnderlineOffset: '3px', textDecorationThickness: '1px',
+                }}>{c.label}</a>
+                )}
+              </div>
+            </footer>
+          </React.Fragment>);
+
+      })()}
     </div>);
 
 };
