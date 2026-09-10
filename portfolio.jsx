@@ -245,7 +245,7 @@ const RichLine = ({ text, badges, dark }) => {
         return (
           <a key={i} href={href} target="_blank" rel="noreferrer"
           style={{
-            color: 'inherit',
+            color: '#000',
             textDecoration: 'underline',
             textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
             textUnderlineOffset: '3px',
@@ -379,16 +379,16 @@ const Portfolio = () => {
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 64 }}>
             <FoldPhoto src="assets/avatar.png" alt={DATA.name} />
           </div>
-          <p style={{ margin: '0 0 24px', fontSize: scale(18), fontWeight: 600 }}>
+          <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
             {DATA.name}
           </p>
           {(Array.isArray(DATA.bio) ? DATA.bio : [DATA.bio]).map((para, i) =>
-          <p key={i} style={{ margin: i === 0 ? 0 : '12px 0 0', fontSize: scale(15), lineHeight: "1.65" }}>
+          <p key={i} style={{ margin: i === 0 ? 0 : '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
             <RichLine text={para} badges={DATA.badges} dark={dark} />
           </p>
           )}
           {DATA.bioSocial ?
-          <p style={{ margin: '12px 0 0', fontSize: scale(15), lineHeight: "1.65" }}>
+          <p style={{ margin: '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
             <RichLine text={DATA.bioSocial} badges={DATA.badges} dark={dark} />
           </p> :
           null}
@@ -411,7 +411,7 @@ const Portfolio = () => {
           <React.Fragment key={c.label}>
             {i > 0 ? <span style={{ opacity: 0.4 }}>·</span> : null}
             <a href={c.href} target="_blank" rel="noreferrer" style={{
-              color: 'inherit', textDecoration: 'underline',
+              color: '#000', textDecoration: 'underline',
               textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
               textUnderlineOffset: '3px', textDecorationThickness: '1px',
             }}>{c.label}</a>
