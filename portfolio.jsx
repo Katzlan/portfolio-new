@@ -18,9 +18,9 @@ const DATA = {
   // short bio. wrap any word/phrase in [brackets] and define it in `badges`
   // below to render it as an inline pill.
   bio: [
-  'As a Senior Product Designer, I enhanced Salmon\'s internal [salmon-referral] for Filipino promodizers by streamlining KYC flows and creating comic-style onboarding guides.',
+  'As a Senior Product Designer, I enhanced internal [salmon-referral] for Filipino promodizers by streamlining KYC flows and creating comic-style onboarding guides.',
   'Previously served as Lead Designer at Gazprom ID, driving products like SSO, Zenit, GID Hub, and the [gazprom-enterprise].'],
-  bioSocial: 'Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.',
+  bioSocial: 'I can describe my approach to work as ‘Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.’',
   // shown instead of the bio above while the photo is unfolded (click to toggle)
   bioShort: {
     intro: 'My wife, my parents, and everyone who supports me no matter what.',
@@ -162,7 +162,7 @@ const DATA = {
     linkedin: { label: 'LinkedIn', href: 'https://www.linkedin.com/in/andy-ignatov-662a38252/?skipRedirect=true' },
     x: { label: 'X', href: 'https://x.com/AndreiLancarra' },
     telegram: { label: 'Telegram', href: 'https://t.me/katzlan' },
-    'salmon-referral': { label: 'Referral Program', page: true, target: 'salmon' },
+    'salmon-referral': { label: 'Salmon Referral Program', page: true, target: 'salmon' },
     'gazprom-enterprise': { label: 'GID Enterprise Platform', page: true, target: 'gazprom-id' }
   },
 
@@ -870,7 +870,7 @@ const Portfolio = () => {
               flex: 1,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               position: 'relative', zIndex: 1,
-              padding: isCompact ? '32px 20px' : '48px 24px',
+              padding: isCompact ? '32px 20px 96px' : '48px 24px 112px',
             }}>
               <div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 64 }}>
@@ -929,11 +929,16 @@ const Portfolio = () => {
 
             {/* footer */}
             <footer style={{
-              width: '100%', maxWidth: 480, margin: '0 auto',
-              padding: isCompact ? '0 20px 24px' : '0 24px 32px',
-              display: 'flex', justifyContent: 'center', alignItems: 'center',
-              position: 'relative', zIndex: 1,
+              position: 'fixed', bottom: 0, left: 0, width: '100%',
+              background: '#ffffff',
+              paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+              zIndex: 2,
             }}>
+              <div style={{
+                maxWidth: 480, margin: '0 auto',
+                padding: isCompact ? '16px 20px' : '20px 24px',
+                display: 'flex', justifyContent: 'center', alignItems: 'center',
+              }}>
               <div style={{
                 fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: scale(15),
                 color: dark ? 'rgba(232,230,224,0.7)' : 'rgba(29,29,31,0.7)',
@@ -946,6 +951,7 @@ const Portfolio = () => {
                   textUnderlineOffset: '3px', textDecorationThickness: '1px',
                 }}>{c.label}</a>
                 )}
+              </div>
               </div>
             </footer>
           </React.Fragment>);
