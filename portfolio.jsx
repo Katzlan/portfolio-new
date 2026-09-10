@@ -10,7 +10,7 @@ const DATA = {
   name: 'Andrei Ignatov',
   // headline shown above the bio (kept separate from `name` so the avatar's
   // alt text and the page/browser-tab title stay unaffected)
-  greeting: 'Hello, Привет, Ahoj! Everything I Love is Here',
+  greeting: 'What I love',
   version: '',
   crumb: '',
   role: '',
@@ -112,13 +112,6 @@ const useLayout = () => {
     scaleSize,
   };
 };
-
-// ---------- localStorage helpers ----------
-const lsGet = (k, fb) => {
-  try {const v = localStorage.getItem(k);return v == null ? fb : v;}
-  catch {return fb;}
-};
-const lsSet = (k, v) => {try {localStorage.setItem(k, v);} catch {}};
 
 // ---------- hash-based mini router (for internal company pages) ----------
 const PAGE_PREFIX = '#/company/';
@@ -373,10 +366,9 @@ const FoldPhoto = ({ src, alt, open, onToggle }) => {
 //  THE PAGE
 // ============================================================
 const Portfolio = () => {
-  const [theme, setTheme] = React.useState(() => lsGet('theme', 'dark'));
   const [activeDock, setActiveDock] = React.useState('comp');
   const { isCompact, scale } = useLayout();
-  const dark = theme === 'dark';
+  const dark = false; // site is light-only
 
   // photo unfold <-> bio text: swap the copy at the fold's midpoint, crossfading
   const [photoOpen, setPhotoOpen] = React.useState(false);
@@ -407,10 +399,8 @@ const Portfolio = () => {
   const goBack = () => { window.location.hash = ''; };
 
   React.useEffect(() => {
-    lsSet('theme', theme);
-    document.body.dataset.theme = theme;
     document.documentElement.lang = 'en';
-  }, [theme]);
+  }, []);
   React.useEffect(() => {
     document.title = DATA.pageTitle ?? DATA.name;
   }, []);

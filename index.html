@@ -38,18 +38,22 @@
   }
 
   :root {
-    color-scheme: light dark;
+    color-scheme: light;
     --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Suisse Intl', 'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif;
     --font-mono: 'Suisse Intl Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   }
   html, body { margin: 0; padding: 0; min-height: 100%; }
+  html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* old Edge/IE */
+  }
+  html::-webkit-scrollbar { display: none; /* Chrome/Safari/newer Edge */ }
   body {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: #ffffff;
   }
-  body[data-theme="dark"] { background: #0b0b0c; }
   * { box-sizing: border-box; }
   ::selection { background: rgba(63,185,80,0.25); }
 
