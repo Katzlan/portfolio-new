@@ -665,75 +665,63 @@ const foldT = (...props) => props.map((p) => `${p} ${FOLD_MS}ms ${FOLD_EASE}`).j
 const TEXT_OUT_MS = 260;
 const TEXT_IN_MS = 320;
 
-const FoldPhoto = ({ src, alt, open, onToggle }) => {
-  const [runs, setRuns] = React.useState(0);
-  const toggle = () => { onToggle(); setRuns((n) => n + 1); };
-  const fx = (name) => runs ? `${name} ${FOLD_MS}ms ${FOLD_EASE} both` : 'none';
-  const fxDir = open ? 'normal' : 'reverse';
-  return (
-    <button type="button" onClick={toggle} aria-pressed={open} aria-label={open ? 'Fold photo' : 'Unfold photo'}
-      style={{
-        position: 'relative', display: 'block',
-        width: open ? FOLD_W * 2 : FOLD_W, height: FOLD_H,
-        padding: 0, border: 'none', background: 'transparent', cursor: 'pointer',
-        perspective: 1200,
-        transition: foldT('width'),
-        WebkitTapHighlightColor: 'transparent',
-        filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.07)) drop-shadow(0 1px 3px rgba(0,0,0,0.04))',
-      }}>
-      <style>{`
-        @keyframes fold-sheen {
-          0% { opacity: 0; transform: translateX(-70%) skewX(-14deg); }
-          45% { opacity: .75; }
-          100% { opacity: 0; transform: translateX(70%) skewX(-14deg); }
-        }
-        @keyframes fold-hinge { 0% { opacity: 0; } 45% { opacity: 1; } 100% { opacity: 0; } }
-        /* the swinging panel reads as a flexible screen: sharp when flat at either
-           end, smeared and light-caught while it's mid-swing */
-        @keyframes fold-warp {
-          0% { filter: blur(0) saturate(1) contrast(1) brightness(1); transform: scaleX(1); }
-          40% { filter: blur(9px) saturate(1.45) contrast(1.12) brightness(1.1); transform: scaleX(0.93); }
-          60% { filter: blur(9px) saturate(1.45) contrast(1.12) brightness(1.1); transform: scaleX(0.93); }
-          100% { filter: blur(0) saturate(1) contrast(1) brightness(1); transform: scaleX(1); }
-        }
-      `}</style>
+const FoldPhoto = ({ src, alt, open, onToggle }) => (
+  <button type="button" onClick={onToggle} aria-pressed={open} aria-label={open ? 'Fold photo' : 'Unfold photo'}
+    style={{
+      position: 'relative', display: 'block',
+      width: open ? FOLD_W * 2 : FOLD_W, height: FOLD_H,
+      padding: 0, border: 'none', background: 'transparent', cursor: 'pointer',
+      perspective: 1200,
+      transition: foldT('width'),
+      WebkitTapHighlightColor: 'transparent',
+      filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.07)) drop-shadow(0 1px 3px rgba(0,0,0,0.04))',
+    }}>
+    <div style={{
+      position: 'absolute', top: 0, right: 0, width: FOLD_W, height: FOLD_H,
+      overflow: 'hidden', borderRadius: `0 ${FOLD_R}px ${FOLD_R}px 0`,
+    }}>
+      <img src={src} alt={alt} draggable={false} style={{
+        position: 'absolute', top: 0, left: -FOLD_W, width: FOLD_W * 2, height: FOLD_H,
+        objectFit: 'cover', display: 'block',
+      }} />
+    </div>
+    {/* the cover: folded flat onto the panel above (180°), it swings around the
+        spine through edge-on to lying open (0°) — like opening a book. Its back
+        is the same crop as the panel underneath, so the closed state is seamless.
+        A single `transition` on transform is all that drives the motion, so a click
+        mid-swing just reverses smoothly from wherever it currently is. */}
+    <div style={{
+      position: 'absolute', top: 0, right: FOLD_W, width: FOLD_W, height: FOLD_H,
+      transformOrigin: '100% 50%',
+      transformStyle: 'preserve-3d',
+      transform: `translateZ(1px) rotateY(${open ? 0 : 180}deg)`,
+      transition: foldT('transform'),
+      willChange: 'transform',
+    }}>
       <div style={{
-        position: 'absolute', top: 0, right: 0, width: FOLD_W, height: FOLD_H,
-        overflow: 'hidden', borderRadius: `0 ${FOLD_R}px ${FOLD_R}px 0`,
+        position: 'absolute', inset: 0, overflow: 'hidden',
+        borderRadius: `${FOLD_R}px 0 0 ${FOLD_R}px`,
+        backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
       }}>
-        <img src={src} alt={alt} draggable={false} style={{
+        <img src={src} alt="" aria-hidden="true" draggable={false} style={{
+          position: 'absolute', top: 0, left: 0, width: FOLD_W * 2, height: FOLD_H,
+          objectFit: 'cover', display: 'block',
+        }} />
+      </div>
+      <div style={{
+        position: 'absolute', inset: 0, overflow: 'hidden',
+        borderRadius: `0 ${FOLD_R}px ${FOLD_R}px 0`,
+        backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
+        transform: 'rotateY(180deg)',
+      }}>
+        <img src={src} alt="" aria-hidden="true" draggable={false} style={{
           position: 'absolute', top: 0, left: -FOLD_W, width: FOLD_W * 2, height: FOLD_H,
           objectFit: 'cover', display: 'block',
         }} />
-        <div key={`h${runs}`} aria-hidden="true" style={{
-          position: 'absolute', inset: 0, opacity: 0, pointerEvents: 'none',
-          background: 'linear-gradient(to right, rgba(0,0,0,.35), rgba(0,0,0,0) 40%)',
-          animation: fx('fold-hinge'), animationDirection: fxDir,
-        }} />
       </div>
-      <div style={{
-        position: 'absolute', top: 0, right: FOLD_W, width: FOLD_W, height: FOLD_H,
-        overflow: 'hidden', borderRadius: `${FOLD_R}px 0 0 ${FOLD_R}px`,
-        transformOrigin: '100% 50%',
-        transform: `rotateY(${open ? 0 : 90}deg)`,
-        backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
-        transition: foldT('transform'),
-        willChange: 'transform',
-      }}>
-        <img key={`w${runs}`} src={src} alt="" aria-hidden="true" draggable={false} style={{
-          position: 'absolute', top: 0, left: 0, width: FOLD_W * 2, height: FOLD_H,
-          objectFit: 'cover', display: 'block',
-          animation: fx('fold-warp'), animationDirection: fxDir,
-        }} />
-        <div key={`s${runs}`} aria-hidden="true" style={{
-          position: 'absolute', inset: '-20%', opacity: 0, pointerEvents: 'none',
-          background: 'linear-gradient(100deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.8) 50%, rgba(255,255,255,0) 70%)',
-          animation: fx('fold-sheen'), animationDirection: fxDir,
-        }} />
-      </div>
-    </button>
-  );
-};
+    </div>
+  </button>
+);
 
 // ============================================================
 //  THE PAGE
