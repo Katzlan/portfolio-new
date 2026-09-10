@@ -99,7 +99,61 @@ const DATA = {
         { type: 'image', src: 'assets/case-salmon-team.webp', alt: 'Team photo' }]
       }
     },
-    'gazprom-id': { label: 'Gazprom ID', href: 'https://id.gid.ru/', page: true },
+    'gazprom-id': {
+      label: 'Gazprom ID', href: 'https://id.gid.ru/', page: true,
+      case: {
+        title: 'GID Loyalty Program',
+        description: 'How do we motivate employees to come back to the corporate app? Let\'s build a loyalty program! Let\'s do it!',
+        cover: 'assets/case-gazprom-cover.webp',
+        blocks: [
+        { type: 'section', heading: 'The Challenge', paragraphs: [
+          'The internal GID platform was created for communication, training, and other services for Gazprom employees. Every employee gets a corporate email address for platform access, but beyond completing the mandatory safety briefing, they rarely went further.',
+          'The platform offers valuable discounts, available resorts, and joint sports events near your city. The platform\'s reach covers all of Russian Federation.',
+          'I was responsible for the 0→1 design of the loyalty program, meant to increase employee engagement and retention through tangible material benefits, not just discounts.'] },
+        { type: 'image', src: 'assets/case-gazprom-challenge.webp', alt: 'GID app — home, channels, feed, services, discounts' },
+        { type: 'section', heading: 'Solution', paragraphs: [
+          'Based on in-depth interviews, I found that tangible **material benefits mattered** far more to employees than simple mentions of discounts and events.',
+          'We developed this idea together with the business and created a loyalty program that let people feel like they were part of something bigger—genuine advocates of a major company.'] },
+        { type: 'stats', items: [
+          { value: '+34%', label: 'Retention' },
+          { value: '+80%', label: 'Services per users' },
+          { value: '+380%', label: 'MAU' }] },
+        { type: 'image', src: 'assets/case-gazprom-activity.webp', alt: 'Activity and rewards screens' },
+        { type: 'numbered-list', heading: 'Several steps to redeem rewards',
+          intro: ['The loyalty program made everyday activity in GID feel more valuable. I designed the flow around a simple cycle:'],
+          items: [
+          { title: 'Get tasks', text: 'See a fresh set of weekly tasks and the points each one is worth.' },
+          { title: 'Complete them and earn points', text: 'Finish a task and get points credited to your balance right away.' },
+          { title: 'Spend points on perks and merch', text: 'Exchange your points for services and corporate merch in the GID store.' }] },
+        { type: 'section', heading: 'Stage 1. Get tasks', paragraphs: [
+          'Employees opened their profile and saw their activity: completed tasks, current points, and available tasks. They could choose an action, such as organising a sports challenge or liking a post in a company group.'] },
+        { type: 'image', src: 'assets/case-gazprom-stage1.webp', alt: 'Stage 1 flow' },
+        { type: 'section', heading: 'Stage 2. Complete them and earn points', paragraphs: [
+          'After selecting a task, employees tapped **"Go to task"** and were taken directly to the required post or group. Once they completed the action, GID immediately confirmed it and credited the points. They could then return to their activity and see their updated balance.'] },
+        { type: 'image', src: 'assets/case-gazprom-stage2.webp', alt: 'Stage 2 flow' },
+        { type: 'section', heading: 'Stage 3. Spend points on perks and merch', paragraphs: [
+          'Employees scrolled down to the store, opened the catalogue, and selected an item such as a branded cap. They exchanged their points for the product and received it by mail through the delivery service.'] },
+        { type: 'image', src: 'assets/case-gazprom-stage3.webp', alt: 'Stage 3 flow and branded cap' },
+        { type: 'section', heading: 'Achievements', paragraphs: [
+          'Achievements play a special role here. The idea is to give employees extra motivation to actually do something — not just earn points and spend them, but leave their own mark. The achievements were sketched out as drafts in ChatGPT, then each one was attached to a specific section.'] },
+        { type: 'image', src: 'assets/case-gazprom-achievements.webp', alt: 'Achievement badge icons' },
+        { type: 'image', src: 'assets/case-gazprom-achievements-flow.webp', alt: 'Achievements collection flow' },
+        { type: 'section', heading: 'Useful insight', paragraphs: [
+          'By the way, two-thirds of employees **dreamed about the corporate merchandise** our communications team had been drawing up purely for moodboards.'] },
+        { type: 'image', src: 'assets/case-gazprom-merch.webp', alt: 'Corporate merch poster designs', caption: 'Here I\'ve placed my favorite pieces of work from the communications team :)' },
+        { type: 'section', heading: 'Reflection', paragraphs: [
+          'It was an awesome quarter. The team was full of energy and shipped fast. I loved working with our bold branding, and as the service grew, there was never a dull moment. I got to use everything I knew while picking up a ton of new skills along the way.'] },
+        { type: 'team', heading: 'Our team', items: [
+          { role: 'Lead UX Researcher', name: 'Polina Khromova' },
+          { role: 'Front-End', name: 'Andrei Malyshev' },
+          { role: 'Back-End', name: 'Alexandr Zolotarev' },
+          { role: 'Product Owner', name: 'Vadim Ivankov' },
+          { role: 'Product Manager', name: 'Alexander Morera' },
+          { role: 'Lead Communication Designer', name: 'Ksenia Scherbakova' },
+          { role: 'Senior Product Designer', name: 'Andrei Ignatov' }] },
+        { type: 'image', src: 'assets/case-gazprom-outro.webp', alt: '' }]
+      }
+    },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
     vtb: { label: 'VTB', href: 'https://www.vtb.ru/', page: true },
     lanit: { label: 'Lanit', href: 'https://lanit.ru/', page: true },
@@ -435,11 +489,16 @@ const CaseHighlightList = ({ heading, intro, items, scale }) =>
 </React.Fragment>;
 
 // ---------- Numbered takeaways (e.g. Reflection) ----------
-const CaseNumberedList = ({ heading, items, scale }) =>
+const CaseNumberedList = ({ heading, intro, items, scale }) =>
 <React.Fragment>
   <p style={{ margin: 0, fontSize: scale(20), fontWeight: 700, color: '#000' }}>
     {heading}
   </p>
+  {(intro || []).map((para, j) =>
+  <p key={j} style={{ margin: '16px 0 0', fontSize: scale(16), lineHeight: '1.6', color: '#75726f' }}>
+    <BoldText text={para} />
+  </p>
+  )}
   {items.map((it, i) =>
   <div key={it.title} style={{
     display: 'flex', gap: 8, marginTop: i === 0 ? 16 : 20,
@@ -496,9 +555,16 @@ const CompanyPage = ({ label, caseData, scale }) =>
       {block.type === 'stats' ? <CaseStats items={block.items} scale={scale} /> :
       block.type === 'process' ? <CaseProcess items={block.items} scale={scale} /> :
       block.type === 'image' ?
-      <img src={block.src} alt={block.alt || ''} style={{ width: '100%', borderRadius: 18, display: 'block' }} /> :
+      <React.Fragment>
+        <img src={block.src} alt={block.alt || ''} style={{ width: '100%', borderRadius: 18, display: 'block' }} />
+        {block.caption ?
+        <p style={{ margin: '12px 0 0', fontSize: scale(15), lineHeight: '1.6', color: '#75726f', fontStyle: 'italic' }}>
+          {block.caption}
+        </p> :
+        null}
+      </React.Fragment> :
       block.type === 'highlight-list' ? <CaseHighlightList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
-      block.type === 'numbered-list' ? <CaseNumberedList heading={block.heading} items={block.items} scale={scale} /> :
+      block.type === 'numbered-list' ? <CaseNumberedList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
       block.type === 'team' ? <CaseTeam heading={block.heading} items={block.items} scale={scale} /> :
       <React.Fragment>
         <p style={{ margin: 0, fontSize: scale(20), fontWeight: 700, color: '#000' }}>
