@@ -41,7 +41,14 @@ const DATA = {
   // external site directly.
   badges: {
     ixdf: { label: 'IxDF', href: 'https://ixdf.org/courses' },
-    salmon: { label: 'Salmon', href: 'https://salmon.ph/', page: true },
+    salmon: {
+      label: 'Salmon', href: 'https://salmon.ph/', page: true,
+      case: {
+        title: 'Salmon promodizer app',
+        description: 'How to help promodizers earn extra money? The key I found was dead simple: make the app easier to use and cut down friction during verification. Easy, right?',
+        cover: 'assets/case-salmon.png'
+      }
+    },
     'gazprom-id': { label: 'Gazprom ID', href: 'https://id.gid.ru/', page: true },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
     vtb: { label: 'VTB', href: 'https://www.vtb.ru/', page: true },
@@ -285,12 +292,27 @@ const RichLine = ({ text, badges, dark, onNavigate }) => {
   });
 };
 
-// ---------- Internal company page (placeholder) ----------
-const CompanyPage = ({ label, scale }) =>
+// ---------- Internal company page ----------
+const CompanyPage = ({ label, caseData, scale }) =>
 <div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
-  <p style={{ margin: 0, fontSize: scale(18), fontWeight: 600, color: '#000' }}>
-    {label}
+  <p style={{ margin: 0, fontSize: scale(24), fontWeight: 700, color: '#000' }}>
+    {caseData ? caseData.title : label}
   </p>
+  {caseData ?
+  <React.Fragment>
+    <p style={{ margin: '16px 0 0', fontSize: scale(16), lineHeight: '1.6', color: '#75726f' }}>
+      {caseData.description}
+    </p>
+    <div style={{
+      marginTop: 32, borderRadius: 22, overflow: 'hidden',
+      aspectRatio: '4 / 3', background: '#eeeeee',
+    }}>
+      <img src={caseData.cover} alt={caseData.title} style={{
+        width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+      }} />
+    </div>
+  </React.Fragment> :
+  null}
 </div>;
 
 // ---------- Foldable photo (Duo-style unfold) ----------
@@ -451,7 +473,7 @@ const Portfolio = () => {
                 position: 'relative', zIndex: 1,
                 padding: isCompact ? '32px 20px' : '48px 24px',
               }}>
-                <CompanyPage label={companyBadge.label} scale={scale} />
+                <CompanyPage label={companyBadge.label} caseData={companyBadge.case} scale={scale} />
               </main>
               <footer style={{
                 width: '100%', maxWidth: 480, margin: '0 auto',
