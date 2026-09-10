@@ -14,8 +14,10 @@ const DATA = {
 
   // short bio. wrap any word/phrase in [brackets] and define it in `badges`
   // below to render it as an inline pill.
-  bio: 'Certified [ixdf] UX and Product Design Expert with 6+ years of experience. I\'ve worked with leading tech companies across industries, from fintech to SaaS — including [salmon], [gazprom-id], [nbu], [vtb], [lanit] and others',
-  bioSocial: 'I write posts on [linkedin], find inspiration on [x], and reply on [telegram].',
+  bio: [
+  'As a Senior Product Designer, I enhanced [salmon]\'s internal Referral Program for Filipino promodizers by streamlining KYC flows and creating comic-style onboarding guides.',
+  'Previously served as Lead Designer at [gazprom-id], driving products like SSO, Zenit, GID Hub, and the GID Enterprise Platform.'],
+  bioSocial: 'I advocate for a strong Design Trio model, treating managers, engineers, and designers as equal partners focused on real business outcomes and user needs. I thrive on complex projects and leverage AI to streamline my workflow and boost team impact.',
   // each entry is either a plain string (becomes a text pill) or an
   // object { icon, label } (icon shown to the left of label).
   badges: {
@@ -39,100 +41,6 @@ const DATA = {
     density: 0.45
   },
 
-  // experience block
-  expLabel: 'Experience',
-  experience: [
-  {
-    label: '2026 — Current',
-    value: 'FitnessSDK',
-    description: 'Co-Founder & Designer',
-    href: 'https://apps.apple.com/us/app/fitnesssdk/id6759220379',
-    tile: { src: 'assets/logo-fitnesssdk.svg' }
-  },
-  {
-    label: '2026 — 2026',
-    value: 'Salmon Group',
-    description: 'Senior Product Designer',
-    href: 'https://salmon.ph/',
-    tile: { src: 'assets/logo-salmon.svg' }
-  },
-  {
-    label: '2025 — 2026',
-    value: 'Gazprom ID',
-    description: 'Senior Product Designer',
-    href: 'https://id.gid.ru/',
-    tile: { src: 'assets/logo-gazprom.svg' }
-  },
-  {
-    label: '2023 — 2025',
-    value: 'NBU Bank',
-    description: 'Senior Product Designer',
-    href: 'https://nbu.uz/ru',
-    tile: { src: 'assets/logo-nbu.svg' }
-  },
-  {
-    label: '2020 — 2023',
-    value: 'VTB Family',
-    description: 'Middle Product Designer',
-    href: 'https://vtbfamily.ru/auth',
-    tile: { src: 'assets/logo-vtb.svg' }
-  }],
-
-  // Side projects / experiments without company logos
-  vibesLabel: 'Vibe-coded',
-  vibes: [
-  {
-    label: '2026',
-    value: 'SVG to WebP Exporter',
-    description: 'Figma conversion plugin',
-    href: 'https://www.figma.com/community/plugin/1638175144710570925/svg-to-webp-exporter'
-  },
-  {
-    label: '2025',
-    value: 'Dominant Gradient Color',
-    description: 'Spotify-style covers from photos',
-    href: 'https://codepen.io/katzlan/pen/YzaojLJ'
-  }],
-
-
-  // featured case shown above the project list
-  caseLabel: 'Cases',
-  featuredCases: [
-  {
-    title: 'GID Hub',
-    sub: 'Gazprom ecosystem digital marketplace — **designed the core flow from scratch: [[90]]% supplier growth, +[[53]]% publish conversion**, catalog and product pages.',
-    cover: 'assets/case-hub.png',
-  },
-  {
-    title: 'GID Key',
-    sub: 'Push authenticator for unified login — **replaced SMS: +[[68]]% sign-ins via key, −[[40]]% auth time**, keys for RUTUBE, Premier and internal services.',
-    cover: 'assets/case-gid-key.png',
-  },
-  {
-    title: 'Gazprom ID',
-    sub: 'Single account across the ecosystem — **relaunched sign-in and signup: +[[24]]% account conversion, −[[31]]% OTP drop-off**, biometric quick login for RUTUBE and Premier.',
-    cover: 'assets/case-gazprom-id.png',
-  },
-  {
-    title: 'Zenit',
-    sub: 'Club mobile app — **Media section redesign: +[[18]]% engagement, +[[22]]% session depth**, new navigation and news feed.',
-    cover: 'assets/case-zenit.png',
-  },
-  {
-    title: 'NBU Bank',
-    sub: 'Milliy app and bank design system — **[[120]]+ components, −[[35]]% prototype time, −[[32]]% task time in product flows**, deposits, cards and payments.',
-    cover: 'assets/case-nbu.png',
-  },
-  {
-    title: 'VTB Family',
-    sub: 'VTB Private Banking privileges — **rebuilt partner storefront: +[[27]]% offer CTR, −[[19]]% time to booking**, map and personalized picks.',
-    cover: 'assets/case-vtb-family.png',
-  },
-  {
-    title: 'GID Corporation Platform',
-    sub: 'Corporate messenger for Gazprom teams — **new compose flow: −[[28]]% message steps, −[[34]]% meeting scheduling time**, chats by department.',
-    cover: 'assets/case-gid-corp.png',
-  }],
 
   // bottom dock
   dock: [
@@ -141,10 +49,12 @@ const DATA = {
   { id: 'notes', iconName: 'note', label: 'Notes' }],
 
 
-  // footer line
-  footer: 'Made by me',
-  footerIcon: 'heart',
-  clock: { city: 'Batumi', tz: 'UTC+4', timeZone: 'Asia/Tbilisi' },
+  // footer links
+  contacts: [
+  { label: 'Telegram', href: 'https://t.me/katzlan' },
+  { label: 'Email', href: 'mailto:andrej.filly@gmail.com' },
+  { label: 'Resume', href: 'https://www.dropbox.com/scl/fi/3drkqypbqoz31w8wyfvzl/Andy-Ignatov-Senior-Product-Designer.pdf?rlkey=re0s1li6er28g26pqe8pe6hrd&st=u3zlqqpe&dl=0' }],
+
   pageTitle: 'Andrei Ignatov — Senior product designer'
 };
 // ============================================================
@@ -179,7 +89,6 @@ const useLayout = () => {
     isMobile,
     pad,
     contentWidth: `min(560px, calc(100vw - ${pad * 2}px))`,
-    casesWidth: isCompact ? '100%' : `min(900px, calc(100vw - ${pad * 2}px))`,
     scale: scaleFont,
     scaleSize,
   };
@@ -239,35 +148,6 @@ const I = (name, props) => {
   const C = ICONS[name];
   return C ? <C {...props || {}} /> : null;
 };
-
-// ---------- Tile (mini brand monogram or logo) ----------
-const Tile = ({ tile, scaleSize }) => {
-  const tileSize = scaleSize ? scaleSize(18) : 18;
-  const tileFont = scaleSize ? scaleSize(10) : 10;
-  if (tile.src) {
-    return (
-      <img
-        src={tile.src}
-        alt=""
-        style={{
-          width: tileSize, height: tileSize, borderRadius: 3,
-          display: 'inline-block', flex: '0 0 auto', verticalAlign: 'middle',
-          objectFit: 'cover',
-        }}
-      />
-    );
-  }
-  return (
-    <span style={{
-      display: 'inline-flex', width: tileSize, height: tileSize, borderRadius: 2,
-      background: tile.bg, color: tile.fg || '#fff',
-      alignItems: 'center', justifyContent: 'center',
-      fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: tileFont, lineHeight: 1,
-      flex: '0 0 auto', verticalAlign: 'middle'
-    }}>{tile.char}</span>
-  );
-};
-
 
 // ---------- Activity heatmap ----------
 const Heatmap = ({ rows = 7, cols = 36, gap = 3, density = 0.45, seed = 7, dark }) => {
@@ -349,25 +229,6 @@ const Dock = ({ items, active, onChange, dark, scale }) =>
   </div>;
 
 
-// ---------- IconBtn ----------
-const IconBtn = ({ children, onClick, dark, title }) =>
-<button onClick={onClick} title={title} style={{
-  width: 28, height: 28, borderRadius: 6, border: 'none', cursor: 'pointer',
-  background: 'transparent', color: dark ? 'rgba(232,230,224,0.7)' : 'rgba(29,29,31,0.6)',
-  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-  transition: 'background .12s,color .12s'
-}}
-onMouseEnter={(e) => {
-  e.currentTarget.style.background = dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
-  e.currentTarget.style.color = dark ? '#fff' : '#000';
-}}
-onMouseLeave={(e) => {
-  e.currentTarget.style.background = 'transparent';
-  e.currentTarget.style.color = dark ? 'rgba(232,230,224,0.7)' : 'rgba(29,29,31,0.6)';
-}}>
-  {children}</button>;
-
-
 // ---------- Inline-link text helper ----------
 // Items in `[brackets]` become underlined links if the matching badge entry has
 // an `href`; otherwise the word is rendered as plain text.
@@ -398,234 +259,74 @@ const RichLine = ({ text, badges, dark }) => {
   });
 };
 
-// ---------- Case description (highlighted metrics + censored digits) ----------
-const CensorNum = ({ value, dark }) => (
-  <span
-    aria-hidden="true"
-    style={{
-      position: 'relative',
-      display: 'inline-block',
-      minWidth: `${Math.max(2, String(value).length) * 0.52}em`,
-      height: '1.05em',
-      verticalAlign: '-0.08em',
-      marginRight: '0.02em',
-    }}>
-    <span style={{
-      position: 'absolute',
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
-      color: dark ? '#f2f0ea' : '#181816',
-      filter: 'blur(5px)',
-      opacity: 0.92,
-      userSelect: 'none',
-      whiteSpace: 'nowrap',
-    }}>{value}</span>
-    <span style={{
-      position: 'absolute',
-      inset: '-20% -30%',
-      background: dark
-        ? 'radial-gradient(ellipse 70% 90% at 50% 50%, rgba(255,255,255,0.28), transparent 72%)'
-        : 'radial-gradient(ellipse 70% 90% at 50% 50%, rgba(0,0,0,0.12), transparent 72%)',
-      pointerEvents: 'none',
-    }} />
-  </span>
-);
+// ---------- Foldable photo (Duo-style unfold) ----------
+// Folded: the right half only (160x224, rounded on the right). Click swings the
+// left half open around the hinge with a frosted-glass blur and a light sheen.
+const FOLD_W = 160, FOLD_H = 224, FOLD_R = 22, FOLD_MS = 900;
+const FOLD_EASE = 'cubic-bezier(.22,.8,.2,1)';
+const foldT = (...props) => props.map((p) => `${p} ${FOLD_MS}ms ${FOLD_EASE}`).join(', ');
 
-const renderCaseSubChunk = (chunk, highlight, dark, keyBase) => {
-  const dim = dark ? 'rgba(232,230,224,0.55)' : 'rgba(29,29,31,0.55)';
-  const hi = dark ? '#e8e6e0' : '#1d1d1f';
-  const tokens = chunk.split(/(\[\[[^\]]+\]\][%+\-]?)/g).filter(Boolean);
-  return tokens.map((token, i) => {
-    const censored = token.match(/^\[\[([^\]]+)\]\]([%+\-]?)$/);
-    if (censored) {
-      return (
-        <React.Fragment key={`${keyBase}-c${i}`}>
-          <CensorNum value={censored[1]} dark={dark} />
-          {censored[2]}
-        </React.Fragment>
-      );
-    }
-    return token ? (
-      <span key={`${keyBase}-t${i}`} style={{ color: highlight ? hi : dim }}>{token}</span>
-    ) : null;
-  });
-};
-
-const CaseSub = ({ text, dark }) => {
-  const parts = text.split(/\*\*([^*]+)\*\*/g);
-  return parts.map((part, i) => (
-    <React.Fragment key={i}>{renderCaseSubChunk(part, i % 2 === 1, dark, i)}</React.Fragment>
-  ));
-};
-
-// ---------- Section label ----------
-const SectionLabel = ({ children, dark, scale, isMobile }) =>
-<div style={{
-  fontFamily: 'var(--font-mono)', fontSize: scale(15), textTransform: 'uppercase',
-  letterSpacing: '0.06em',
-  color: dark ? 'rgba(232,230,224,0.45)' : 'rgba(29,29,31,0.45)',
-  marginBottom: isMobile ? 10 : 14
-}}>{children}</div>;
-
-
-// ---------- Experience row (title + dotted underline, description, date) ----------
-const ExpRow = ({ label, value, description, href, tile, badge, dark, isFirst, scale, scaleSize, isMobile }) => {
-  const [hover, setHover] = React.useState(false);
-  const Wrap = href ? 'a' : 'div';
-  const titleColor = dark ? '#e8e6e0' : '#1d1d1f';
-  const dimColor = dark ? 'rgba(232,230,224,0.55)' : 'rgba(29,29,31,0.55)';
+const FoldPhoto = ({ src, alt }) => {
+  const [open, setOpen] = React.useState(false);
+  const [runs, setRuns] = React.useState(0);
+  const toggle = () => { setOpen((o) => !o); setRuns((n) => n + 1); };
+  const fx = (name) => runs ? `${name} ${FOLD_MS}ms ${FOLD_EASE} both` : 'none';
+  const fxDir = open ? 'normal' : 'reverse';
   return (
-    <Wrap
-      href={href}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+    <button type="button" onClick={toggle} aria-pressed={open} aria-label={open ? 'Fold photo' : 'Unfold photo'}
       style={{
-        display: 'grid',
-        gridTemplateColumns: isMobile ? '1fr' : '1fr auto',
-        columnGap: isMobile ? 0 : 24,
-        rowGap: isMobile ? 6 : 0,
-        alignItems: 'start',
-        padding: isFirst ? '0px 0px 8px' : '8px 0px',
-        borderTop: isFirst ? 'none' : dark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.06)',
-        textDecoration: 'none', color: 'inherit',
+        position: 'relative', display: 'block',
+        width: open ? FOLD_W * 2 : FOLD_W, height: FOLD_H,
+        padding: 0, border: 'none', background: 'transparent', cursor: 'pointer',
+        perspective: 1200,
+        transition: foldT('width'),
+        WebkitTapHighlightColor: 'transparent',
       }}>
-      <div style={{ minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{
-            fontSize: scale(15), fontWeight: 500, letterSpacing: '-0.005em',
-            color: titleColor,
-            textDecoration: href ? 'underline' : 'none',
-            textDecorationStyle: 'dotted',
-            textDecorationColor: hover ? titleColor : (dark ? 'rgba(232,230,224,0.4)' : 'rgba(29,29,31,0.35)'),
-            textUnderlineOffset: '4px',
-            textDecorationThickness: '1px',
-            transition: 'text-decoration-color .15s',
-          }}>{value}</span>
-          {badge ? (
-            <span style={{
-              fontSize: scale(15), fontWeight: 500, letterSpacing: '-0.005em',
-              color: '#ff3b30', lineHeight: 1,
-            }}>{badge}</span>
-          ) : null}
-        </div>
-        {description ? (
-          <div style={{
-            fontSize: scale(15), color: dimColor, marginTop: 4,
-            lineHeight: 1.45, letterSpacing: '-0.005em',
-            paddingLeft: 0,
-          }}>{description}</div>
-        ) : null}
+      <style>{`
+        @keyframes fold-sheen {
+          0% { opacity: 0; transform: translateX(-70%) skewX(-14deg); }
+          45% { opacity: .75; }
+          100% { opacity: 0; transform: translateX(70%) skewX(-14deg); }
+        }
+        @keyframes fold-hinge { 0% { opacity: 0; } 45% { opacity: 1; } 100% { opacity: 0; } }
+      `}</style>
+      <div style={{
+        position: 'absolute', top: 0, right: 0, width: FOLD_W, height: FOLD_H,
+        overflow: 'hidden', borderRadius: `0 ${FOLD_R}px ${FOLD_R}px 0`,
+      }}>
+        <img src={src} alt={alt} draggable={false} style={{
+          position: 'absolute', top: 0, left: -FOLD_W, width: FOLD_W * 2, height: FOLD_H,
+          objectFit: 'cover', display: 'block',
+        }} />
+        <div key={`h${runs}`} aria-hidden="true" style={{
+          position: 'absolute', inset: 0, opacity: 0, pointerEvents: 'none',
+          background: 'linear-gradient(to right, rgba(0,0,0,.35), rgba(0,0,0,0) 40%)',
+          animation: fx('fold-hinge'), animationDirection: fxDir,
+        }} />
       </div>
-      {(label || tile) ? (
-        <span style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8,
-          fontFamily: 'var(--font-mono)', fontSize: scale(15),
-          color: dimColor, whiteSpace: isMobile ? 'normal' : 'nowrap',
-          paddingTop: isMobile ? 0 : 2,
-        }}>
-          {label ? <span>{label}</span> : null}
-          {tile ? <Tile tile={tile} scaleSize={scaleSize} /> : null}
-        </span>
-      ) : null}
-    </Wrap>
+      <div style={{
+        position: 'absolute', top: 0, right: FOLD_W, width: FOLD_W, height: FOLD_H,
+        overflow: 'hidden', borderRadius: `${FOLD_R}px 0 0 ${FOLD_R}px`,
+        transformOrigin: '100% 50%',
+        transform: `rotateY(${open ? 0 : 90}deg)`,
+        backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
+        transition: foldT('transform'),
+        willChange: 'transform',
+      }}>
+        <img src={src} alt="" aria-hidden="true" draggable={false} style={{
+          position: 'absolute', top: 0, left: 0, width: FOLD_W * 2, height: FOLD_H,
+          objectFit: 'cover', display: 'block',
+          filter: open ? 'blur(0px) brightness(1)' : 'blur(14px) brightness(1.15)',
+          transition: foldT('filter'),
+        }} />
+        <div key={`s${runs}`} aria-hidden="true" style={{
+          position: 'absolute', inset: '-20%', opacity: 0, pointerEvents: 'none',
+          background: 'linear-gradient(100deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.8) 50%, rgba(255,255,255,0) 70%)',
+          animation: fx('fold-sheen'), animationDirection: fxDir,
+        }} />
+      </div>
+    </button>
   );
-};
-
-// ---------- Featured case (cover zooms inside frame on hover) ----------
-const FeatureCase = ({ dark, item, isCompact, scale, contentWidth }) => {
-  const dim = dark ? 'rgba(232,230,224,0.55)' : 'rgba(29,29,31,0.5)';
-  const [hover, setHover] = React.useState(false);
-  const zoomHover = !isCompact && hover;
-  return (
-    <div
-      {...(!isCompact ? {
-        onMouseEnter: () => setHover(true),
-        onMouseLeave: () => setHover(false),
-      } : {})}>
-      <div
-        role="img"
-          aria-label={item.title}
-          style={{
-            ...(isCompact ? {
-              width: '100vw',
-              marginLeft: 'calc(50% - 50vw)',
-              marginRight: 'calc(50% - 50vw)',
-              borderRadius: 0,
-            } : {
-              borderRadius: 22,
-            }),
-            overflow: 'hidden',
-            position: 'relative',
-            marginBottom: isCompact ? 16 : 24,
-            aspectRatio: '900 / 633',
-            isolation: 'isolate',
-          }}>
-          <div
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: item.cover ? `url(${item.cover})` : 'none',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center bottom',
-              backgroundRepeat: 'no-repeat',
-              transform: `scale(${zoomHover ? 1.04 : 1})`,
-              transformOrigin: 'center bottom',
-              transition: isCompact ? 'none' : 'transform 600ms cubic-bezier(.2,.7,.2,1)',
-            }} />
-          {item.indexLabel ?
-          <div style={{ position: 'absolute', top: 14, left: 16, fontSize: scale(15), fontFamily: 'var(--font-mono)', color: dim, zIndex: 2 }}>{item.indexLabel}</div> :
-          null}
-          {item.metaLabel ?
-          <div style={{ position: 'absolute', top: 14, right: 16, fontSize: scale(15), fontFamily: 'var(--font-mono)', color: dim, zIndex: 2 }}>{item.metaLabel}</div> :
-          null}
-        </div>
-        <div style={{
-          width: contentWidth,
-          margin: '0 auto 18px',
-        }}>
-          <div style={{ fontSize: scale(17), fontWeight: 500, marginBottom: 4, letterSpacing: '-0.01em' }}>{item.title}</div>
-          <div style={{ fontSize: scale(15), lineHeight: 1.5 }}>
-            <CaseSub text={item.sub} dark={dark} />
-          </div>
-        </div>
-    </div>);
-
-};
-
-// ---------- Live clock ----------
-const ClockChip = ({ dark, clock, scale }) => {
-  const city = clock.city;
-  const [t, setT] = React.useState('');
-  React.useEffect(() => {
-    const fmt = () => {
-      const d = new Date();
-      if (clock.timeZone) {
-        const parts = new Intl.DateTimeFormat('en-GB', {
-          hour: '2-digit', minute: '2-digit', hour12: false,
-          timeZone: clock.timeZone
-        }).formatToParts(d);
-        const hh = parts.find((p) => p.type === 'hour').value;
-        const mm = parts.find((p) => p.type === 'minute').value;
-        setT(`${hh}:${mm}`);
-      } else {
-        setT(`${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`);
-      }
-    };
-    fmt();
-    const id = setInterval(fmt, 1000 * 30);
-    return () => clearInterval(id);
-  }, []);
-  return (
-    <span style={{
-      display: 'inline-flex', alignItems: 'center', gap: 6,
-      fontFamily: 'var(--font-mono)', fontSize: scale(15),
-      color: dark ? 'rgba(232,230,224,0.55)' : 'rgba(29,29,31,0.55)'
-    }}>
-      {city} · {t} {clock.tz}
-    </span>);
-
 };
 
 // ============================================================
@@ -634,10 +335,8 @@ const ClockChip = ({ dark, clock, scale }) => {
 const Portfolio = () => {
   const [theme, setTheme] = React.useState(() => lsGet('theme', 'dark'));
   const [activeDock, setActiveDock] = React.useState('comp');
-  const { isCompact, isMobile, contentWidth, casesWidth, scale, scaleSize } = useLayout();
+  const { isCompact, scale } = useLayout();
   const dark = theme === 'dark';
-  const sectionGap = isCompact ? 32 : 44;
-  const sectionGrid = isMobile ? '1fr' : 'min(140px, 30%) 1fr';
 
   React.useEffect(() => {
     lsSet('theme', theme);
@@ -650,15 +349,14 @@ const Portfolio = () => {
 
   const fg = dark ? '#e6e4dd' : '#181816';
   const bg = dark ? '#0b0b0c' : '#ffffff';
-  const dim = dark ? 'rgba(230,228,221,0.5)' : 'rgba(24,24,22,0.5)';
-  const rule = dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)';
 
   return (
     <div style={{
       minHeight: '100vh', background: bg, color: fg,
       fontFamily: 'var(--font-sans)',
       letterSpacing: '-0.005em', position: 'relative',
-      transition: 'background .25s, color .25s'
+      transition: 'background .25s, color .25s',
+      display: 'flex', flexDirection: 'column'
     }}>
       {/* faint dot grid */}
       <div style={{
@@ -670,136 +368,57 @@ const Portfolio = () => {
         pointerEvents: 'none', zIndex: 0
       }} />
 
-      {/* top bar */}
-      <div style={{
-        position: 'sticky', top: 0, zIndex: 30,
-        width: '100%',
-        background: dark ? 'rgba(11,11,12,0.7)' : 'rgba(255,255,255,0.7)',
-        backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)'
-      }}>
-        <div style={{
-          width: contentWidth,
-          margin: '0 auto',
-          padding: isCompact ? '16px 0' : '20px 0',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          fontFamily: 'var(--font-mono)', fontSize: scale(15),
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <img
-              src="assets/header-accent.gif"
-              alt=""
-              style={{
-                width: 30, height: 30, borderRadius: '50%',
-                objectFit: 'cover', display: 'inline-block',
-                flex: '0 0 auto',
-                boxShadow: dark
-                  ? 'inset 0 0 0 1px rgba(255,255,255,0.08)'
-                  : 'inset 0 0 0 1px rgba(0,0,0,0.06)',
-              }}
-            />
-            <img
-              src="assets/avatar.png"
-              alt={DATA.name}
-              style={{
-                width: 30, height: 30, borderRadius: '50%',
-                objectFit: 'cover', display: 'inline-block',
-                flex: '0 0 auto',
-                boxShadow: dark
-                  ? 'inset 0 0 0 1px rgba(255,255,255,0.08)'
-                  : 'inset 0 0 0 1px rgba(0,0,0,0.06)',
-              }}
-            />
-            </div>
-            <span style={{ fontWeight: 500 }}>{DATA.name}</span>
-            {DATA.version || DATA.crumb ?
-            <span style={{ color: dim }}>— {[DATA.version, DATA.crumb].filter(Boolean).join(' · ')}</span> :
-            null}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <IconBtn dark={dark} onClick={() => setTheme(dark ? 'light' : 'dark')} title="theme">
-              {dark ? <ICONS.sun /> : <ICONS.moon />}
-            </IconBtn>
-          </div>
-        </div>
-      </div>
-
-      {/* main column */}
+      {/* centered hero: avatar + bio */}
       <main style={{
-        width: contentWidth,
-        margin: '0 auto',
+        flex: 1,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
         position: 'relative', zIndex: 1,
-        padding: isCompact ? '20px 0px 40px' : '24px 0px 48px',
+        padding: isCompact ? '32px 20px' : '48px 24px',
       }}>
-
-        {/* header: bio */}
-        <header style={{ marginBottom: sectionGap }}>
-          <p style={{ margin: 0, fontSize: scale(16), lineHeight: "1.65" }}>
-            <RichLine text={DATA.bio} badges={DATA.badges} dark={dark} />
+        <div style={{ width: '100%', maxWidth: 480, textAlign: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 64 }}>
+            <FoldPhoto src="assets/avatar.png" alt={DATA.name} />
+          </div>
+          <p style={{ margin: '0 0 24px', fontSize: scale(18), fontWeight: 600 }}>
+            {DATA.name}
           </p>
+          {(Array.isArray(DATA.bio) ? DATA.bio : [DATA.bio]).map((para, i) =>
+          <p key={i} style={{ margin: i === 0 ? 0 : '12px 0 0', fontSize: scale(15), lineHeight: "1.65" }}>
+            <RichLine text={para} badges={DATA.badges} dark={dark} />
+          </p>
+          )}
           {DATA.bioSocial ?
-          <p style={{ margin: '12px 0 0', fontSize: scale(16), lineHeight: "1.65" }}>
+          <p style={{ margin: '12px 0 0', fontSize: scale(15), lineHeight: "1.65" }}>
             <RichLine text={DATA.bioSocial} badges={DATA.badges} dark={dark} />
           </p> :
           null}
-        </header>
-
-        {/* experience */}
-        <section style={{ marginBottom: sectionGap }}>
-          <div style={{ display: 'grid', gridTemplateColumns: sectionGrid, columnGap: isMobile ? 0 : 24, rowGap: isMobile ? 10 : 0, alignItems: 'start' }}>
-            <SectionLabel dark={dark} scale={scale} isMobile={isMobile}>{DATA.expLabel}</SectionLabel>
-            <div>
-              {DATA.experience.map((e, i) =>
-              <ExpRow key={i} label={e.label} value={e.value} description={e.description} href={e.href} tile={e.tile} badge={e.badge} dark={dark} isFirst={i === 0} scale={scale} scaleSize={scaleSize} isMobile={isMobile} />
-              )}
-              <div style={{ borderBottom: `1px solid ${rule}` }} />
-            </div>
-          </div>
-        </section>
-
-        {/* vibe-coded */}
-        <section style={{ marginBottom: sectionGap }}>
-          <div style={{ display: 'grid', gridTemplateColumns: sectionGrid, columnGap: isMobile ? 0 : 24, rowGap: isMobile ? 10 : 0, alignItems: 'start' }}>
-            <SectionLabel dark={dark} scale={scale} isMobile={isMobile}>{DATA.vibesLabel}</SectionLabel>
-            <div>
-              {DATA.vibes.map((e, i) =>
-              <ExpRow key={i} value={e.value} description={e.description} href={e.href} badge={e.badge} dark={dark} isFirst={i === 0} scale={scale} scaleSize={scaleSize} isMobile={isMobile} />
-              )}
-              <div style={{ borderBottom: `1px solid ${rule}` }} />
-            </div>
-          </div>
-        </section>
-
-        {/* featured cases — wider than main column */}
-        <section style={{
-          width: casesWidth,
-          position: 'relative',
-          left: isCompact ? 0 : '50%',
-          transform: isCompact ? 'none' : 'translateX(-50%)',
-          marginTop: isCompact ? 40 : 64,
-          marginBottom: 24,
-        }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: isCompact ? 40 : 56 }}>
-            {DATA.featuredCases.map((c, i) =>
-              <FeatureCase key={i} dark={dark} item={c} isCompact={isCompact} scale={scale} contentWidth={contentWidth} />
-            )}
-          </div>
-        </section>
-
-        {/* footer */}
-        <footer style={{ marginTop: isCompact ? 40 : 50, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-          <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: scale(15), textTransform: 'uppercase',
-            letterSpacing: '0.06em',
-            color: dark ? 'rgba(232,230,224,0.45)' : 'rgba(29,29,31,0.45)',
-            display: 'inline-flex', alignItems: 'center', gap: 8
-          }}>
-            <span>{DATA.footer}</span>
-            {DATA.footerIcon ? <span style={{ display: 'inline-flex', color: '#3b82f6' }}>{I(DATA.footerIcon)}</span> : null}
-          </div>
-          <ClockChip dark={dark} clock={DATA.clock} scale={scale} />
-        </footer>
+        </div>
       </main>
+
+      {/* footer */}
+      <footer style={{
+        width: '100%', maxWidth: 480, margin: '0 auto',
+        padding: isCompact ? '0 20px 24px' : '0 24px 32px',
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
+        position: 'relative', zIndex: 1,
+      }}>
+        <div style={{
+          fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: scale(15),
+          color: dark ? 'rgba(232,230,224,0.7)' : 'rgba(29,29,31,0.7)',
+          display: 'inline-flex', alignItems: 'center', gap: 8
+        }}>
+          {DATA.contacts.map((c, i) =>
+          <React.Fragment key={c.label}>
+            {i > 0 ? <span style={{ opacity: 0.4 }}>·</span> : null}
+            <a href={c.href} target="_blank" rel="noreferrer" style={{
+              color: 'inherit', textDecoration: 'underline',
+              textDecorationColor: dark ? 'rgba(232,230,224,0.35)' : 'rgba(29,29,31,0.3)',
+              textUnderlineOffset: '3px', textDecorationThickness: '1px',
+            }}>{c.label}</a>
+          </React.Fragment>
+          )}
+        </div>
+      </footer>
     </div>);
 
 };
