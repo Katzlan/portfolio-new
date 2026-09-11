@@ -42,7 +42,7 @@ const DATA = {
   badges: {
     ixdf: { label: 'IxDF', href: 'https://ixdf.org/courses' },
     salmon: {
-      label: 'Salmon', href: 'https://salmon.ph/', page: true,
+      label: 'Salmon', href: 'https://salmon.ph/', page: true, nda: true,
       case: {
         title: 'Salmon promodizer app',
         description: 'How to help promodizers earn extra money? The key I found was dead simple: make the app easier to use and cut down friction during verification. Easy, right?',
@@ -677,17 +677,18 @@ const FOLD_BLUR_EASE = 'cubic-bezier(.33,0,.2,1)';
 const FOLD_BLUR_MASK_FRONT = 'linear-gradient(to right, #000 0%, #000 46%, transparent 82%)';
 const FOLD_BLUR_MASK_BACK = 'linear-gradient(to left, #000 0%, #000 46%, transparent 82%)';
 
-// ---------- Hover-avoid wrapper (desktop only) ----------
-// On desktop the wrapped element gently slides away from the cursor and
-// scales up a touch while hovered, like it's dodging the pointer. Skipped
-// entirely on mobile — no listeners attached — since touch has no hover.
-const HOVER_MAX_OFFSET = 16; // px, how far it can slide away
-const HOVER_STRENGTH = 0.35; // how strongly it reacts to cursor proximity
-const HOVER_SCALE = 1.06;
+// ---------- Hover-tilt wrapper (desktop only) ----------
+// On desktop the wrapped element stays put and tilts in 3D toward the
+// cursor's position over it, plus a light scale-up, like a glossy card
+// reacting to the pointer. Skipped entirely on mobile — no listeners
+// attached — since touch has no hover.
+const TILT_MAX = 10; // deg, max rotation on either axis
+const TILT_PERSPECTIVE = 700; // px
+const TILT_SCALE = 1.05;
 
 const HoverAvoid = ({ disabled, children }) => {
   const ref = React.useRef(null);
-  const [pos, setPos] = React.useState({ x: 0, y: 0 });
+  const [tilt, setTilt] = React.useState({ rx: 0, ry: 0 });
   const [hover, setHover] = React.useState(false);
 
   if (disabled) return children;
@@ -695,13 +696,13 @@ const HoverAvoid = ({ disabled, children }) => {
   const handleMove = (e) => {
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    let x = (cx - e.clientX) * HOVER_STRENGTH;
-    let y = (cy - e.clientY) * HOVER_STRENGTH;
-    const mag = Math.hypot(x, y);
-    if (mag > HOVER_MAX_OFFSET) { const s = HOVER_MAX_OFFSET / mag; x *= s; y *= s; }
-    setPos({ x, y });
+    const px = (e.clientX - rect.left) / rect.width; // 0..1 across the card
+    const py = (e.clientY - rect.top) / rect.height; // 0..1 down the card
+    // cursor near the top tilts the top edge back; cursor on the right
+    // tilts the right edge back — as if the card is leaning away from it.
+    const ry = (px - 0.5) * 2 * TILT_MAX;
+    const rx = (0.5 - py) * 2 * TILT_MAX;
+    setTilt({ rx, ry });
   };
 
   return (
@@ -709,10 +710,10 @@ const HoverAvoid = ({ disabled, children }) => {
       ref={ref}
       onMouseEnter={() => setHover(true)}
       onMouseMove={handleMove}
-      onMouseLeave={() => { setHover(false); setPos({ x: 0, y: 0 }); }}
+      onMouseLeave={() => { setHover(false); setTilt({ rx: 0, ry: 0 }); }}
       style={{
         display: 'inline-block',
-        transform: `translate(${pos.x}px, ${pos.y}px) scale(${hover ? HOVER_SCALE : 1})`,
+        transform: `perspective(${TILT_PERSPECTIVE}px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hover ? TILT_SCALE : 1})`,
         transition: hover ? 'transform 150ms ease-out' : 'transform 400ms cubic-bezier(.22,.8,.2,1)',
         willChange: 'transform',
       }}
@@ -907,7 +908,7 @@ const Portfolio = () => {
       {(() => {
         const companyBadge = page ? DATA.badges[page] : null;
         if (companyBadge) {
-          if (companyBadge.case && !ndaUnlocked) {
+          if (companyBadge.case && companyBadge.nda && !ndaUnlocked) {
             return <PasswordGate title={companyBadge.case.title} onUnlock={unlockNda} onClose={goBack} scale={scale} />;
           }
           return (
