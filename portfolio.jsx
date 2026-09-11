@@ -665,63 +665,101 @@ const foldT = (...props) => props.map((p) => `${p} ${FOLD_MS}ms ${FOLD_EASE}`).j
 const TEXT_OUT_MS = 260;
 const TEXT_IN_MS = 320;
 
-const FoldPhoto = ({ src, alt, open, onToggle }) => (
-  <button type="button" onClick={onToggle} aria-pressed={open} aria-label={open ? 'Fold photo' : 'Unfold photo'}
-    style={{
-      position: 'relative', display: 'block',
-      width: open ? FOLD_W * 2 : FOLD_W, height: FOLD_H,
-      padding: 0, border: 'none', background: 'transparent', cursor: 'pointer',
-      perspective: 1200,
-      transition: foldT('width'),
-      WebkitTapHighlightColor: 'transparent',
-      filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.07)) drop-shadow(0 1px 3px rgba(0,0,0,0.04))',
-    }}>
-    <div style={{
-      position: 'absolute', top: 0, right: 0, width: FOLD_W, height: FOLD_H,
-      overflow: 'hidden', borderRadius: `0 ${FOLD_R}px ${FOLD_R}px 0`,
-    }}>
-      <img src={src} alt={alt} draggable={false} style={{
-        position: 'absolute', top: 0, left: -FOLD_W, width: FOLD_W * 2, height: FOLD_H,
-        objectFit: 'cover', display: 'block',
-      }} />
-    </div>
-    {/* the cover: folded flat onto the panel above (180°), it swings around the
-        spine through edge-on to lying open (0°) — like opening a book. Its back
-        is the same crop as the panel underneath, so the closed state is seamless.
-        A single `transition` on transform is all that drives the motion, so a click
-        mid-swing just reverses smoothly from wherever it currently is. */}
-    <div style={{
-      position: 'absolute', top: 0, right: FOLD_W, width: FOLD_W, height: FOLD_H,
-      transformOrigin: '100% 50%',
-      transformStyle: 'preserve-3d',
-      transform: `translateZ(1px) rotateY(${open ? 0 : 180}deg)`,
-      transition: foldT('transform'),
-      willChange: 'transform',
-    }}>
-      <div style={{
-        position: 'absolute', inset: 0, overflow: 'hidden',
-        borderRadius: `${FOLD_R}px 0 0 ${FOLD_R}px`,
-        backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
+// the swinging leaf gets a soft glass-like blur that ramps in and out over the
+// swing, graduated so it's strongest at the leaf's outer edge and clears to
+// nothing right at the spine — like light catching a flexible screen as it
+// folds (matches the reference iPhone-Duo unfold clip). Driven by a plain
+// state + timeout (no @keyframes, no remount key), so it restarts smoothly
+// from wherever it currently is if you click again mid-swing.
+const FOLD_BLUR_PEAK = 8;
+const FOLD_BLUR_MS = FOLD_MS / 2;
+const FOLD_BLUR_EASE = 'cubic-bezier(.33,0,.2,1)';
+const FOLD_BLUR_MASK_FRONT = 'linear-gradient(to right, #000 0%, #000 46%, transparent 82%)';
+const FOLD_BLUR_MASK_BACK = 'linear-gradient(to left, #000 0%, #000 46%, transparent 82%)';
+
+const FoldPhoto = ({ src, alt, open, onToggle }) => {
+  const [blurOn, setBlurOn] = React.useState(false);
+  const mounted = React.useRef(false);
+  const blurTimer = React.useRef(null);
+  React.useEffect(() => {
+    if (!mounted.current) { mounted.current = true; return; }
+    clearTimeout(blurTimer.current);
+    setBlurOn(true);
+    blurTimer.current = setTimeout(() => setBlurOn(false), FOLD_BLUR_MS);
+    return () => clearTimeout(blurTimer.current);
+  }, [open]);
+  const blurStyle = {
+    position: 'absolute', objectFit: 'cover', display: 'block',
+    filter: `blur(${blurOn ? FOLD_BLUR_PEAK : 0}px) saturate(${blurOn ? 1.25 : 1}) brightness(${blurOn ? 1.06 : 1})`,
+    transition: `filter ${FOLD_BLUR_MS}ms ${FOLD_BLUR_EASE}`,
+    willChange: 'filter',
+  };
+  return (
+    <button type="button" onClick={onToggle} aria-pressed={open} aria-label={open ? 'Fold photo' : 'Unfold photo'}
+      style={{
+        position: 'relative', display: 'block',
+        width: open ? FOLD_W * 2 : FOLD_W, height: FOLD_H,
+        padding: 0, border: 'none', background: 'transparent', cursor: 'pointer',
+        perspective: 1200,
+        transition: foldT('width'),
+        WebkitTapHighlightColor: 'transparent',
+        filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.07)) drop-shadow(0 1px 3px rgba(0,0,0,0.04))',
       }}>
-        <img src={src} alt="" aria-hidden="true" draggable={false} style={{
-          position: 'absolute', top: 0, left: 0, width: FOLD_W * 2, height: FOLD_H,
-          objectFit: 'cover', display: 'block',
-        }} />
-      </div>
       <div style={{
-        position: 'absolute', inset: 0, overflow: 'hidden',
-        borderRadius: `0 ${FOLD_R}px ${FOLD_R}px 0`,
-        backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
-        transform: 'rotateY(180deg)',
+        position: 'absolute', top: 0, right: 0, width: FOLD_W, height: FOLD_H,
+        overflow: 'hidden', borderRadius: `0 ${FOLD_R}px ${FOLD_R}px 0`,
       }}>
-        <img src={src} alt="" aria-hidden="true" draggable={false} style={{
+        <img src={src} alt={alt} draggable={false} style={{
           position: 'absolute', top: 0, left: -FOLD_W, width: FOLD_W * 2, height: FOLD_H,
           objectFit: 'cover', display: 'block',
         }} />
       </div>
-    </div>
-  </button>
-);
+      {/* the cover: folded flat onto the panel above (180°), it swings around the
+          spine through edge-on to lying open (0°) — like opening a book. Its back
+          is the same crop as the panel underneath, so the closed state is seamless.
+          A single `transition` on transform is all that drives the motion, so a click
+          mid-swing just reverses smoothly from wherever it currently is. */}
+      <div style={{
+        position: 'absolute', top: 0, right: FOLD_W, width: FOLD_W, height: FOLD_H,
+        transformOrigin: '100% 50%',
+        transformStyle: 'preserve-3d',
+        transform: `translateZ(1px) rotateY(${open ? 0 : 180}deg)`,
+        transition: foldT('transform'),
+        willChange: 'transform',
+      }}>
+        <div style={{
+          position: 'absolute', inset: 0, overflow: 'hidden',
+          borderRadius: `${FOLD_R}px 0 0 ${FOLD_R}px`,
+          backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
+        }}>
+          <img src={src} alt="" aria-hidden="true" draggable={false} style={{
+            position: 'absolute', top: 0, left: 0, width: FOLD_W * 2, height: FOLD_H,
+            objectFit: 'cover', display: 'block',
+          }} />
+          <img src={src} alt="" aria-hidden="true" draggable={false} style={{
+            ...blurStyle, top: 0, left: 0, width: FOLD_W * 2, height: FOLD_H,
+            WebkitMaskImage: FOLD_BLUR_MASK_FRONT, maskImage: FOLD_BLUR_MASK_FRONT,
+          }} />
+        </div>
+        <div style={{
+          position: 'absolute', inset: 0, overflow: 'hidden',
+          borderRadius: `0 ${FOLD_R}px ${FOLD_R}px 0`,
+          backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
+          transform: 'rotateY(180deg)',
+        }}>
+          <img src={src} alt="" aria-hidden="true" draggable={false} style={{
+            position: 'absolute', top: 0, left: -FOLD_W, width: FOLD_W * 2, height: FOLD_H,
+            objectFit: 'cover', display: 'block',
+          }} />
+          <img src={src} alt="" aria-hidden="true" draggable={false} style={{
+            ...blurStyle, top: 0, left: -FOLD_W, width: FOLD_W * 2, height: FOLD_H,
+            WebkitMaskImage: FOLD_BLUR_MASK_BACK, maskImage: FOLD_BLUR_MASK_BACK,
+          }} />
+        </div>
+      </div>
+    </button>
+  );
+};
 
 // ============================================================
 //  THE PAGE
@@ -766,6 +804,16 @@ const Portfolio = () => {
   }, []);
   const navigateTo = (key) => { window.location.hash = PAGE_PREFIX + key; };
   const goBack = () => { window.location.hash = ''; };
+  // every route starts at the top: mobile Safari otherwise keeps the previous
+  // offset (and restores one on reload), so a case page opens partway down.
+  React.useEffect(() => {
+    try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch {}
+  }, []);
+  React.useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [page]);
 
   // NDA case studies stay behind a shared password for the session
   const [ndaUnlocked, setNdaUnlocked] = React.useState(() => {
