@@ -184,6 +184,7 @@ const DATA = {
   // footer links
   contacts: [
   { label: 'Telegram', href: 'https://t.me/katzlan' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/andrei-ignatov-662a38252/' },
   { label: 'Email', href: 'mailto:andrej.filly@gmail.com' },
   { label: 'Resume', href: 'https://www.dropbox.com/scl/fi/3drkqypbqoz31w8wyfvzl/Andy-Ignatov-Senior-Product-Designer.pdf?rlkey=re0s1li6er28g26pqe8pe6hrd&st=u3zlqqpe&dl=0' }],
 
