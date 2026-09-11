@@ -677,6 +677,51 @@ const FOLD_BLUR_EASE = 'cubic-bezier(.33,0,.2,1)';
 const FOLD_BLUR_MASK_FRONT = 'linear-gradient(to right, #000 0%, #000 46%, transparent 82%)';
 const FOLD_BLUR_MASK_BACK = 'linear-gradient(to left, #000 0%, #000 46%, transparent 82%)';
 
+// ---------- Hover-avoid wrapper (desktop only) ----------
+// On desktop the wrapped element gently slides away from the cursor and
+// scales up a touch while hovered, like it's dodging the pointer. Skipped
+// entirely on mobile — no listeners attached — since touch has no hover.
+const HOVER_MAX_OFFSET = 16; // px, how far it can slide away
+const HOVER_STRENGTH = 0.35; // how strongly it reacts to cursor proximity
+const HOVER_SCALE = 1.06;
+
+const HoverAvoid = ({ disabled, children }) => {
+  const ref = React.useRef(null);
+  const [pos, setPos] = React.useState({ x: 0, y: 0 });
+  const [hover, setHover] = React.useState(false);
+
+  if (disabled) return children;
+
+  const handleMove = (e) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    let x = (cx - e.clientX) * HOVER_STRENGTH;
+    let y = (cy - e.clientY) * HOVER_STRENGTH;
+    const mag = Math.hypot(x, y);
+    if (mag > HOVER_MAX_OFFSET) { const s = HOVER_MAX_OFFSET / mag; x *= s; y *= s; }
+    setPos({ x, y });
+  };
+
+  return (
+    <div
+      ref={ref}
+      onMouseEnter={() => setHover(true)}
+      onMouseMove={handleMove}
+      onMouseLeave={() => { setHover(false); setPos({ x: 0, y: 0 }); }}
+      style={{
+        display: 'inline-block',
+        transform: `translate(${pos.x}px, ${pos.y}px) scale(${hover ? HOVER_SCALE : 1})`,
+        transition: hover ? 'transform 150ms ease-out' : 'transform 400ms cubic-bezier(.22,.8,.2,1)',
+        willChange: 'transform',
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
 const FoldPhoto = ({ src, alt, open, onToggle }) => {
   const [blurOn, setBlurOn] = React.useState(false);
   const mounted = React.useRef(false);
@@ -910,7 +955,9 @@ const Portfolio = () => {
             }}>
               <div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 64 }}>
-                  <FoldPhoto src="assets/avatar.webp" alt={DATA.name} open={photoOpen} onToggle={togglePhoto} />
+                  <HoverAvoid disabled={isMobile}>
+                    <FoldPhoto src="assets/avatar.webp" alt={DATA.name} open={photoOpen} onToggle={togglePhoto} />
+                  </HoverAvoid>
                 </div>
                 <div style={{ display: 'grid' }}>
                   {/* both variants occupy the same grid cell so the block's height is
