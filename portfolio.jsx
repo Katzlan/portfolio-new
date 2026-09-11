@@ -1021,7 +1021,7 @@ const Portfolio = () => {
             }}>
               <div style={{
                 maxWidth: 480, margin: '0 auto',
-                padding: isCompact ? '16px 20px' : '20px 24px',
+                padding: isCompact ? '28px 20px' : '28px 24px',
                 display: 'flex', justifyContent: 'center', alignItems: 'center',
               }}>
               <div style={{
