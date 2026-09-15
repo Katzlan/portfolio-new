@@ -166,7 +166,13 @@ const DATA = {
         { type: 'image', src: 'assets/case-sso-main.webp', alt: 'Account main screen — profile and Gazprom Bonus subscription card' },
         { type: 'section', heading: 'Authenticator App', paragraphs: [
           'Generate one-time passcodes to sign in to Gazprom products and other 2FA-enabled services. Even if your password is stolen, no one can log in without the code from the app.'] },
-        { type: 'image', src: 'assets/case-sso-auth.webp', alt: 'GID Key authenticator — list of one-time passcodes per service' }]
+        { type: 'image', src: 'assets/case-sso-auth.webp', alt: 'GID Key authenticator — list of one-time passcodes per service' },
+        { type: 'section', heading: 'Your Data', paragraphs: [
+          'All your sign-in and payment details in one place: phone number, email, passwords, payment info, and methods. Manage your family group and connected devices to keep full control of your account.'] },
+        { type: 'image', src: 'assets/case-sso-data.webp', alt: 'Data screen — contacts and password fields' },
+        { type: 'section', heading: 'Services', paragraphs: [
+          'Discover top partner deals: promotions, bonuses, and discounts. Activate new subscriptions and claim promo codes directly in the app.'] },
+        { type: 'image', src: 'assets/case-sso-services.webp', alt: 'Services tab — partner offers and subscriptions' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
