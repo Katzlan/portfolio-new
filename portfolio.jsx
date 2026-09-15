@@ -207,7 +207,10 @@ const DATA = {
         { type: 'image', src: 'assets/case-zenit-player.webp', alt: 'Player jogging on the pitch, side profile' },
         { type: 'section', heading: 'Matches', paragraphs: [
           'Track upcoming match schedules, explore past game results and stats, follow tournament standings, and buy tickets for upcoming games.'] },
-        { type: 'video', src: 'assets/case-zenit-matches.mp4' }]
+        { type: 'video', src: 'assets/case-zenit-matches.mp4' },
+        { type: 'image-row', height: 260, items: [
+          { type: 'video', src: 'assets/case-zenit-tabs.mp4' },
+          { src: 'assets/case-zenit-score.webp', alt: 'Live match score card with substitutions and stream link' }] }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
@@ -683,10 +686,20 @@ const CompanyPage = ({ label, caseData, scale }) =>
         null}
       </React.Fragment> :
       block.type === 'image-row' ?
-      <div style={{ display: 'flex', gap: 16 }}>
-        {block.items.map((it, j) =>
-        <img key={j} src={it.src} alt={it.alt || ''} style={{ flex: 1, minWidth: 0, width: '100%', borderRadius: 18, display: 'block', objectFit: 'cover', aspectRatio: it.aspectRatio || '1 / 1' }} />
-        )}
+      // `height` (px) makes every item share one fixed height and crop to
+      // fill it via objectFit — needed when items mix media of different
+      // native ratios (e.g. a video next to a photo). Without it, each item
+      // keeps its own aspectRatio, which only lines up when they match.
+      <div style={{ display: 'flex', gap: 16, height: block.height || undefined }}>
+        {block.items.map((it, j) => {
+          const mediaStyle = {
+            flex: 1, minWidth: 0, width: '100%', borderRadius: 18, display: 'block', objectFit: 'cover',
+            ...(block.height ? { height: '100%' } : { aspectRatio: it.aspectRatio || '1 / 1' }),
+          };
+          return it.type === 'video' ?
+          <video key={j} src={it.src} autoPlay loop muted playsInline style={mediaStyle} /> :
+          <img key={j} src={it.src} alt={it.alt || ''} style={mediaStyle} />;
+        })}
       </div> :
       block.type === 'video' ?
       <video src={block.src} autoPlay loop muted playsInline
