@@ -204,7 +204,10 @@ const DATA = {
         { type: 'image-row', items: [
           { src: 'assets/case-zenit-tickets.webp', alt: 'Match ticket card with odds and buy button', aspectRatio: '1508 / 896' },
           { src: 'assets/case-zenit-account.webp', alt: 'Account screen — tickets, passes, loyalty card, and balance', aspectRatio: '1508 / 896' }] },
-        { type: 'image', src: 'assets/case-zenit-player.webp', alt: 'Player jogging on the pitch, side profile' }]
+        { type: 'image', src: 'assets/case-zenit-player.webp', alt: 'Player jogging on the pitch, side profile' },
+        { type: 'section', heading: 'Matches', paragraphs: [
+          'Track upcoming match schedules, explore past game results and stats, follow tournament standings, and buy tickets for upcoming games.'] },
+        { type: 'video', src: 'assets/case-zenit-matches.mp4' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
@@ -685,6 +688,9 @@ const CompanyPage = ({ label, caseData, scale }) =>
         <img key={j} src={it.src} alt={it.alt || ''} style={{ flex: 1, minWidth: 0, width: '100%', borderRadius: 18, display: 'block', objectFit: 'cover', aspectRatio: it.aspectRatio || '1 / 1' }} />
         )}
       </div> :
+      block.type === 'video' ?
+      <video src={block.src} autoPlay loop muted playsInline
+        style={{ width: '100%', borderRadius: 18, display: 'block' }} /> :
       block.type === 'highlight-list' ? <CaseHighlightList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
       block.type === 'numbered-list' ? <CaseNumberedList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
       block.type === 'team' ? <CaseTeam heading={block.heading} items={block.items} scale={scale} /> :
