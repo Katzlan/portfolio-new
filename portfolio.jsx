@@ -194,7 +194,9 @@ const DATA = {
         title: 'Zenit App',
         description: 'The FC Zenit mobile app is a digital fan platform bringing together club news, matches, stats, and media content in one place. Stay tuned to the team in real time: read news, view player and match statistics, check the game schedule, watch videos, and use the Match Center for detailed match and opponent insights.',
         cover: 'assets/case-zenit.webp',
-        blocks: []
+        blocks: [
+        { type: 'image', src: 'assets/case-zenit-fans.webp', alt: 'Fans cheering in the stands, waving a club flag' },
+        { type: 'image', src: 'assets/case-zenit-100.webp', alt: 'Zenit 100th anniversary emblem, 1925–2025' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
