@@ -156,10 +156,10 @@ const DATA = {
     },
     sso: {
       label: 'SSO', page: true,
-      // placeholder case — content to be filled in
       case: {
-        title: 'SSO',
-        description: '',
+        title: 'Gazprom ID',
+        description: 'Gazprom ID is an infrastructure SSO platform providing seamless single sign-on across ecosystem services and partner products.',
+        cover: 'assets/case-sso.webp',
         blocks: []
       }
     },
