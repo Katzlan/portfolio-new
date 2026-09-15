@@ -245,7 +245,33 @@ const DATA = {
         { type: 'image', src: 'assets/case-zenit-gallery.webp', alt: 'Match photo gallery, 80 photos' },
         { type: 'section', heading: 'Exclusive Content', paragraphs: [
           'Read in-depth interviews, match breakdowns, and coach commentary in a convenient format, order tickets, and share the excitement with other fans.'] },
-        { type: 'image', src: 'assets/case-zenit-exclusive.webp', alt: 'News article — head coach interview after a championship match' }]
+        { type: 'image', src: 'assets/case-zenit-exclusive.webp', alt: 'News article — head coach interview after a championship match' },
+        { type: 'image-row', items: [
+          { type: 'video', src: 'assets/case-zenit-reactions.mp4', aspectRatio: '1574 / 920' },
+          { src: 'assets/case-zenit-comments.webp', alt: 'Comment thread with a reply being typed', aspectRatio: '3152 / 1856' }] },
+        { type: 'image', src: 'assets/case-zenit-suite.webp', alt: 'Private Suite hospitality lounge at the stadium' },
+        { type: 'section', heading: 'Loyalty', paragraphs: [
+          'In their account, fans can track their club card status and internal currency balance, and access purchased tickets, season passes, car passes, and their full order history.'] },
+        { type: 'image', src: 'assets/case-zenit-loyalty.webp', alt: 'Account screen — bronze club card and quick-access icons' },
+        { type: 'image-row', items: [
+          { src: 'assets/case-zenit-qr.webp', alt: 'Club card QR code screen', aspectRatio: '2047 / 1205' },
+          { src: 'assets/case-zenit-discounts.webp', alt: 'Discount summary — food, tickets, and merch', aspectRatio: '2047 / 1205' }] },
+        { type: 'section', heading: 'Club Card', paragraphs: [
+          'The card unlocks status tiers that open up discounts on tickets, food, and merch. Users can complete tasks, earn in-app currency, and exchange it for a tier upgrade.'] },
+        { type: 'image', src: 'assets/case-zenit-tiers.webp', alt: 'Club card status tiers in different colors' },
+        { type: 'image', src: 'assets/case-zenit-rewards.webp', alt: 'Gamified reward cards — comment and daily-streak tasks' },
+        { type: 'image', src: 'assets/case-zenit-merch-model.webp', alt: 'Model wearing a Zenit x Aimpure jacket at the stadium' },
+        { type: 'section', heading: 'Merch Shop', paragraphs: [
+          'Exclusive collections, fan-card discounts, and points for every purchase. Fast delivery is available, and you can track your order status or choose pickup.'] },
+        { type: 'image', src: 'assets/case-zenit-shop.webp', alt: 'Merch shop home — "Zenit x Piter Shield" collection banner' },
+        { type: 'image-row', items: [
+          { src: 'assets/case-zenit-catalog2.webp', alt: 'Merch catalog categories', aspectRatio: '2047 / 1205' },
+          { src: 'assets/case-zenit-product-card.webp', alt: 'Product card — men\'s "Zenit x Vo Blago" T-shirt', aspectRatio: '2047 / 1205' }] },
+        { type: 'section', heading: 'Product Page', paragraphs: [
+          'Shop with intention: check the description and look, pick your size, complete the outfit with recommended items, or send it as a gift to someone close to you.'] },
+        { type: 'image', src: 'assets/case-zenit-product-page.webp', alt: 'Product page — "Zenit x Aimpure" cotton long-sleeve polo' },
+        { type: 'image', src: 'assets/case-zenit-product-cross.webp', alt: 'Product description and "Complete your look" recommendations' },
+        { type: 'image', src: 'assets/case-zenit-product-model.webp', alt: 'Model wearing the polo at the stadium' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
