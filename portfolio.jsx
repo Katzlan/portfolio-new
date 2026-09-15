@@ -173,7 +173,20 @@ const DATA = {
         { type: 'section', heading: 'Services', paragraphs: [
           'Discover top partner deals: promotions, bonuses, and discounts. Activate new subscriptions and claim promo codes directly in the app.'] },
         { type: 'image', src: 'assets/case-sso-services.webp', alt: 'Services tab — partner offers and subscriptions' },
-        { type: 'image', src: 'assets/case-sso-partner-login.webp', alt: 'One-tap "Sign in with Gazprom ID" on a partner app' }]
+        { type: 'image', src: 'assets/case-sso-partner-login.webp', alt: 'One-tap "Sign in with Gazprom ID" on a partner app' },
+        { type: 'section', heading: 'Partner Customization', paragraphs: [
+          'Customize the sign-in experience to match your brand. We handle secure authentication and data storage; you control the look and feel.'] },
+        { type: 'image', src: 'assets/case-sso-partner-customization.webp', alt: 'Sign-in screen themed for two different partner apps' },
+        { type: 'section', heading: 'Subscription Center', paragraphs: [
+          'All ecosystem services and partner offers in a single list. Quick access, status notifications, and total control with minimal effort.'] },
+        { type: 'image', src: 'assets/case-sso-subscription-center.webp', alt: 'List of active subscriptions across partner services' },
+        { type: 'section', heading: 'Total Protection', paragraphs: [
+          'Manage your data access: track activity history, configure consents, link external accounts, and set up recovery options.'] },
+        { type: 'image', src: 'assets/case-sso-protection.webp', alt: 'Security screen — 2FA, consent management, linked accounts' },
+        { type: 'section', heading: 'Fast Sign-In', paragraphs: [
+          'Choose your preferred sign-in verification: app keys, partner services, messengers, or phone calls. Skip SMS entirely if it\'s easier for you.'] },
+        { type: 'image', src: 'assets/case-sso-fast-signin.webp', alt: 'Sign-in verification method picker' },
+        { type: 'image', src: 'assets/case-sso-outro.webp', alt: 'Gazprom ID team on a conference panel' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
