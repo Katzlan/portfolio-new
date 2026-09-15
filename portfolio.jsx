@@ -19,7 +19,7 @@ const DATA = {
   // below to render it as an inline pill.
   bio: [
   'As a Senior Product Designer, I enhanced internal [salmon-referral] for Filipino promodizers by streamlining KYC flows and creating comic-style onboarding guides.',
-  'Previously served as Lead Designer at Gazprom ID, driving products like [sso], Zenit, GID Hub, and the [gazprom-enterprise].'],
+  'Previously designed at Gazprom ID, driving products like [gazprom-enterprise], Zenit, GID Hub, and the [sso].'],
   bioSocial: 'I can describe my approach to work as ‘Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.’',
   // shown instead of the bio above while the photo is unfolded (click to toggle)
   bioShort: {
@@ -198,7 +198,7 @@ const DATA = {
     x: { label: 'X', href: 'https://x.com/AndreiLancarra' },
     telegram: { label: 'Telegram', href: 'https://t.me/katzlan' },
     'salmon-referral': { label: 'Salmon Referral Program', page: true, target: 'salmon' },
-    'gazprom-enterprise': { label: 'GID Enterprise Platform', page: true, target: 'gazprom-id' }
+    'gazprom-enterprise': { label: 'GID Loyalty Platform', page: true, target: 'gazprom-id' }
   },
 
   // commit/activity heatmap
