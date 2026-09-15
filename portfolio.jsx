@@ -1149,16 +1149,16 @@ const Portfolio = () => {
                     gridArea: '1 / 1', opacity: shortShown ? 0 : textFade,
                     transition: isMobile ? 'none' : `opacity ${textFadeMs}ms ${FOLD_EASE}`, pointerEvents: shortShown ? 'none' : 'auto',
                   }} aria-hidden={shortShown}>
-                    <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
+                    <p style={{ margin: '0 0 16px', fontSize: 28, fontWeight: 600, color: '#000' }}>
                       {DATA.name}
                     </p>
                     {(Array.isArray(DATA.bio) ? DATA.bio : [DATA.bio]).map((para, i) =>
-                    <p key={i} style={{ margin: i === 0 ? 0 : '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                    <p key={i} style={{ margin: i === 0 ? 0 : '12px 0 0', fontSize: 17, lineHeight: "1.65", color: '#75726f' }}>
                       <RichLine text={para} badges={DATA.badges} dark={dark} onNavigate={navigateTo} />
                     </p>
                     )}
                     {DATA.bioSocial ?
-                    <p style={{ margin: '12px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                    <p style={{ margin: '12px 0 0', fontSize: 17, lineHeight: "1.65", color: '#75726f' }}>
                       <RichLine text={DATA.bioSocial} badges={DATA.badges} dark={dark} onNavigate={navigateTo} />
                     </p> :
                     null}
@@ -1168,13 +1168,13 @@ const Portfolio = () => {
                     transition: isMobile ? 'none' : `opacity ${textFadeMs}ms ${FOLD_EASE}`, pointerEvents: shortShown ? 'auto' : 'none',
                     alignSelf: 'start',
                   }} aria-hidden={!shortShown}>
-                    <p style={{ margin: '0 0 16px', fontSize: scale(18), fontWeight: 600, color: '#000' }}>
+                    <p style={{ margin: '0 0 16px', fontSize: 28, fontWeight: 600, color: '#000' }}>
                       {DATA.greeting}
                     </p>
-                    <p style={{ margin: 0, fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                    <p style={{ margin: 0, fontSize: 17, lineHeight: "1.65", color: '#75726f' }}>
                       {DATA.bioShort.intro}
                     </p>
-                    <p style={{ margin: '8px 0 0', fontSize: scale(15), lineHeight: "1.65" }}>
+                    <p style={{ margin: '8px 0 0', fontSize: 17, lineHeight: "1.65" }}>
                       {DATA.bioShort.list.map((item, i) =>
                       <React.Fragment key={item.label}>
                         {i > 0 ? <br /> : null}
@@ -1184,7 +1184,7 @@ const Portfolio = () => {
                       )}
                     </p>
                     {DATA.bioShort.outro.map((para, i) =>
-                    <p key={i} style={{ margin: i === 0 ? '12px 0 0' : '8px 0 0', fontSize: scale(15), lineHeight: "1.65", color: '#75726f' }}>
+                    <p key={i} style={{ margin: i === 0 ? '12px 0 0' : '8px 0 0', fontSize: 17, lineHeight: "1.65", color: '#75726f' }}>
                       {para}
                     </p>
                     )}
