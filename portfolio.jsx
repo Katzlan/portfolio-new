@@ -216,7 +216,14 @@ const DATA = {
         { type: 'image', src: 'assets/case-zenit-broadcast.webp', alt: 'Live feed — match events, a "Best player" poll, and a fan comment' },
         { type: 'image-row', items: [
           { src: 'assets/case-zenit-poll.webp', alt: 'MegaFon-sponsored referee-decision poll', aspectRatio: '1508 / 896' },
-          { src: 'assets/case-zenit-lineup.webp', alt: 'Starting lineup on a pitch diagram, 4-3-3 formation', aspectRatio: '1508 / 896' }] }]
+          { src: 'assets/case-zenit-lineup.webp', alt: 'Starting lineup on a pitch diagram, 4-3-3 formation', aspectRatio: '1508 / 896' }] },
+        { type: 'section', heading: 'Match History', paragraphs: [
+          'The completed match card stores all game details: highlights, full match replays, player lineups and tactical formations, live stream key moments, and related match news.'] },
+        { type: 'image', src: 'assets/case-zenit-history.webp', alt: 'Completed match card with score, scorers, and full match replay' },
+        { type: 'section', heading: 'Statistics', paragraphs: [
+          'The club tracks detailed on-field events, categorizes the data, calculates performance ratios, and compares them against statistics from other matches.'] },
+        { type: 'image', src: 'assets/case-zenit-stats.webp', alt: 'Match statistics — possession, duels, shots, and corners compared' },
+        { type: 'image', src: 'assets/case-zenit-ultras.webp', alt: 'Ultras waving a "Support Non-Stop" flag in the stands' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
