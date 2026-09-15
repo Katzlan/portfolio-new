@@ -210,7 +210,13 @@ const DATA = {
         { type: 'video', src: 'assets/case-zenit-matches.mp4' },
         { type: 'image-row', height: 260, items: [
           { type: 'video', src: 'assets/case-zenit-tabs.mp4' },
-          { src: 'assets/case-zenit-score.webp', alt: 'Live match score card with substitutions and stream link' }] }]
+          { src: 'assets/case-zenit-score.webp', alt: 'Live match score card with substitutions and stream link' }] },
+        { type: 'section', heading: 'Broadcast', paragraphs: [
+          'A live stream of updates, fan, and partner activity: top posts from blogs and live chat, polls, photos, and match highlights.'] },
+        { type: 'image', src: 'assets/case-zenit-broadcast.webp', alt: 'Live feed — match events, a "Best player" poll, and a fan comment' },
+        { type: 'image-row', items: [
+          { src: 'assets/case-zenit-poll.webp', alt: 'MegaFon-sponsored referee-decision poll', aspectRatio: '1508 / 896' },
+          { src: 'assets/case-zenit-lineup.webp', alt: 'Starting lineup on a pitch diagram, 4-3-3 formation', aspectRatio: '1508 / 896' }] }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
