@@ -19,7 +19,7 @@ const DATA = {
   // below to render it as an inline pill.
   bio: [
   'As a Senior Product Designer, I enhanced internal [salmon-referral] for Filipino promodizers by streamlining KYC flows and creating comic-style onboarding guides.',
-  'Previously designed at Gazprom, driving products like [gazprom-enterprise], Zenit, GID Hub, and the [sso].'],
+  'Previously designed at Gazprom, driving products like [gazprom-enterprise], [zenit], GID Hub, and the [sso].'],
   bioSocial: 'I can describe my approach to work as ‘Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.’',
   // shown instead of the bio above while the photo is unfolded (click to toggle)
   bioShort: {
@@ -186,6 +186,15 @@ const DATA = {
           'Choose your preferred sign-in verification: app keys, partner services, messengers, or phone calls. Skip SMS entirely if it\'s easier for you.'] },
         { type: 'image', src: 'assets/case-sso-fast-signin.webp', alt: 'Sign-in verification method picker' },
         { type: 'image', src: 'assets/case-sso-outro.webp', alt: 'Gazprom ID team on a conference panel' }]
+      }
+    },
+    zenit: {
+      label: 'Zenit', page: true,
+      // placeholder case — content to be filled in
+      case: {
+        title: 'Zenit',
+        description: '',
+        blocks: []
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
