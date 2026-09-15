@@ -19,7 +19,7 @@ const DATA = {
   // below to render it as an inline pill.
   bio: [
   'As a Senior Product Designer, I enhanced internal [salmon-referral] for Filipino promodizers by streamlining KYC flows and creating comic-style onboarding guides.',
-  'Previously served as Lead Designer at Gazprom ID, driving products like SSO, Zenit, GID Hub, and the [gazprom-enterprise].'],
+  'Previously served as Lead Designer at Gazprom ID, driving products like [sso], Zenit, GID Hub, and the [gazprom-enterprise].'],
   bioSocial: 'I can describe my approach to work as ‘Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.’',
   // shown instead of the bio above while the photo is unfolded (click to toggle)
   bioShort: {
@@ -152,6 +152,15 @@ const DATA = {
           { role: 'Lead Communication Designer', name: 'Ksenia Scherbakova' },
           { role: 'Senior Product Designer', name: 'Andrei Ignatov' }] },
         { type: 'image', src: 'assets/case-gazprom-outro.webp', alt: '' }]
+      }
+    },
+    sso: {
+      label: 'SSO', page: true,
+      // placeholder case — content to be filled in
+      case: {
+        title: 'SSO',
+        description: '',
+        blocks: []
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
@@ -603,6 +612,7 @@ const CompanyPage = ({ label, caseData, scale }) =>
     <p style={{ margin: '16px 0 0', fontSize: scale(16), lineHeight: '1.6', color: '#75726f' }}>
       {caseData.description}
     </p>
+    {caseData.cover ?
     <div style={{
       marginTop: 32, borderRadius: 22, overflow: 'hidden',
       aspectRatio: '4 / 3', background: '#eeeeee',
@@ -610,7 +620,8 @@ const CompanyPage = ({ label, caseData, scale }) =>
       <img src={caseData.cover} alt={caseData.title} style={{
         width: '100%', height: '100%', objectFit: 'cover', display: 'block',
       }} />
-    </div>
+    </div> :
+    null}
     {(caseData.blocks || []).map((block, i) =>
     <div key={i} style={{ marginTop: 40 }}>
       {block.type === 'stats' ? <CaseStats items={block.items} scale={scale} /> :
@@ -694,6 +705,8 @@ const HoverAvoid = ({ disabled, children }) => {
 
   if (disabled) return children;
 
+  const child = React.isValidElement(children) ? React.cloneElement(children, { hoverActive: hover }) : children;
+
   const handleMove = (e) => {
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
@@ -719,12 +732,22 @@ const HoverAvoid = ({ disabled, children }) => {
         willChange: 'transform',
       }}
     >
-      {children}
+      {child}
     </div>
   );
 };
 
-const FoldPhoto = ({ src, alt, open, onToggle }) => {
+// a soft diagonal glass-glare that sweeps from the top-left corner to the
+// bottom-right on hover. Two copies — one per visible panel — share the same
+// 320px-wide gradient and offset (mirroring how the avatar image itself is
+// split across the two panels), so the sweep reads as one continuous streak
+// across the whole photo rather than two independent ones. Retriggered by
+// toggling animation-name none <-> name, which browsers restart cleanly —
+// no remount key, so nothing to jump or restart mid-flight.
+const FOLD_SHINE_MS = 750;
+const FOLD_SHINE_GRADIENT = 'linear-gradient(122deg, transparent 38%, rgba(255,255,255,0.55) 50%, transparent 62%)';
+
+const FoldPhoto = ({ src, alt, open, onToggle, hoverActive }) => {
   const [blurOn, setBlurOn] = React.useState(false);
   const mounted = React.useRef(false);
   const blurTimer = React.useRef(null);
@@ -741,6 +764,22 @@ const FoldPhoto = ({ src, alt, open, onToggle }) => {
     transition: `filter ${FOLD_BLUR_MS}ms ${FOLD_BLUR_EASE}`,
     willChange: 'filter',
   };
+  // both copies share the same 320px-wide gradient and the same left offset
+  // convention the avatar <img> tags use (-FOLD_W for the right/static panel,
+  // 0 for the left/leaf panel), so animating them together with one shared
+  // keyframe reads as a single streak crossing the whole photo.
+  const shineLayer = (leftOffset) => ({
+    position: 'absolute', top: 0, left: leftOffset, width: FOLD_W * 2, height: FOLD_H,
+    background: FOLD_SHINE_GRADIENT,
+    pointerEvents: 'none',
+    // resting position matches the keyframe's 0% frame (off-screen, invisible),
+    // so cancelling the animation (hover ends) reverts cleanly instead of
+    // leaving the streak frozen wherever it was mid-sweep.
+    transform: 'translateX(-70%)', opacity: 0,
+    animationName: hoverActive ? 'fold-shine-sweep' : 'none',
+    animationDuration: `${FOLD_SHINE_MS}ms`,
+    animationTimingFunction: 'ease-out',
+  });
   return (
     <button type="button" onClick={onToggle} aria-pressed={open} aria-label={open ? 'Fold photo' : 'Unfold photo'}
       style={{
@@ -752,6 +791,14 @@ const FoldPhoto = ({ src, alt, open, onToggle }) => {
         WebkitTapHighlightColor: 'transparent',
         filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.07)) drop-shadow(0 1px 3px rgba(0,0,0,0.04))',
       }}>
+      <style>{`
+        @keyframes fold-shine-sweep {
+          0%   { transform: translateX(-70%); opacity: 0; }
+          18%  { opacity: 1; }
+          82%  { opacity: 1; }
+          100% { transform: translateX(70%); opacity: 0; }
+        }
+      `}</style>
       <div style={{
         position: 'absolute', top: 0, right: 0, width: FOLD_W, height: FOLD_H,
         overflow: 'hidden', borderRadius: `0 ${FOLD_R}px ${FOLD_R}px 0`,
@@ -760,6 +807,7 @@ const FoldPhoto = ({ src, alt, open, onToggle }) => {
           position: 'absolute', top: 0, left: -FOLD_W, width: FOLD_W * 2, height: FOLD_H,
           objectFit: 'cover', display: 'block',
         }} />
+        <div style={shineLayer(-FOLD_W)} />
       </div>
       {/* the cover: folded flat onto the panel above (180°), it swings around the
           spine through edge-on to lying open (0°) — like opening a book. Its back
@@ -787,6 +835,7 @@ const FoldPhoto = ({ src, alt, open, onToggle }) => {
             ...blurStyle, top: 0, left: 0, width: FOLD_W * 2, height: FOLD_H,
             WebkitMaskImage: FOLD_BLUR_MASK_FRONT, maskImage: FOLD_BLUR_MASK_FRONT,
           }} />
+          <div style={shineLayer(0)} />
         </div>
         <div style={{
           position: 'absolute', inset: 0, overflow: 'hidden',
