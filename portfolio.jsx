@@ -190,10 +190,10 @@ const DATA = {
     },
     zenit: {
       label: 'Zenit', page: true,
-      // placeholder case — content to be filled in
       case: {
-        title: 'Zenit',
-        description: '',
+        title: 'Zenit App',
+        description: 'The FC Zenit mobile app is a digital fan platform bringing together club news, matches, stats, and media content in one place. Stay tuned to the team in real time: read news, view player and match statistics, check the game schedule, watch videos, and use the Match Center for detailed match and opponent insights.',
+        cover: 'assets/case-zenit.webp',
         blocks: []
       }
     },
