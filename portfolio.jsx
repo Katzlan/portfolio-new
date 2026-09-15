@@ -31,7 +31,6 @@ const DATA = {
     { label: 'Hobbies', value: 'Guitar, Fingerstyle' },
     { label: 'Movies & Shows', value: 'The Intouchables (1+1), The Lord of the Rings, Stranger Things' }],
     outro: [
-    'I’m inspired by locals and their stories, spontaneous trips, and late-night talks.',
     'Someday, I’ll record my guitar playing :)']
   },
   // each entry is either a plain string (becomes a text pill) or an
