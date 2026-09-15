@@ -258,8 +258,10 @@ const DATA = {
           { src: 'assets/case-zenit-discounts.webp', alt: 'Discount summary — food, tickets, and merch', aspectRatio: '2047 / 1205' }] },
         { type: 'section', heading: 'Club Card', paragraphs: [
           'The card unlocks status tiers that open up discounts on tickets, food, and merch. Users can complete tasks, earn in-app currency, and exchange it for a tier upgrade.'] },
-        { type: 'image', src: 'assets/case-zenit-tiers.webp', alt: 'Club card status tiers in different colors' },
-        { type: 'image', src: 'assets/case-zenit-rewards.webp', alt: 'Gamified reward cards — comment and daily-streak tasks' },
+        { type: 'image', src: 'assets/case-zenit-goalkeeper.webp', alt: 'Goalkeeper catching the ball during training' },
+        { type: 'image-row', items: [
+          { src: 'assets/case-zenit-tiers.webp', alt: 'Club card status tiers in different colors', aspectRatio: '2047 / 1205' },
+          { src: 'assets/case-zenit-rewards.webp', alt: 'Gamified reward cards — comment and daily-streak tasks', aspectRatio: '2047 / 1205' }] },
         { type: 'image', src: 'assets/case-zenit-merch-model.webp', alt: 'Model wearing a Zenit x Aimpure jacket at the stadium' },
         { type: 'section', heading: 'Merch Shop', paragraphs: [
           'Exclusive collections, fan-card discounts, and points for every purchase. Fast delivery is available, and you can track your order status or choose pickup.'] },
@@ -270,8 +272,9 @@ const DATA = {
         { type: 'section', heading: 'Product Page', paragraphs: [
           'Shop with intention: check the description and look, pick your size, complete the outfit with recommended items, or send it as a gift to someone close to you.'] },
         { type: 'image', src: 'assets/case-zenit-product-page.webp', alt: 'Product page — "Zenit x Aimpure" cotton long-sleeve polo' },
-        { type: 'image', src: 'assets/case-zenit-product-cross.webp', alt: 'Product description and "Complete your look" recommendations' },
-        { type: 'image', src: 'assets/case-zenit-product-model.webp', alt: 'Model wearing the polo at the stadium' }]
+        { type: 'image-row', items: [
+          { src: 'assets/case-zenit-product-cross.webp', alt: 'Product description and "Complete your look" recommendations', aspectRatio: '2047 / 1205' },
+          { src: 'assets/case-zenit-product-model.webp', alt: 'Model wearing the polo at the stadium', aspectRatio: '2047 / 1205' }] }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
