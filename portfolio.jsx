@@ -337,7 +337,7 @@ const useLayout = () => {
   const isMobile = width <= MOBILE_MAX;
   const pad = isCompact ? COMPACT_PAD : DESKTOP_PAD;
   const ratio = 16 / 15;
-  const scaleFont = (px) => (isCompact ? Math.max(16, Math.round(px * ratio)) : px);
+  const scaleFont = (px) => Math.max(17, isCompact ? Math.round(px * ratio) : px);
   const scaleSize = (px) => (isCompact ? Math.round(px * ratio) : px);
   return {
     isCompact,
