@@ -198,7 +198,7 @@ const DATA = {
     x: { label: 'X', href: 'https://x.com/AndreiLancarra' },
     telegram: { label: 'Telegram', href: 'https://t.me/katzlan' },
     'salmon-referral': { label: 'Salmon Referral Program', page: true, target: 'salmon' },
-    'gazprom-enterprise': { label: 'GID Loyalty Platform', page: true, target: 'gazprom-id' }
+    'gazprom-enterprise': { label: 'GID Loyalty Program', page: true, target: 'gazprom-id' }
   },
 
   // commit/activity heatmap
