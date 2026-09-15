@@ -160,7 +160,10 @@ const DATA = {
         title: 'Gazprom ID',
         description: 'Gazprom ID is an infrastructure SSO platform providing seamless single sign-on across ecosystem services and partner products.',
         cover: 'assets/case-sso.webp',
-        blocks: []
+        blocks: [
+        { type: 'section', heading: 'Main', paragraphs: [
+          'The entry point to the Gazprom ecosystem: a single account to sign in, store personal data, and manage subscriptions, while staying on top of system events and partner offers.'] },
+        { type: 'image', src: 'assets/case-sso-main.webp', alt: 'Account main screen — profile and Gazprom Bonus subscription card' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
