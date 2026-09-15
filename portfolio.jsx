@@ -163,7 +163,10 @@ const DATA = {
         blocks: [
         { type: 'section', heading: 'Main', paragraphs: [
           'The entry point to the Gazprom ecosystem: a single account to sign in, store personal data, and manage subscriptions, while staying on top of system events and partner offers.'] },
-        { type: 'image', src: 'assets/case-sso-main.webp', alt: 'Account main screen — profile and Gazprom Bonus subscription card' }]
+        { type: 'image', src: 'assets/case-sso-main.webp', alt: 'Account main screen — profile and Gazprom Bonus subscription card' },
+        { type: 'section', heading: 'Authenticator App', paragraphs: [
+          'Generate one-time passcodes to sign in to Gazprom products and other 2FA-enabled services. Even if your password is stolen, no one can log in without the code from the app.'] },
+        { type: 'image', src: 'assets/case-sso-auth.webp', alt: 'GID Key authenticator — list of one-time passcodes per service' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
