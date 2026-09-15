@@ -195,8 +195,9 @@ const DATA = {
         description: 'The FC Zenit mobile app is a digital fan platform bringing together club news, matches, stats, and media content in one place. Stay tuned to the team in real time: read news, view player and match statistics, check the game schedule, watch videos, and use the Match Center for detailed match and opponent insights.',
         cover: 'assets/case-zenit.webp',
         blocks: [
-        { type: 'image', src: 'assets/case-zenit-fans.webp', alt: 'Fans cheering in the stands, waving a club flag' },
-        { type: 'image', src: 'assets/case-zenit-100.webp', alt: 'Zenit 100th anniversary emblem, 1925–2025' }]
+        { type: 'image-row', items: [
+          { src: 'assets/case-zenit-fans.webp', alt: 'Fans cheering in the stands, waving a club flag' },
+          { src: 'assets/case-zenit-100.webp', alt: 'Zenit 100th anniversary emblem, 1925–2025' }] }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
@@ -671,6 +672,12 @@ const CompanyPage = ({ label, caseData, scale }) =>
         </p> :
         null}
       </React.Fragment> :
+      block.type === 'image-row' ?
+      <div style={{ display: 'flex', gap: 16 }}>
+        {block.items.map((it, j) =>
+        <img key={j} src={it.src} alt={it.alt || ''} style={{ flex: 1, minWidth: 0, width: '100%', borderRadius: 18, display: 'block', objectFit: 'cover', aspectRatio: it.aspectRatio || '1 / 1' }} />
+        )}
+      </div> :
       block.type === 'highlight-list' ? <CaseHighlightList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
       block.type === 'numbered-list' ? <CaseNumberedList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
       block.type === 'team' ? <CaseTeam heading={block.heading} items={block.items} scale={scale} /> :
