@@ -19,7 +19,7 @@ const DATA = {
   // below to render it as an inline pill.
   bio: [
   'As a Senior Product Designer, I enhanced internal [salmon-referral] for Filipino promodizers by streamlining KYC flows and creating comic-style onboarding guides.',
-  'Previously designed at Gazprom ID, driving products like [gazprom-enterprise], Zenit, GID Hub, and the [sso].'],
+  'Previously designed at Gazprom, driving products like [gazprom-enterprise], Zenit, GID Hub, and the [sso].'],
   bioSocial: 'I can describe my approach to work as ‘Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.’',
   // shown instead of the bio above while the photo is unfolded (click to toggle)
   bioShort: {
@@ -155,7 +155,7 @@ const DATA = {
       }
     },
     sso: {
-      label: 'SSO', page: true,
+      label: 'Gazprom ID', page: true,
       case: {
         title: 'Gazprom ID',
         description: 'Gazprom ID is an infrastructure SSO platform providing seamless single sign-on across ecosystem services and partner products.',
