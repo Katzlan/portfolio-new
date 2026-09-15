@@ -226,7 +226,23 @@ const DATA = {
         { type: 'image', src: 'assets/case-zenit-ultras.webp', alt: 'Ultras waving a "Support Non-Stop" flag in the stands' },
         { type: 'section', heading: 'Match Day', paragraphs: [
           'The module brings together activities and services available on match day. Fans can book tickets for a concert or stadium tour, and sign up for entertainment events.'] },
-        { type: 'image', src: 'assets/case-zenit-matchday.webp', alt: 'Match Day tab — concert card, schedule, and stadium tour' }]
+        { type: 'image', src: 'assets/case-zenit-matchday.webp', alt: 'Match Day tab — concert card, schedule, and stadium tour' },
+        { type: 'section', heading: 'Activities', paragraphs: [
+          'All stadium services are gathered in a single catalog with a clear structure, categories, and a simple interaction flow.'] },
+        { type: 'image', src: 'assets/case-zenit-activities.webp', alt: 'Services and events catalog — free-category icons grid' },
+        { type: 'section', heading: 'Navigation', paragraphs: [
+          'The stadium map helps fans find their way around the arena: food stands, fan zones, merch shops, and activity areas.'] },
+        { type: 'image', src: 'assets/case-zenit-navigation.webp', alt: 'Interactive stadium seating map' },
+        { type: 'image-row', items: [
+          { src: 'assets/case-zenit-catalog.webp', alt: 'Point catalog — hot dogs and merch stand locations', aspectRatio: '2047 / 1205' },
+          { src: 'assets/case-zenit-filters.webp', alt: 'Filter panel — fan promenade activities', aspectRatio: '1508 / 896' }] },
+        { type: 'image', src: 'assets/case-zenit-goalkeeper.webp', alt: 'Goalkeeper catching the ball during training' },
+        { type: 'section', heading: 'Media', paragraphs: [
+          'The section creates a single content space around the club — news, videos, reports, and live fan engagement, all inside the app.'] },
+        { type: 'image', src: 'assets/case-zenit-media.webp', alt: 'Media tab — photo highlights and a news article' },
+        { type: 'section', heading: 'Gallery', paragraphs: [
+          'Photos reveal the club from the inside: from matches and training sessions to fan promenades and star events, creating a sense of being there in every moment.'] },
+        { type: 'image', src: 'assets/case-zenit-gallery.webp', alt: 'Match photo gallery, 80 photos' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
