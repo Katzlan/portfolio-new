@@ -242,7 +242,10 @@ const DATA = {
         { type: 'image', src: 'assets/case-zenit-media.webp', alt: 'Media tab — photo highlights and a news article' },
         { type: 'section', heading: 'Gallery', paragraphs: [
           'Photos reveal the club from the inside: from matches and training sessions to fan promenades and star events, creating a sense of being there in every moment.'] },
-        { type: 'image', src: 'assets/case-zenit-gallery.webp', alt: 'Match photo gallery, 80 photos' }]
+        { type: 'image', src: 'assets/case-zenit-gallery.webp', alt: 'Match photo gallery, 80 photos' },
+        { type: 'section', heading: 'Exclusive Content', paragraphs: [
+          'Read in-depth interviews, match breakdowns, and coach commentary in a convenient format, order tickets, and share the excitement with other fans.'] },
+        { type: 'image', src: 'assets/case-zenit-exclusive.webp', alt: 'News article — head coach interview after a championship match' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
