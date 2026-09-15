@@ -172,7 +172,8 @@ const DATA = {
         { type: 'image', src: 'assets/case-sso-data.webp', alt: 'Data screen — contacts and password fields' },
         { type: 'section', heading: 'Services', paragraphs: [
           'Discover top partner deals: promotions, bonuses, and discounts. Activate new subscriptions and claim promo codes directly in the app.'] },
-        { type: 'image', src: 'assets/case-sso-services.webp', alt: 'Services tab — partner offers and subscriptions' }]
+        { type: 'image', src: 'assets/case-sso-services.webp', alt: 'Services tab — partner offers and subscriptions' },
+        { type: 'image', src: 'assets/case-sso-partner-login.webp', alt: 'One-tap "Sign in with Gazprom ID" on a partner app' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
