@@ -223,7 +223,10 @@ const DATA = {
         { type: 'section', heading: 'Statistics', paragraphs: [
           'The club tracks detailed on-field events, categorizes the data, calculates performance ratios, and compares them against statistics from other matches.'] },
         { type: 'image', src: 'assets/case-zenit-stats.webp', alt: 'Match statistics — possession, duels, shots, and corners compared' },
-        { type: 'image', src: 'assets/case-zenit-ultras.webp', alt: 'Ultras waving a "Support Non-Stop" flag in the stands' }]
+        { type: 'image', src: 'assets/case-zenit-ultras.webp', alt: 'Ultras waving a "Support Non-Stop" flag in the stands' },
+        { type: 'section', heading: 'Match Day', paragraphs: [
+          'The module brings together activities and services available on match day. Fans can book tickets for a concert or stadium tour, and sign up for entertainment events.'] },
+        { type: 'image', src: 'assets/case-zenit-matchday.webp', alt: 'Match Day tab — concert card, schedule, and stadium tour' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
