@@ -99,7 +99,7 @@ const DATA = {
       }
     },
     'gazprom-id': {
-      label: 'Gazprom ID', href: 'https://id.gid.ru/', page: true,
+      label: 'Gazprom ID', href: 'https://id.gid.ru/', page: true, nda: true,
       case: {
         title: 'GID Loyalty Program',
         description: 'How do we motivate employees to come back to the corporate app? Let\'s build a loyalty program! Let\'s do it!',
@@ -208,9 +208,8 @@ const DATA = {
         { type: 'section', heading: 'Matches', paragraphs: [
           'Track upcoming match schedules, explore past game results and stats, follow tournament standings, and buy tickets for upcoming games.'] },
         { type: 'video', src: 'assets/case-zenit-matches.mp4' },
-        { type: 'image-row', height: 260, items: [
-          { type: 'video', src: 'assets/case-zenit-tabs.mp4' },
-          { src: 'assets/case-zenit-score.webp', alt: 'Live match score card with substitutions and stream link' }] },
+        { type: 'video', src: 'assets/case-zenit-tabs.mp4' },
+        { type: 'image', src: 'assets/case-zenit-score.webp', alt: 'Live match score card with substitutions and stream link' },
         { type: 'section', heading: 'Broadcast', paragraphs: [
           'A live stream of updates, fan, and partner activity: top posts from blogs and live chat, polls, photos, and match highlights.'] },
         { type: 'image', src: 'assets/case-zenit-broadcast.webp', alt: 'Live feed — match events, a "Best player" poll, and a fan comment' },
