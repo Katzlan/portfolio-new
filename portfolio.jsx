@@ -200,7 +200,11 @@ const DATA = {
           { src: 'assets/case-zenit-100.webp', alt: 'Zenit 100th anniversary emblem, 1925–2025' }] },
         { type: 'section', heading: 'Home', paragraphs: [
           'Your central hub for team action: get the latest news, buy tickets and merch, track stats and match schedules, and access exclusive club card benefits.'] },
-        { type: 'image', src: 'assets/case-zenit-home.webp', alt: 'Home feed — news post with match schedule below' }]
+        { type: 'image', src: 'assets/case-zenit-home.webp', alt: 'Home feed — news post with match schedule below' },
+        { type: 'image-row', items: [
+          { src: 'assets/case-zenit-tickets.webp', alt: 'Match ticket card with odds and buy button', aspectRatio: '1508 / 896' },
+          { src: 'assets/case-zenit-account.webp', alt: 'Account screen — tickets, passes, loyalty card, and balance', aspectRatio: '1508 / 896' }] },
+        { type: 'image', src: 'assets/case-zenit-player.webp', alt: 'Player jogging on the pitch, side profile' }]
       }
     },
     nbu: { label: 'NBU Uzbekistan', href: 'https://nbu.uz/ru', page: true },
