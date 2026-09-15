@@ -99,7 +99,7 @@ const DATA = {
       }
     },
     'gazprom-id': {
-      label: 'Gazprom ID', href: 'https://id.gid.ru/', page: true, nda: true,
+      label: 'Gazprom ID', href: 'https://id.gid.ru/', page: true,
       case: {
         title: 'GID Loyalty Program',
         description: 'How do we motivate employees to come back to the corporate app? Let\'s build a loyalty program! Let\'s do it!',
@@ -154,7 +154,7 @@ const DATA = {
       }
     },
     sso: {
-      label: 'Gazprom ID', page: true,
+      label: 'Gazprom ID', page: true, nda: true,
       case: {
         title: 'Gazprom ID',
         description: 'Gazprom ID is an infrastructure SSO platform providing seamless single sign-on across ecosystem services and partner products.',
