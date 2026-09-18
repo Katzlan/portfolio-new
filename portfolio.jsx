@@ -731,19 +731,19 @@ const Lightbox = ({ src, onClose }) => {
   return (
     <div onClick={onClose} style={{
       position: 'fixed', inset: 0, zIndex: 10000,
-      background: 'rgba(0,0,0,0.85)', overflow: 'auto', cursor: 'zoom-out',
+      background: 'rgba(0,0,0,0.85)', cursor: 'zoom-out', boxSizing: 'border-box',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24,
     }}>
       <button type="button" aria-label="Close" onClick={onClose} style={{
         position: 'fixed', top: 20, right: 24, width: 40, height: 40,
         border: 'none', borderRadius: '50%', background: 'rgba(255,255,255,0.12)',
         color: '#fff', fontSize: 22, lineHeight: 1, cursor: 'pointer',
       }}>×</button>
-      <div style={{ minHeight: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 40 }}>
-        <img src={src} alt="" onClick={(e) => e.stopPropagation()} style={{
-          display: 'block', borderRadius: 8, cursor: 'default',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-        }} />
-      </div>
+      <img src={src} alt="" onClick={(e) => e.stopPropagation()} style={{
+        display: 'block', maxWidth: '100%', maxHeight: '100%', objectFit: 'contain',
+        borderRadius: 8, cursor: 'default',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+      }} />
     </div>);
 
 };
