@@ -714,88 +714,129 @@ const PasswordGate = ({ title, onUnlock, onClose, scale }) => {
 
 };
 
-// ---------- Internal company page ----------
-const CompanyPage = ({ label, caseData, scale }) =>
-<div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
-  <p style={{ margin: 0, fontSize: scale(24), fontWeight: 700, color: '#000' }}>
-    {caseData ? caseData.title : label}
-  </p>
-  {caseData ?
-  <React.Fragment>
-    <p style={{ margin: '16px 0 0', fontSize: scale(16), lineHeight: '1.6', color: '#75726f' }}>
-      {caseData.description}
-    </p>
-    {caseData.cover ?
-    <div style={{
-      marginTop: 32, borderRadius: 22, overflow: 'hidden',
-      aspectRatio: '4 / 3', background: '#eeeeee',
+// ---------- Full-size image viewer ----------
+// Case-study photos are shown scaled down to fit the 480px column, which on
+// a large monitor reads as blurry/small — people were zooming the whole
+// browser window to compensate. Clicking any photo opens it here at its
+// native pixel size instead: centered when it fits the viewport, scrollable
+// when it doesn't.
+const Lightbox = ({ src, onClose }) => {
+  React.useEffect(() => {
+    if (!src) return;
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [src, onClose]);
+  if (!src) return null;
+  return (
+    <div onClick={onClose} style={{
+      position: 'fixed', inset: 0, zIndex: 10000,
+      background: 'rgba(0,0,0,0.85)', overflow: 'auto', cursor: 'zoom-out',
     }}>
-      <img src={caseData.cover} alt={caseData.title} style={{
-        width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-      }} />
-    </div> :
-    null}
-    {(caseData.blocks || []).map((block, i) =>
-    <div key={i} style={{ marginTop: 40 }}>
-      {block.type === 'stats' ? <CaseStats items={block.items} scale={scale} /> :
-      block.type === 'process' ? <CaseProcess items={block.items} scale={scale} /> :
-      block.type === 'image' ?
-      <React.Fragment>
-        <img src={block.src} alt={block.alt || ''} style={{ width: '100%', borderRadius: 18, display: 'block' }} />
-        {block.caption ?
-        <p style={{ margin: '12px 0 0', fontSize: scale(15), lineHeight: '1.6', color: '#75726f', fontStyle: 'italic' }}>
-          {block.caption}
-        </p> :
-        null}
-      </React.Fragment> :
-      block.type === 'image-row' ?
-      // `height` (px) makes every item share one fixed height and crop to
-      // fill it via objectFit — needed when items mix media of different
-      // native ratios (e.g. a video next to a photo). Without it, each item
-      // keeps its own aspectRatio, which only lines up when they match.
-      <div style={{ display: 'flex', gap: 16, height: block.height || undefined }}>
-        {block.items.map((it, j) => {
-          const mediaStyle = {
-            flex: 1, minWidth: 0, width: '100%', borderRadius: 18, display: 'block', objectFit: 'cover',
-            ...(block.height ? { height: '100%' } : { aspectRatio: it.aspectRatio || '1 / 1' }),
-          };
-          return it.type === 'video' ?
-          <video key={j} src={it.src} autoPlay loop muted playsInline style={mediaStyle} /> :
-          <img key={j} src={it.src} alt={it.alt || ''} style={mediaStyle} />;
-        })}
-      </div> :
-      block.type === 'video' ?
-      <video src={block.src} autoPlay loop muted playsInline
-        style={{ width: '100%', borderRadius: 18, display: 'block' }} /> :
-      block.type === 'highlight-list' ? <CaseHighlightList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
-      block.type === 'numbered-list' ? <CaseNumberedList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
-      block.type === 'team' ? <CaseTeam heading={block.heading} items={block.items} scale={scale} /> :
-      <React.Fragment>
-        <p style={{ margin: 0, fontSize: scale(20), fontWeight: 700, color: '#000' }}>
-          {block.heading}
-        </p>
-        {block.paragraphs.map((para, j) => {
-          const text = typeof para === 'string' ? para : para.text;
-          const image = typeof para === 'string' ? null : para.image;
-          return (
-            <React.Fragment key={j}>
-              <p style={{ margin: '16px 0 0', fontSize: scale(16), lineHeight: '1.6', color: '#75726f' }}>
-                <BoldText text={text} />
-              </p>
-              {image ?
-              <img src={image} alt="" style={{
-                marginTop: 16, width: '100%', borderRadius: 18, display: 'block',
-              }} /> :
-              null}
-            </React.Fragment>);
+      <button type="button" aria-label="Close" onClick={onClose} style={{
+        position: 'fixed', top: 20, right: 24, width: 40, height: 40,
+        border: 'none', borderRadius: '50%', background: 'rgba(255,255,255,0.12)',
+        color: '#fff', fontSize: 22, lineHeight: 1, cursor: 'pointer',
+      }}>×</button>
+      <div style={{ minHeight: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 40 }}>
+        <img src={src} alt="" onClick={(e) => e.stopPropagation()} style={{
+          display: 'block', borderRadius: 8, cursor: 'default',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+        }} />
+      </div>
+    </div>);
 
-        })}
-      </React.Fragment>}
-    </div>
-    )}
-  </React.Fragment> :
-  null}
-</div>;
+};
+
+// ---------- Internal company page ----------
+const CompanyPage = ({ label, caseData, scale }) => {
+  const [lightbox, setLightbox] = React.useState(null);
+  return (
+  <div style={{ width: '100%', maxWidth: 480, textAlign: 'left' }}>
+    <p style={{ margin: 0, fontSize: scale(24), fontWeight: 700, color: '#000' }}>
+      {caseData ? caseData.title : label}
+    </p>
+    {caseData ?
+    <React.Fragment>
+      <p style={{ margin: '16px 0 0', fontSize: scale(16), lineHeight: '1.6', color: '#75726f' }}>
+        {caseData.description}
+      </p>
+      {caseData.cover ?
+      <div style={{
+        marginTop: 32, borderRadius: 22, overflow: 'hidden',
+        aspectRatio: '4 / 3', background: '#eeeeee',
+      }}>
+        <img src={caseData.cover} alt={caseData.title} onClick={() => setLightbox(caseData.cover)} style={{
+          width: '100%', height: '100%', objectFit: 'cover', display: 'block', cursor: 'zoom-in',
+        }} />
+      </div> :
+      null}
+      {(caseData.blocks || []).map((block, i) =>
+      <div key={i} style={{ marginTop: 40 }}>
+        {block.type === 'stats' ? <CaseStats items={block.items} scale={scale} /> :
+        block.type === 'process' ? <CaseProcess items={block.items} scale={scale} /> :
+        block.type === 'image' ?
+        <React.Fragment>
+          <img src={block.src} alt={block.alt || ''} onClick={() => setLightbox(block.src)}
+            style={{ width: '100%', borderRadius: 18, display: 'block', cursor: 'zoom-in' }} />
+          {block.caption ?
+          <p style={{ margin: '12px 0 0', fontSize: scale(15), lineHeight: '1.6', color: '#75726f', fontStyle: 'italic' }}>
+            {block.caption}
+          </p> :
+          null}
+        </React.Fragment> :
+        block.type === 'image-row' ?
+        // `height` (px) makes every item share one fixed height and crop to
+        // fill it via objectFit — needed when items mix media of different
+        // native ratios (e.g. a video next to a photo). Without it, each item
+        // keeps its own aspectRatio, which only lines up when they match.
+        <div style={{ display: 'flex', gap: 16, height: block.height || undefined }}>
+          {block.items.map((it, j) => {
+            const mediaStyle = {
+              flex: 1, minWidth: 0, width: '100%', borderRadius: 18, display: 'block', objectFit: 'cover',
+              ...(block.height ? { height: '100%' } : { aspectRatio: it.aspectRatio || '1 / 1' }),
+            };
+            return it.type === 'video' ?
+            <video key={j} src={it.src} autoPlay loop muted playsInline style={mediaStyle} /> :
+            <img key={j} src={it.src} alt={it.alt || ''} onClick={() => setLightbox(it.src)}
+              style={{ ...mediaStyle, cursor: 'zoom-in' }} />;
+          })}
+        </div> :
+        block.type === 'video' ?
+        <video src={block.src} autoPlay loop muted playsInline
+          style={{ width: '100%', borderRadius: 18, display: 'block' }} /> :
+        block.type === 'highlight-list' ? <CaseHighlightList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
+        block.type === 'numbered-list' ? <CaseNumberedList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
+        block.type === 'team' ? <CaseTeam heading={block.heading} items={block.items} scale={scale} /> :
+        <React.Fragment>
+          <p style={{ margin: 0, fontSize: scale(20), fontWeight: 700, color: '#000' }}>
+            {block.heading}
+          </p>
+          {block.paragraphs.map((para, j) => {
+            const text = typeof para === 'string' ? para : para.text;
+            const image = typeof para === 'string' ? null : para.image;
+            return (
+              <React.Fragment key={j}>
+                <p style={{ margin: '16px 0 0', fontSize: scale(16), lineHeight: '1.6', color: '#75726f' }}>
+                  <BoldText text={text} />
+                </p>
+                {image ?
+                <img src={image} alt="" onClick={() => setLightbox(image)} style={{
+                  marginTop: 16, width: '100%', borderRadius: 18, display: 'block', cursor: 'zoom-in',
+                }} /> :
+                null}
+              </React.Fragment>);
+
+          })}
+        </React.Fragment>}
+      </div>
+      )}
+    </React.Fragment> :
+    null}
+    <Lightbox src={lightbox} onClose={() => setLightbox(null)} />
+  </div>);
+
+};
 
 // ---------- Foldable photo (Duo-style unfold) ----------
 // Folded: the right half only (160x224, rounded on the right). Click swings the
@@ -837,7 +878,7 @@ const HoverAvoid = ({ disabled, children }) => {
 
   if (disabled) return children;
 
-  const child = React.isValidElement(children) ? React.cloneElement(children, { hoverActive: hover }) : children;
+  const child = children;
 
   const handleMove = (e) => {
     const rect = ref.current?.getBoundingClientRect();
@@ -870,16 +911,14 @@ const HoverAvoid = ({ disabled, children }) => {
 };
 
 // a soft diagonal glass-glare that sweeps from the top-left corner to the
-// bottom-right on hover. Two copies — one per visible panel — share the same
-// 320px-wide gradient and offset (mirroring how the avatar image itself is
-// split across the two panels), so the sweep reads as one continuous streak
-// across the whole photo rather than two independent ones. Retriggered by
-// toggling animation-name none <-> name, which browsers restart cleanly —
-// no remount key, so nothing to jump or restart mid-flight.
-const FOLD_SHINE_MS = 750;
+// bottom-right, looping continuously. Two copies — one per visible panel —
+// share the same 320px-wide gradient and offset (mirroring how the avatar
+// image itself is split across the two panels), so the sweep reads as one
+// continuous streak across the whole photo rather than two independent ones.
+const FOLD_SHINE_MS = 2600; // full loop period
 const FOLD_SHINE_GRADIENT = 'linear-gradient(122deg, transparent 38%, rgba(255,255,255,0.55) 50%, transparent 62%)';
 
-const FoldPhoto = ({ src, alt, open, onToggle, hoverActive }) => {
+const FoldPhoto = ({ src, alt, open, onToggle }) => {
   const [blurOn, setBlurOn] = React.useState(false);
   const mounted = React.useRef(false);
   const blurTimer = React.useRef(null);
@@ -908,9 +947,10 @@ const FoldPhoto = ({ src, alt, open, onToggle, hoverActive }) => {
     // so cancelling the animation (hover ends) reverts cleanly instead of
     // leaving the streak frozen wherever it was mid-sweep.
     transform: 'translateX(-70%)', opacity: 0,
-    animationName: hoverActive ? 'fold-shine-sweep' : 'none',
+    animationName: 'fold-shine-sweep',
     animationDuration: `${FOLD_SHINE_MS}ms`,
     animationTimingFunction: 'ease-out',
+    animationIterationCount: 'infinite',
   });
   return (
     <button type="button" onClick={onToggle} aria-pressed={open} aria-label={open ? 'Fold photo' : 'Unfold photo'}
@@ -983,6 +1023,7 @@ const FoldPhoto = ({ src, alt, open, onToggle, hoverActive }) => {
             ...blurStyle, top: 0, left: -FOLD_W, width: FOLD_W * 2, height: FOLD_H,
             WebkitMaskImage: FOLD_BLUR_MASK_BACK, maskImage: FOLD_BLUR_MASK_BACK,
           }} />
+          <div style={shineLayer(-FOLD_W)} />
         </div>
       </div>
     </button>
