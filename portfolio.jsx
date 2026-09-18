@@ -717,9 +717,11 @@ const PasswordGate = ({ title, onUnlock, onClose, scale }) => {
 // ---------- Full-size image viewer ----------
 // Case-study photos are shown scaled down to fit the 480px column, which on
 // a large monitor reads as blurry/small — people were zooming the whole
-// browser window to compensate. Clicking any photo opens it here at its
-// native pixel size instead: centered when it fits the viewport, scrollable
-// when it doesn't.
+// browser window to compensate. Clicking any photo opens it here scaled to
+// fit entirely within the viewport instead. Portaled to <body> so its fixed
+// overlay isn't clipped by the page's own stacking contexts (the <main> and
+// <footer> around CompanyPage both set z-index, which would otherwise trap
+// this z-index below the footer regardless of how high it is set).
 const Lightbox = ({ src, onClose }) => {
   React.useEffect(() => {
     if (!src) return;
@@ -728,7 +730,7 @@ const Lightbox = ({ src, onClose }) => {
     return () => document.removeEventListener('keydown', onKey);
   }, [src, onClose]);
   if (!src) return null;
-  return (
+  return ReactDOM.createPortal(
     <div onClick={onClose} style={{
       position: 'fixed', inset: 0, zIndex: 10000,
       background: 'rgba(0,0,0,0.85)', cursor: 'zoom-out', boxSizing: 'border-box',
@@ -744,7 +746,8 @@ const Lightbox = ({ src, onClose }) => {
         borderRadius: 8, cursor: 'default',
         boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
       }} />
-    </div>);
+    </div>,
+    document.body);
 
 };
 
