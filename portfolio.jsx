@@ -549,7 +549,7 @@ const CaseStats = ({ items, scale }) =>
 </div>;
 
 // ---------- Process stages (Empathize/Define/Ideate/…) — horizontal-scroll table ----------
-const CaseProcess = ({ items, scale }) =>
+const CaseProcess = ({ items, scale, onImageClick }) =>
 <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', margin: '0 -20px', padding: '0 20px' }}>
   <div style={{
     display: 'flex', width: 'max-content',
@@ -572,9 +572,9 @@ const CaseProcess = ({ items, scale }) =>
           {it.text}
         </p>
         {it.photo ?
-        <img src={it.photo} alt="" style={{
+        <img src={it.photo} alt="" onClick={() => onImageClick(it.photo)} style={{
           marginTop: 12, width: '100%', aspectRatio: '4 / 3', borderRadius: 12,
-          objectFit: 'cover', display: 'block',
+          objectFit: 'cover', display: 'block', cursor: 'zoom-in',
         }} /> :
         null}
       </div>
@@ -584,7 +584,7 @@ const CaseProcess = ({ items, scale }) =>
 </div>;
 
 // ---------- Highlighted sub-items (e.g. competitor breakdown) ----------
-const CaseHighlightList = ({ heading, intro, items, scale }) =>
+const CaseHighlightList = ({ heading, intro, items, scale, onImageClick }) =>
 <React.Fragment>
   <p style={{ margin: 0, fontSize: scale(20), fontWeight: 700, color: '#000' }}>
     {heading}
@@ -604,9 +604,9 @@ const CaseHighlightList = ({ heading, intro, items, scale }) =>
       {it.text}
     </p>
     {it.image ?
-    <img src={it.image} alt="" style={{
+    <img src={it.image} alt="" onClick={() => onImageClick(it.image)} style={{
       marginTop: 16, width: '100%', aspectRatio: '16 / 10', borderRadius: 14,
-      objectFit: 'cover', display: 'block',
+      objectFit: 'cover', display: 'block', cursor: 'zoom-in',
     }} /> :
     null}
   </div>
@@ -777,7 +777,7 @@ const CompanyPage = ({ label, caseData, scale }) => {
       {(caseData.blocks || []).map((block, i) =>
       <div key={i} style={{ marginTop: 40 }}>
         {block.type === 'stats' ? <CaseStats items={block.items} scale={scale} /> :
-        block.type === 'process' ? <CaseProcess items={block.items} scale={scale} /> :
+        block.type === 'process' ? <CaseProcess items={block.items} scale={scale} onImageClick={setLightbox} /> :
         block.type === 'image' ?
         <React.Fragment>
           <img src={block.src} alt={block.alt || ''} onClick={() => setLightbox(block.src)}
@@ -808,7 +808,7 @@ const CompanyPage = ({ label, caseData, scale }) => {
         block.type === 'video' ?
         <video src={block.src} autoPlay loop muted playsInline
           style={{ width: '100%', borderRadius: 18, display: 'block' }} /> :
-        block.type === 'highlight-list' ? <CaseHighlightList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
+        block.type === 'highlight-list' ? <CaseHighlightList heading={block.heading} intro={block.intro} items={block.items} scale={scale} onImageClick={setLightbox} /> :
         block.type === 'numbered-list' ? <CaseNumberedList heading={block.heading} intro={block.intro} items={block.items} scale={scale} /> :
         block.type === 'team' ? <CaseTeam heading={block.heading} items={block.items} scale={scale} /> :
         <React.Fragment>
